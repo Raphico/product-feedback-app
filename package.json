@@ -1,0 +1,15 @@
+{
+  "name": "product-feedback-app",
+  "packageManager": "yarn@3.8.7",
+  "description": "a solution to the product feedback app on frontend mentor",
+  "author": "Raphael Awoyinfa <contactraphico@gmail.com>",
+  "license": "MIT",
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ],
+  "volta": {
+    "node": "22.14.0",
+    "yarn": "3.8.7"
+  }
+}

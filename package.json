@@ -4,12 +4,19 @@
   "description": "a solution to the product feedback app on frontend mentor",
   "author": "Raphael Awoyinfa <contactraphico@gmail.com>",
   "license": "MIT",
-  "private": "true",
+  "repository": "https://github.com/Raphico/product-feedback-app",
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
   "volta": {
     "node": "22.14.0",
     "yarn": "3.8.7"
+  },
+  "devDependencies": {
+    "prettier": "^3.5.2"
   }
 }

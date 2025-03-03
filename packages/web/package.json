@@ -16,12 +16,15 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
+    "@tanstack/react-router": "^1.112.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@tanstack/router-devtools": "^1.112.6",
+    "@tanstack/router-plugin": "^1.112.3",
     "@types/node": "^22.13.8",
     "@types/react": "^19",
     "@types/react-dom": "^19",

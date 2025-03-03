@@ -1,14 +1,28 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import App from "./app.tsx";
 import { Provider } from "react-redux";
 import store from "./lib/store.ts";
+import { RouterProvider, createRouter } from "@tanstack/react-router";
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>,
-);
+import { routeTree } from "./routeTree.gen";
+
+const router = createRouter({ routeTree });
+
+declare module "@tanstack/react-router" {
+  interface Register {
+    router: typeof router;
+  }
+}
+
+const rootElement = document.getElementById("root")!;
+if (!rootElement.innerHTML) {
+  const root = createRoot(rootElement);
+  root.render(
+    <StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </StrictMode>,
+  );
+}

@@ -11,7 +11,7 @@
   "scripts": {
     "postinstall": "husky",
     "typecheck": "yarn workspaces foreach  -vpi run typecheck",
-    "build": "yarn workspaces foreach-vpi run build",
+    "build": "yarn workspaces foreach -vpi run build",
     "dev": "yarn workspaces foreach -vpi run dev",
     "lint": "yarn workspaces foreach -vpi run lint",
     "format": "prettier --write .",

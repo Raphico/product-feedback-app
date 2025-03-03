@@ -1,5 +1,5 @@
 {
-  "name": "@personal-finance-app/web",
+  "name": "@product-feedback-app/web",
   "description": "Product feedback app frontend",
   "type": "module",
   "packageManager": "yarn@3.8.7",

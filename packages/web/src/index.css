@@ -1,0 +1,67 @@
+:root {
+  --clr-electric-purple: #ad1fea;
+  --clr-vibrant-blue: #4661e6;
+  --clr-pure-white: #ffffff;
+  --clr-light-periwinkle: #f2f4ff;
+  --clr-whisper-white: #f7f8fd;
+  --clr-deep-slate-blue: #3a4374;
+  --clr-dusty-blue: #647196;
+  --clr-soft-coral: #f49f85;
+  --clr-bright-sky-blue: #62bcfa;
+  --clr-red: #d73737;
+
+  --fs-700: 1.5rem;
+  --fs-600: 1.25rem;
+  --fs-500: 1.125rem;
+  --fs-400: 1rem;
+  --fs-300: 0.9375rem;
+  --fs-200: 0.875rem;
+  --fs-100: 0.8125rem;
+
+  --ff: "Jost", serif;
+
+  --fw-bold: 700;
+  --fw-regular: 400;
+  --fw-semibold: 600;
+
+  --radius: 10px;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+ol,
+ul,
+menu {
+  list-style: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+body {
+  font-family: var(--ff);
+  font-size: var(--fs-400);
+  font-weight: var(--fw-regular);
+  background-color: var(--clr-whisper-white);
+  color: var(--clr-dusty-blue);
+  line-height: 1.4375;
+}

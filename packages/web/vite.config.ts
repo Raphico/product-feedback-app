@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
   ],
   resolve: {
+    preserveSymlinks: true,
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },

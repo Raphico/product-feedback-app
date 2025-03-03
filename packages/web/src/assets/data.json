@@ -1,0 +1,129 @@
+{
+  "currentUser": {
+    "id": "8",
+    "image": "./assets/user-images/image-zena.jpg",
+    "fullName": "Zena Kelley",
+    "username": "velvetround"
+  },
+  "productRequests": [
+    {
+      "id": "1",
+      "title": "Add tags for solutions",
+      "category": "enhancement",
+      "upvotes": 112,
+      "status": "suggestion",
+      "description": "Easier to search for solutions based on a specific stack.",
+      "comments": ["1", "2"],
+      "createdBy": "1"
+    },
+    {
+      "id": "2",
+      "title": "Add a dark theme option",
+      "category": "feature",
+      "upvotes": 99,
+      "status": "suggestion",
+      "description": "It would help people with light sensitivities and who prefer dark mode.",
+      "comments": ["3", "4"],
+      "createdBy": "2"
+    },
+    {
+      "id": "3",
+      "title": "Q&A within the challenge hubs",
+      "category": "feature",
+      "upvotes": 65,
+      "status": "suggestion",
+      "description": "Challenge-specific Q&A would make for easy reference.",
+      "comments": ["5"],
+      "createdBy": "3"
+    }
+  ],
+  "comments": [
+    {
+      "id": "1",
+      "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
+      "createdBy": "1"
+    },
+    {
+      "id": "2",
+      "content": "Please use fun, color-coded labels to easily identify them at a glance",
+      "createdBy": "2"
+    },
+    {
+      "id": "3",
+      "content": "Also, please allow styles to be applied based on system preferences...",
+      "createdBy": "3"
+    },
+    {
+      "id": "4",
+      "content": "Second this! I do a lot of late night coding and reading...",
+      "createdBy": "4"
+    },
+    {
+      "id": "5",
+      "content": "Much easier to get answers from devs who can relate...",
+      "createdBy": "5"
+    },
+    {
+      "id": "6",
+      "content": "While waiting for dark mode, there are browser extensions...",
+      "parentComment": "4",
+      "createdBy": "6"
+    },
+    {
+      "id": "7",
+      "content": "Good point! Using any kind of style extension is great...",
+      "parentComment": "6",
+      "createdBy": "7"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "image": "./assets/user-images/image-suzanne.jpg",
+      "fullName": "Suzanne Chang",
+      "username": "upbeat1811"
+    },
+    {
+      "id": "2",
+      "image": "./assets/user-images/image-thomas.jpg",
+      "fullName": "Thomas Hood",
+      "username": "brawnybrave"
+    },
+    {
+      "id": "3",
+      "image": "./assets/user-images/image-elijah.jpg",
+      "fullName": "Elijah Moss",
+      "username": "hexagon.bestagon"
+    },
+    {
+      "id": "4",
+      "image": "./assets/user-images/image-james.jpg",
+      "fullName": "James Skinner",
+      "username": "hummingbird1"
+    },
+    {
+      "id": "5",
+      "image": "./assets/user-images/image-george.jpg",
+      "fullName": "George Partridge",
+      "username": "soccerviewer8"
+    },
+    {
+      "id": "6",
+      "image": "./assets/user-images/image-anne.jpg",
+      "fullName": "Anne Valentine",
+      "username": "annev1990"
+    },
+    {
+      "id": "7",
+      "image": "./assets/user-images/image-ryan.jpg",
+      "fullName": "Ryan Welles",
+      "username": "voyager.344"
+    },
+    {
+      "id": "8",
+      "image": "./assets/user-images/image-zena.jpg",
+      "fullName": "Zena Kelley",
+      "username": "velvetround"
+    }
+  ]
+}

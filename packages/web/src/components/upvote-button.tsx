@@ -7,12 +7,7 @@ interface UpvoteButtonProps
   upvotes: number;
 }
 
-function UpvoteButton({
-  upvotes,
-  className,
-  children,
-  ...props
-}: UpvoteButtonProps) {
+function UpvoteButton({ upvotes, className, ...props }: UpvoteButtonProps) {
   return (
     <button
       aria-label="upvote"

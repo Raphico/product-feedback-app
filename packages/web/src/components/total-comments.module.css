@@ -1,0 +1,16 @@
+.total-comments {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  & p {
+    font-weight: var(--fw-bold);
+    color: var(--clr-deep-slate-blue);
+
+    @media (max-width: 480px) {
+      font-size: var(--fs-100);
+      letter-spacing: -0.18px;
+      line-height: 1.1875;
+    }
+  }
+}

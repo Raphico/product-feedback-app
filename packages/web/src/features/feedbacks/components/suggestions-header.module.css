@@ -1,0 +1,14 @@
+.suggestions-header {
+  background-color: var(--clr-deep-slate-blue);
+  color: var(--clr-pure-white);
+  border-radius: var(--radius);
+  padding: 1em 1.5em;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.suggestions-header__total-suggestions {
+  display: flex;
+  gap: 1rem;
+}

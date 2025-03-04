@@ -1,0 +1,35 @@
+.filters-container {
+  display: grid;
+  background-color: var(--clr-pure-white);
+  border-radius: var(--radius);
+  padding: 1.5em;
+}
+
+.filters {
+  display: flex;
+  flex-flow: wrap;
+  gap: 1rem;
+
+  & button {
+    cursor: pointer;
+    border: none;
+    color: var(--clr-vibrant-blue);
+    background-color: var(--clr-light-periwinkle);
+    border-radius: var(--radius);
+    padding: 0.65em 1em;
+    transition: all var(--transition-easing) var(--transition-duration);
+
+    &:hover {
+      background-color: #cfd7ff;
+    }
+  }
+
+  & button.current {
+    background-color: var(--clr-vibrant-blue);
+    color: var(--clr-pure-white);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}

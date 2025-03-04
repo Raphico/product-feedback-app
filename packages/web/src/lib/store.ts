@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { productRequestsReducers } from "../features/product-requests-slice";
-import { commentsReducer } from "../features/comments-slice";
+import { feedbacksReducers } from "@/features/feedbacks/slice";
+import { commentsReducer } from "@/features/comments-slice";
 
 const store = configureStore({
   reducer: {
-    productRequests: productRequestsReducers,
+    productFeedbacks: feedbacksReducers,
     comments: commentsReducer,
   },
 });

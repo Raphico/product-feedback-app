@@ -17,12 +17,14 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
     "@tanstack/react-router": "^1.112.0",
+    "clsx": "^2.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@tanstack/eslint-plugin-router": "^1.105.0",
     "@tanstack/router-devtools": "^1.112.6",
     "@tanstack/router-plugin": "^1.112.3",
     "@types/node": "^22.13.8",
@@ -39,6 +41,7 @@
     "postcss-nested": "^7.0.2",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.25.0",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }

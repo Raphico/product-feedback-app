@@ -1,0 +1,9 @@
+.badge {
+  color: var(--clr-vibrant-blue);
+  background-color: var(--clr-light-periwinkle);
+  border-radius: var(--radius);
+  padding: 0.5em 1em;
+  font-weight: var(--fw-semibold);
+  font-size: var(--fs-100);
+  text-transform: capitalize;
+}

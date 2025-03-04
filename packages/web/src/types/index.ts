@@ -1,4 +1,4 @@
-export type ProductRequest = {
+export type Feedback = {
   id: string;
   title: string;
   category: Category;

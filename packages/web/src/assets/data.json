@@ -5,7 +5,7 @@
     "fullName": "Zena Kelley",
     "username": "velvetround"
   },
-  "productRequests": [
+  "feedbacks": [
     {
       "id": "1",
       "title": "Add tags for solutions",
@@ -25,6 +25,16 @@
       "description": "It would help people with light sensitivities and who prefer dark mode.",
       "comments": ["3", "4"],
       "createdBy": "2"
+    },
+    {
+      "id": "3",
+      "title": "Live Chat Support in Challenge Hubs",
+      "category": "feature",
+      "upvotes": 75,
+      "status": "in progress",
+      "description": "Adding real-time chat support would help users get instant feedback and assistance.",
+      "comments": [],
+      "createdBy": "4"
     },
     {
       "id": "3",

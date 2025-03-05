@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import "./index.css";
+import "./globals.css";
 import { Provider } from "react-redux";
 import store from "./lib/store.ts";
 import { RouterProvider, createRouter } from "@tanstack/react-router";

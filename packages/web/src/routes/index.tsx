@@ -9,6 +9,7 @@ import styles from "./index.module.css";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import EmptySuggestions from "@/features/feedbacks/components/empty-suggestions";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -83,10 +84,14 @@ function Index() {
         totalSuggestions={suggestions.length}
       />
 
-      <SuggestionList
-        className={styles["suggestions__list"]}
-        suggestions={suggestions}
-      />
+      {suggestions.length > 0 ? (
+        <SuggestionList
+          className={styles["suggestions__list"]}
+          suggestions={suggestions}
+        />
+      ) : (
+        <EmptySuggestions className={styles["suggestions__empty"]} />
+      )}
     </div>
   );
 }

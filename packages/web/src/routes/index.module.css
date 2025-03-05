@@ -1,6 +1,7 @@
 .suggestions {
   display: grid;
   gap: 1.75rem;
+  align-items: start;
   max-width: 1100px;
   padding-block: 2.5em;
   width: 90%;
@@ -110,6 +111,12 @@
   .suggestions__list {
     padding: 2em 1.25em 0;
   }
+
+  .suggestions__empty {
+    width: 90%;
+    min-height: 450px;
+    margin: 2em auto 0;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -133,8 +140,13 @@
     margin-top: 0;
   }
 
-  .suggestions__list {
+  .suggestions__list,
+  .suggestions__empty {
     grid-column: 2 / -1;
     grid-row: 2 / -1;
+  }
+
+  .suggestions__empty {
+    min-height: 500px;
   }
 }

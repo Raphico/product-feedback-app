@@ -12,3 +12,18 @@
   display: flex;
   gap: 1rem;
 }
+
+.suggestions-header__link {
+  margin-left: auto;
+}
+
+@media (max-width: 720px) {
+  .suggestions-header__total-suggestions {
+    display: none;
+  }
+
+  .suggestions-header {
+    border-radius: 0;
+    padding: 0.65em 1em;
+  }
+}

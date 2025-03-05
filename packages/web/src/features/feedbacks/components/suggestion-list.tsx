@@ -1,14 +1,15 @@
 import { Feedback } from "@/types";
 import SuggestionListItem from "./suggestion-list-item";
 import styles from "./suggestion-list.module.css";
+import { cn } from "@/lib/utils";
 
-interface SuggestionListProps {
+interface SuggestionListProps extends React.HTMLAttributes<HTMLElement> {
   suggestions: Feedback[];
 }
 
-function SuggestionList({ suggestions }: SuggestionListProps) {
+function SuggestionList({ suggestions, className }: SuggestionListProps) {
   return (
-    <article className={styles["suggestion-list"]}>
+    <article className={cn(styles["suggestion-list"], className)}>
       <h2 className="sr-only">suggestions</h2>
       {suggestions.map((suggestion) => (
         <SuggestionListItem key={suggestion.id} suggestion={suggestion} />

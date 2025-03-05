@@ -4,7 +4,6 @@
   color: var(--clr-pure-white);
   background: var(--radial-gradient);
   display: grid;
-  min-height: 137px;
 
   h1 {
     margin-top: auto;
@@ -12,5 +11,15 @@
 
   span {
     display: block;
+  }
+
+  @media (max-width: 480px) {
+    h1 {
+      font-size: var(--fs-300);
+    }
+
+    span {
+      font-size: var(--fs-100);
+    }
   }
 }

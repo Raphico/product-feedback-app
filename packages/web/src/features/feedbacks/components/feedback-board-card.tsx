@@ -1,8 +1,9 @@
+import { cn } from "@/lib/utils";
 import styles from "./feedback-board-card.module.css";
 
-function FeedbackBoardCard() {
+function FeedbackBoardCard({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
-    <div className={styles["card"]}>
+    <div className={cn(styles["card"], className)}>
       <h1 className="h2">
         Frontend Mentor <span className="body-2">Feedback Board</span>
       </h1>

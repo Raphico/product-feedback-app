@@ -5,18 +5,27 @@ import { Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/components/button";
 import { cn } from "@/lib/utils";
 
-interface SuggestionsHeaderProps {
+interface SuggestionsHeaderProps extends React.HTMLAttributes<HTMLElement> {
   totalSuggestions: number;
 }
 
-function SuggestionsHeader({ totalSuggestions }: SuggestionsHeaderProps) {
+function SuggestionsHeader({
+  totalSuggestions,
+  className,
+}: SuggestionsHeaderProps) {
   return (
-    <header className={styles["suggestions-header"]}>
-      <p className={cn("h3", styles["suggestions-header__total-suggestions"])}>
+    <header className={cn(styles["suggestions-header"], className)}>
+      <h2 className={cn("h3", styles["suggestions-header__total-suggestions"])}>
         <IconSuggestions />
         {totalSuggestions} suggestions
-      </p>
-      <Link to="." className={buttonVariants.primary}>
+      </h2>
+      <Link
+        to="."
+        className={cn(
+          styles["suggestions-header__link"],
+          buttonVariants.primary,
+        )}
+      >
         <IconPlus /> Add Feedback
       </Link>
     </header>

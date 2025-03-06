@@ -5,6 +5,7 @@
   gap: 0.5em;
   cursor: pointer;
   padding: 1em 1.25em;
+  border: 0;
   border-radius: var(--radius);
   font-weight: bold;
   font-size: var(--fs-200);

@@ -13,7 +13,7 @@ import IconArrowDown from "@/assets/icon-arrow-down.svg?react";
 import IconCheck from "@/assets/icon-check.svg?react";
 import styles from "./select.module.css";
 
-type SelectContextType = {
+type SelectContextValueType = {
   id: string;
   isOpen: boolean;
   selectedValue: string;
@@ -24,7 +24,7 @@ type SelectContextType = {
   offset: DOMRect | null;
 };
 
-const SelectContext = createContext<SelectContextType | null>(null);
+const SelectContext = createContext<SelectContextValueType | null>(null);
 
 function useSelectContext() {
   const context = use(SelectContext);
@@ -234,8 +234,9 @@ function SelectContent({
 
   const style = offset
     ? {
-        top: offset.top + offset.height + (sideOffset ?? 20),
+        top: offset.top + offset.height + (sideOffset ?? 15),
         left: offset.left,
+        width: offset.width,
       }
     : {};
 

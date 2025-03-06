@@ -1,0 +1,17 @@
+.go-back {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: var(--fs-100);
+  color: var(--clr-dusty-blue);
+  font-weight: var(--fw-bold);
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-200);
+  }
+}

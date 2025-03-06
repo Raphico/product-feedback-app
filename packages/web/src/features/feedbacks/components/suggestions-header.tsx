@@ -22,7 +22,7 @@ function SuggestionsHeader({
       </h2>
       <SuggestionsSort />
       <Link
-        to="."
+        to="/create-feedback"
         className={cn(
           styles["suggestions-header__link"],
           buttonVariants.primary,

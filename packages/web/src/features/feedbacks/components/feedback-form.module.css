@@ -1,0 +1,27 @@
+.feedback-form-input {
+  margin-top: 1.25em;
+}
+
+.feedback-form-category {
+  width: 100%;
+  padding-inline: 1.2em;
+  background-color: var(--clr-whisper-white);
+  border-radius: 5px;
+  height: 48px;
+  color: var(--clr-deep-slate-blue);
+  font-size: var(--fs-100);
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-300);
+    padding-inline: 1.5em;
+  }
+}
+
+.feedback-form-message {
+  color: var(--clr-red);
+  margin-top: 0.2em;
+}
+
+.feedback-form-category:focus {
+  box-shadow: 0 0 0 1px var(--clr-vibrant-blue);
+}

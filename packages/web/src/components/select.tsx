@@ -30,7 +30,7 @@ function useSelectContext() {
   const context = use(SelectContext);
 
   if (!context) {
-    throw new Error("This component must be used within Select component");
+    throw new Error("useSelectContext should be used within <Select>");
   }
 
   return context;
@@ -104,7 +104,7 @@ function SelectTrigger({
   className,
   children,
   ...props
-}: React.HTMLAttributes<HTMLButtonElement>) {
+}: React.ComponentPropsWithRef<"button">) {
   const { setIsOpen, isOpen, id } = useSelectContext();
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
@@ -152,7 +152,7 @@ function SelectIcon() {
 
 SelectIcon.displayName = "SelectIcon";
 
-function SelectValue({ className }: React.HTMLAttributes<HTMLSpanElement>) {
+function SelectValue({ className }: React.ComponentPropsWithRef<"span">) {
   const { selectedValue, options } = useSelectContext();
   const selectedLabel = options[selectedValue];
 
@@ -165,7 +165,7 @@ function SelectValue({ className }: React.HTMLAttributes<HTMLSpanElement>) {
 
 SelectValue.displayName = "SelectValue";
 
-interface SelectContentProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SelectContentProps extends React.ComponentPropsWithRef<"div"> {
   sideOffset?: number;
 }
 
@@ -258,12 +258,12 @@ function SelectContent({
 
 SelectContent.displayName = "SelectContent";
 
-interface SelectItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SelectItemProps extends React.ComponentPropsWithRef<"div"> {
   value: string;
 }
 
 function SelectItem({ children, className, value, ...props }: SelectItemProps) {
-  const { setSelectedValue, setIsOpen, selectedValue, registerOption } =
+  const { setSelectedValue, setIsOpen, selectedValue, registerOption, id } =
     useSelectContext();
 
   const isSelected = selectedValue === value;
@@ -274,9 +274,16 @@ function SelectItem({ children, className, value, ...props }: SelectItemProps) {
     }
   }, [value, children, registerOption]);
 
-  function handleSelect() {
+  function handleSelect(
+    event:
+      | React.KeyboardEvent<HTMLDivElement>
+      | React.PointerEvent<HTMLDivElement>,
+  ) {
     setSelectedValue(value);
     setIsOpen(false);
+    const trigger = document.getElementById(`${id}_trigger`);
+    event.preventDefault();
+    trigger?.focus();
   }
 
   return (
@@ -285,12 +292,10 @@ function SelectItem({ children, className, value, ...props }: SelectItemProps) {
       aria-selected={isSelected}
       data-state={isSelected ? "checked" : "unchecked"}
       className={cn(styles["select-item"], className)}
-      onMouseDown={handleSelect}
-      onTouchStart={handleSelect}
       onPointerDown={handleSelect}
       onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
         if (SELECTION_KEYS.includes(event.key)) {
-          handleSelect();
+          handleSelect(event);
         }
       }}
       {...props}

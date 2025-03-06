@@ -23,9 +23,12 @@
 }
 
 .suggestion__desc {
-  font-size: var(--fs-100);
   margin-block: 1em 0.75em;
   grid-column: 1 / -1;
+
+  @media (max-width: 480px) {
+    font-size: var(--fs-100);
+  }
 }
 
 .suggestion__category {

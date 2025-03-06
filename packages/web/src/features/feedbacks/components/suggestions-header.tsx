@@ -4,6 +4,7 @@ import styles from "./suggestions-header.module.css";
 import { Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/components/button";
 import { cn } from "@/lib/utils";
+import SuggestionsSort from "./suggestions-sort";
 
 interface SuggestionsHeaderProps extends React.HTMLAttributes<HTMLElement> {
   totalSuggestions: number;
@@ -19,6 +20,7 @@ function SuggestionsHeader({
         <IconSuggestions />
         {totalSuggestions} suggestions
       </h2>
+      <SuggestionsSort />
       <Link
         to="."
         className={cn(

@@ -45,12 +45,8 @@ function Index() {
 
         {!isMobile ? (
           <>
-            <SuggestionsFilter
-              className={styles["suggestions__filter-desktop"]}
-            />
-            <RoadmapSummaryCard
-              className={styles["suggestions__roadmap-desktop"]}
-            />
+            <SuggestionsFilter />
+            <RoadmapSummaryCard />
           </>
         ) : (
           <>

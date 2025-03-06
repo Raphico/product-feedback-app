@@ -88,11 +88,6 @@
     display: block;
   }
 
-  .suggestions__filter-desktop,
-  .suggestions__roadmap-desktop {
-    display: none;
-  }
-
   .suggestions__menu-button {
     display: block;
   }

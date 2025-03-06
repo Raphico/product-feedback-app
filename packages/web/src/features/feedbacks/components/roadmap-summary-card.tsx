@@ -1,13 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import styles from "./roadmap-summary-card.module.css";
 import { useRoadmapSummary } from "../hooks";
-import { cn } from "@/lib/utils";
 
-function RoadmapSummaryCard({ className }: React.HTMLAttributes<HTMLElement>) {
+function RoadmapSummaryCard() {
   const summary = useRoadmapSummary();
 
   return (
-    <section className={cn(styles["roadmap"], className)}>
+    <section className={styles["roadmap"]}>
       <h2 className="h3">Roadmap</h2>
       <Link className={`${styles["roadmap__link"]} body-3`} to=".">
         View

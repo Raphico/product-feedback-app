@@ -1,0 +1,8 @@
+.sort-button {
+  color: var(--clr-light-periwinkle);
+  gap: 0.5rem;
+}
+
+.sort-button__text {
+  font-weight: var(--fw-regular);
+}

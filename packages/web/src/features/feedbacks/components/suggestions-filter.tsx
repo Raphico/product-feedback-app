@@ -2,9 +2,9 @@ import { feedbackCategories } from "@/config";
 import styles from "./suggestions-filter.module.css";
 import { cn } from "@/lib/utils";
 
-function SuggestionsFilter({ className }: React.HTMLAttributes<HTMLElement>) {
+function SuggestionsFilter() {
   return (
-    <section className={cn(styles["filters-container"], className)}>
+    <section className={styles["filters-container"]}>
       <h2 id="heading" className="sr-only">
         Filter suggestions
       </h2>

@@ -6,21 +6,21 @@ type UseClickOutsideProps = {
 };
 
 export function useClickOutside({ ref, handler }: UseClickOutsideProps) {
-  function listener(event: MouseEvent | TouchEvent) {
-    const element = ref.current;
+  useEffect(() => {
+    function listener(event: MouseEvent | TouchEvent) {
+      const element = ref.current;
 
-    if (
-      !element ||
-      !(event.target instanceof Node) ||
-      element.contains(event.target)
-    ) {
-      return;
+      if (
+        !element ||
+        !(event.target instanceof Node) ||
+        element.contains(event.target)
+      ) {
+        return;
+      }
+
+      handler(event);
     }
 
-    handler(event);
-  }
-
-  useEffect(() => {
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener);
 

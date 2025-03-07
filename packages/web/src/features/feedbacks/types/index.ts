@@ -1,3 +1,6 @@
+import type { Comment } from "@/features/comments/types";
+import type { User } from "@/features/user/types";
+
 export type Feedback = {
   id: string;
   title: string;
@@ -6,20 +9,6 @@ export type Feedback = {
   status: Status;
   description: string;
   comments: Comment["id"][];
-  createdBy: User["id"];
-};
-
-export type User = {
-  id: string;
-  fullName: string;
-  image: string;
-  username: string;
-};
-
-export type Comment = {
-  id: string;
-  content: string;
-  parentComment?: string;
   createdBy: User["id"];
 };
 

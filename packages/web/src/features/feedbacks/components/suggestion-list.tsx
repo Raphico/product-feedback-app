@@ -1,5 +1,5 @@
 import { Feedback } from "@/types";
-import SuggestionListItem from "./suggestion-list-item";
+import SuggestionListItem from "./feedback-item";
 import styles from "./suggestion-list.module.css";
 import { cn } from "@/lib/utils";
 

@@ -2,7 +2,7 @@ import Badge from "@/components/badge";
 import TotalComments from "@/components/total-comments";
 import UpvoteButton from "@/components/upvote-button";
 import styles from "./suggestion-list-item.module.css";
-import type { Feedback } from "@/features/feedbacks/types";
+import type { Feedback } from "../types";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 

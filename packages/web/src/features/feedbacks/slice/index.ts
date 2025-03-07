@@ -1,5 +1,5 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
-import type { Feedback } from "@/types";
+import type { Feedback } from "../types";
 import data from "@/assets/data.json";
 
 type FeedbacksState = {

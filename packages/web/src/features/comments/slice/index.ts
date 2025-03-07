@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { Comment } from "@/types";
+import type { Comment } from "../types";
 import data from "@/assets/data.json";
 
 type CommentsState = {

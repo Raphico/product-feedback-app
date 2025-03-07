@@ -1,4 +1,4 @@
-import { Feedback } from "@/types";
+import type { Feedback } from "../types";
 import SuggestionListItem from "./feedback-item";
 import styles from "./suggestion-list.module.css";
 import { cn } from "@/lib/utils";
@@ -12,7 +12,7 @@ function SuggestionList({ suggestions, className }: SuggestionListProps) {
     <article className={cn(styles["suggestion-list"], className)}>
       <h2 className="sr-only">suggestions</h2>
       {suggestions.map((suggestion) => (
-        <SuggestionListItem key={suggestion.id} suggestion={suggestion} />
+        <SuggestionListItem key={suggestion.id} feedback={suggestion} />
       ))}
     </article>
   );

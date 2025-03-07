@@ -4,7 +4,7 @@ import { commentsReducer } from "@/features/comments/slice";
 
 const store = configureStore({
   reducer: {
-    productFeedbacks: feedbacksReducers,
+    feedbacks: feedbacksReducers,
     comments: commentsReducer,
   },
 });

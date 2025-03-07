@@ -1,16 +1,12 @@
 import { useAppSelector } from "@/lib/hooks";
-import { selectRoadmapSummary, selectSuggestions } from "../slice";
+import { selectSuggestions, selectRoadmapSummary } from "../selectors";
 
 function useRoadmapSummary() {
-  return useAppSelector((state) =>
-    selectRoadmapSummary({ feedbacks: state.productFeedbacks }),
-  );
+  return useAppSelector((state) => selectRoadmapSummary(state));
 }
 
 function useSuggestions() {
-  return useAppSelector((state) =>
-    selectSuggestions({ feedbacks: state.productFeedbacks }),
-  );
+  return useAppSelector((state) => selectSuggestions(state));
 }
 
 export { useRoadmapSummary, useSuggestions };

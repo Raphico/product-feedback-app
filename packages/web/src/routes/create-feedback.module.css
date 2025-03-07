@@ -6,6 +6,7 @@
 
   @media (min-width: 480px) {
     padding-block: 3em;
+    width: 100%;
   }
 }
 

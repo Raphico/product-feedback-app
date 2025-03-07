@@ -6,10 +6,17 @@
   cursor: pointer;
   padding: 1em 1.25em;
   border: 0;
+  white-space: nowrap;
   border-radius: var(--radius);
   font-weight: bold;
-  font-size: var(--fs-200);
+  font-size: var(--fs-100);
   transition: all var(--transition-easing) var(--transition-duration);
+
+  @media (min-width: 480px) {
+    .button {
+      font-size: var(--fs-200);
+    }
+  }
 }
 
 .primary {

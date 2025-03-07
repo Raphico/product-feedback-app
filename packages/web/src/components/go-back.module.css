@@ -5,6 +5,9 @@
   font-size: var(--fs-100);
   color: var(--clr-dusty-blue);
   font-weight: var(--fw-bold);
+  border: none;
+  background: transparent;
+  cursor: pointer;
 
   &:hover {
     text-decoration: underline;

@@ -1,0 +1,31 @@
+.feedback {
+  padding-block: 2em;
+  width: 90%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 730px;
+  margin: 0 auto;
+  gap: 1.5rem;
+
+  @media (min-width: 480px) {
+    width: 100%;
+    padding-block: 3em;
+  }
+}
+
+.feedback__edit-link {
+  grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  justify-self: right;
+}
+
+.feedback__go-back {
+  grid-row: 1 / 2;
+  grid-column: 1 / 2;
+  justify-self: start;
+}
+
+.feedback__item,
+.feedback__add-comment {
+  grid-column: 1 / -1;
+}

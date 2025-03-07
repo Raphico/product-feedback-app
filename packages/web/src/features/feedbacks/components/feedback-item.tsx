@@ -6,27 +6,36 @@ import type { Feedback } from "../types";
 import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 
-function FeedbackItem({ feedback }: { feedback: Feedback }) {
+interface FeedbackProps extends React.ComponentProps<"article"> {
+  feedback: Feedback;
+  headingTag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+}
+
+function FeedbackItem({
+  className,
+  feedback,
+  headingTag: Comp = "h3",
+}: FeedbackProps) {
   return (
-    <Link to=".">
-      <article className={styles["feedback"]}>
-        <h3 className={cn("h3", styles["feedback__header"])}>
+    <article className={cn(styles["feedback"], className)}>
+      <Link to="/feedback/$feedbackId" params={{ feedbackId: feedback.id }}>
+        <Comp className={cn("h3", styles["feedback__header"])}>
           {feedback.title}
-        </h3>
-        <p className={styles["feedback__desc"]}>{feedback.description}</p>
-        <Badge className={styles["feedback__category"]}>
-          {feedback.category}
-        </Badge>
-        <UpvoteButton
-          className={styles["feedback__upvote-button"]}
-          upvotes={feedback.upvotes}
-        />
-        <TotalComments
-          className={styles["feedback__total-comments"]}
-          total={feedback.comments.length}
-        />
-      </article>
-    </Link>
+        </Comp>
+      </Link>
+      <p className={styles["feedback__desc"]}>{feedback.description}</p>
+      <Badge className={styles["feedback__category"]}>
+        {feedback.category}
+      </Badge>
+      <UpvoteButton
+        className={styles["feedback__upvote-button"]}
+        upvotes={feedback.upvotes}
+      />
+      <TotalComments
+        className={styles["feedback__total-comments"]}
+        total={feedback.comments.length}
+      />
+    </article>
   );
 }
 

@@ -5,6 +5,7 @@
   margin: 0 auto;
 
   @media (min-width: 480px) {
+    width: 100%;
     padding-block: 3em;
   }
 }

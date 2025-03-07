@@ -12,10 +12,10 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import EmptySuggestions from "@/features/feedbacks/components/empty-suggestions";
 
 export const Route = createFileRoute("/")({
-  component: Index,
+  component: Suggestions,
 });
 
-function Index() {
+function Suggestions() {
   const suggestions = useSuggestions();
   const [isOpen, setIsOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 720px)");

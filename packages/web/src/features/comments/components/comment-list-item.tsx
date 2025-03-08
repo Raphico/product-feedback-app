@@ -2,6 +2,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
 import type { CommentWithReplies } from "../types";
 import styles from "./comment-list-item.module.css";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import ReplyForm from "./reply-form";
 
 interface CommentListItemProps extends React.ComponentProps<"article"> {
   comment: CommentWithReplies;
@@ -12,6 +14,7 @@ interface CommentListItemProps extends React.ComponentProps<"article"> {
 }
 
 function CommentListItem({ comment, parentComment }: CommentListItemProps) {
+  const [showReply, setShowReply] = useState(false);
   const initials = comment.createdBy.fullName
     .split(" ")
     .map((name) => name.charAt(0))
@@ -39,13 +42,24 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
           @{comment.createdBy.username}
         </span>
       </div>
-      <button className={styles["comment__reply"]}>Reply</button>
+      <button
+        onClick={() => setShowReply(true)}
+        className={styles["comment__reply"]}
+      >
+        Reply
+      </button>
       <p className={styles["comment__content"]}>
         <span className={styles["comment__at"]}>
           {parentComment && `@${parentComment.username}`}
         </span>{" "}
         {comment.content}
       </p>
+      {showReply && (
+        <ReplyForm
+          className={styles["comment__reply-form"]}
+          closeForm={() => setShowReply(false)}
+        />
+      )}
       {comment.replies.length > 0 && (
         <div className={styles["comment__replies"]}>
           {comment.replies.map((reply) => (

@@ -67,10 +67,19 @@
   grid-column: 1 / -1;
 }
 
+.comment__reply-form {
+  grid-column: 1 / -1;
+}
+
 @media (min-width: 480px) {
   .comment__fullName,
   .comment__username {
     font-size: var(--fs-200);
+  }
+
+  .comment__reply-form {
+    grid-column: 2 / -1;
+    margin-top: 0.5rem;
   }
 
   .comment__replies {

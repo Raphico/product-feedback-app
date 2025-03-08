@@ -1,0 +1,14 @@
+.reply-form {
+  gap: 1rem;
+  & button {
+    justify-self: right;
+  }
+
+  @media (min-width: 480px) {
+    grid-template-columns: 1fr auto;
+
+    & button {
+      align-self: start;
+    }
+  }
+}

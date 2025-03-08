@@ -1,5 +1,5 @@
 import type { Comment } from "@/features/comments/types";
-import type { User } from "@/features/user/types";
+import type { User } from "@/features/users/types";
 
 export type Feedback = {
   id: string;
@@ -8,7 +8,7 @@ export type Feedback = {
   upvotes: number;
   status: Status;
   description: string;
-  comments: Comment["id"][];
+  comments: Comment["id"];
   createdBy: User["id"];
 };
 

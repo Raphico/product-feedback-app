@@ -1,0 +1,16 @@
+.avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.avatar-fallback {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  background-color: var(--clr-whisper-white);
+  color: var(--clr-deep-slate-blue);
+  font-size: var(--fs-200);
+}

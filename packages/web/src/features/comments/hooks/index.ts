@@ -1,6 +1,6 @@
 import { useAppSelector } from "@/lib/hooks";
-import { selectCommentById } from "../selectors";
+import { selectFeedbackComments } from "../selectors";
 
-export function useCommentById(id: string) {
-  return useAppSelector((state) => selectCommentById(state, id));
+export function useFeedbackComments(feedbackId: string) {
+  return useAppSelector(selectFeedbackComments(feedbackId));
 }

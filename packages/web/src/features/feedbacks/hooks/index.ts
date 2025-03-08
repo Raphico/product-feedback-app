@@ -14,5 +14,5 @@ export function useSuggestions() {
 }
 
 export function useFeedbackById(id: string) {
-  return useAppSelector((state) => selectFeedbackById(state, id));
+  return useAppSelector(selectFeedbackById(id));
 }

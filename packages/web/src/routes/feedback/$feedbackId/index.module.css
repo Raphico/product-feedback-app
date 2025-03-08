@@ -26,6 +26,7 @@
 }
 
 .feedback__item,
-.feedback__add-comment {
+.feedback__add-comment,
+.feedback__comments {
   grid-column: 1 / -1;
 }

@@ -9,6 +9,7 @@
   --clr-soft-coral: #f49f85;
   --clr-bright-sky-blue: #62bcfa;
   --clr-red: #d73737;
+  --clr-border: #ece7e7;
   --radial-gradient: radial-gradient(
     128.88% 128.88% at 103.9% -10.39%,
     var(--clr-soft-coral) 0%,

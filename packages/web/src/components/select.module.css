@@ -50,7 +50,7 @@
 }
 
 .select-content > * + * {
-  border-top: 1px solid #d8d7d7;
+  border-top: 1px solid var(--clr-border);
 }
 
 .select-item {

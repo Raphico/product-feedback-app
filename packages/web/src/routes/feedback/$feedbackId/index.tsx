@@ -6,6 +6,7 @@ import FeedbackItem from "@/features/feedbacks/components/feedback-item";
 import { buttonVariants } from "@/components/button";
 import { cn } from "@/lib/utils";
 import AddComment from "@/features/comments/components/add-comment";
+import CommentList from "@/features/comments/components/comment-list";
 
 export const Route = createFileRoute("/feedback/$feedbackId/")({
   component: Feedback,
@@ -36,6 +37,10 @@ function Feedback() {
         headingTag="h1"
         className={styles["feedback__item"]}
         feedback={feedback}
+      />
+      <CommentList
+        feedbackId={feedback.id}
+        className={styles["feedback__comments"]}
       />
       <AddComment className={styles["feedback__add-comment"]} />
     </div>

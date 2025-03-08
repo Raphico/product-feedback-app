@@ -1,7 +1,7 @@
 {
   "currentUser": {
     "id": "8",
-    "image": "./assets/user-images/image-zena.jpg",
+    "image": "/src/assets/images/user-images/image-zena.jpg",
     "fullName": "Zena Kelley",
     "username": "velvetround"
   },
@@ -22,8 +22,8 @@
       "category": "feature",
       "upvotes": 99,
       "status": "suggestion",
-      "description": "It would help people with light sensitivities and who prefer dark mode.",
-      "comments": ["3", "4"],
+      "description": "It would help people with light sensitivities and those who prefer dark mode.",
+      "comments": ["3", "4", "6", "7"],
       "createdBy": "2"
     },
     {
@@ -37,7 +37,7 @@
       "createdBy": "4"
     },
     {
-      "id": "3",
+      "id": "4",
       "title": "Q&A within the challenge hubs",
       "category": "feature",
       "upvotes": 65,
@@ -50,37 +50,49 @@
   "comments": [
     {
       "id": "1",
-      "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious",
+      "feedbackId": "1",
+      "content": "Awesome idea! Trying to find framework-specific projects within the hubs can be tedious.",
+      "parentComment": null,
       "createdBy": "1"
     },
     {
       "id": "2",
-      "content": "Please use fun, color-coded labels to easily identify them at a glance",
+      "feedbackId": "1",
+      "content": "Please use fun, color-coded labels to easily identify them at a glance.",
+      "parentComment": null,
       "createdBy": "2"
     },
     {
       "id": "3",
+      "feedbackId": "2",
       "content": "Also, please allow styles to be applied based on system preferences...",
+      "parentComment": null,
       "createdBy": "3"
     },
     {
       "id": "4",
-      "content": "Second this! I do a lot of late night coding and reading...",
+      "feedbackId": "2",
+      "content": "Second this! I do a lot of late-night coding and reading...",
+      "parentComment": null,
       "createdBy": "4"
     },
     {
       "id": "5",
+      "feedbackId": "4",
       "content": "Much easier to get answers from devs who can relate...",
+      "parentComment": null,
       "createdBy": "5"
     },
     {
       "id": "6",
+      "feedbackId": "2",
       "content": "While waiting for dark mode, there are browser extensions...",
       "parentComment": "4",
       "createdBy": "6"
     },
     {
       "id": "7",
+      "feedbackId": "2",
       "content": "Good point! Using any kind of style extension is great...",
       "parentComment": "6",
       "createdBy": "7"
@@ -89,49 +101,49 @@
   "users": [
     {
       "id": "1",
-      "image": "./assets/user-images/image-suzanne.jpg",
+      "image": "/src/assets/images/user-images/image-suzanne.jpg",
       "fullName": "Suzanne Chang",
       "username": "upbeat1811"
     },
     {
       "id": "2",
-      "image": "./assets/user-images/image-thomas.jpg",
+      "image": "/src/assets/images/user-images/image-thomas.jpg",
       "fullName": "Thomas Hood",
       "username": "brawnybrave"
     },
     {
       "id": "3",
-      "image": "./assets/user-images/image-elijah.jpg",
+      "image": "/src/assets/images/user-images/image-elijah.jpg",
       "fullName": "Elijah Moss",
       "username": "hexagon.bestagon"
     },
     {
       "id": "4",
-      "image": "./assets/user-images/image-james.jpg",
+      "image": "/src/assets/images/user-images/image-james.jpg",
       "fullName": "James Skinner",
       "username": "hummingbird1"
     },
     {
       "id": "5",
-      "image": "./assets/user-images/image-george.jpg",
+      "image": "/src/assets/images/user-images/image-george.jpg",
       "fullName": "George Partridge",
       "username": "soccerviewer8"
     },
     {
       "id": "6",
-      "image": "./assets/user-images/image-anne.jpg",
+      "image": "/src/assets/images/user-images/image-anne.jpg",
       "fullName": "Anne Valentine",
       "username": "annev1990"
     },
     {
       "id": "7",
-      "image": "./assets/user-images/image-ryan.jpg",
+      "image": "/src/assets/images/user-images/image-ryan.jpg",
       "fullName": "Ryan Welles",
       "username": "voyager.344"
     },
     {
       "id": "8",
-      "image": "./assets/user-images/image-zena.jpg",
+      "image": "/src/assets/images/user-images/image-zena.jpg",
       "fullName": "Zena Kelley",
       "username": "velvetround"
     }

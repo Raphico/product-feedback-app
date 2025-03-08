@@ -3,7 +3,6 @@ import { createSelector } from "@reduxjs/toolkit";
 
 export const selectFeedbackEntities = (state: AppState) =>
   state.feedbacks.entities;
-export const selectFeedbackIdParam = (_: AppState, id: string) => id;
 
 export const selectSuggestions = createSelector(
   [selectFeedbackEntities],
@@ -28,7 +27,8 @@ export const selectFeedbackRoadmapSummary = createSelector(
     ),
 );
 
-export const selectFeedbackById = createSelector(
-  [selectFeedbackEntities, selectFeedbackIdParam],
-  (entities, id) => entities.find((feedback) => feedback.id == id),
-);
+export function selectFeedbackById(feedbackId: string) {
+  return createSelector([selectFeedbackEntities], (entities) =>
+    entities.find((feedback) => feedback.id == feedbackId),
+  );
+}

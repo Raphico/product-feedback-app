@@ -66,7 +66,12 @@ function AvatarImage({ src, alt, className, ...props }: AvatarImageProps) {
   }
 
   return (
-    <img className={styles["avatar-fallback"]} src={src} alt={alt} {...props} />
+    <img
+      className={cn(styles["avatar-fallback"], className)}
+      src={src}
+      alt={alt}
+      {...props}
+    />
   );
 }
 

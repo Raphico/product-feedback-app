@@ -8,7 +8,7 @@ export type Feedback = {
   upvotes: number;
   status: Status;
   description: string;
-  comments: Comment["id"];
+  comments: Comment["id"][];
   createdBy: User["id"];
 };
 

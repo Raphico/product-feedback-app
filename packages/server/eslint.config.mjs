@@ -19,4 +19,9 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
   eslintConfigPrettier,
+  {
+    rules: {
+      "@typescript-eslint/require-await": "off",
+    },
+  },
 ];

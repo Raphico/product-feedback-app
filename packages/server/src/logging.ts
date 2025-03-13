@@ -11,7 +11,7 @@ export function initLogger(config: Config) {
     serializers: {
       err: pino.stdSerializers.err,
       error: pino.stdSerializers.err,
-      request(request: FastifyRequest) {
+      req(request: FastifyRequest) {
         return {
           method: request.method,
           url: request.url.split("?")[0], // Removes query params to keep logs clean and hide sensitive data

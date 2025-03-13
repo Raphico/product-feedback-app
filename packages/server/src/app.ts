@@ -40,7 +40,7 @@ export async function initApp(config: Config, deps: Deps) {
   });
 
   app.setNotFoundHandler(function (request, reply) {
-    this.log.warn(request, "Resource not found");
+    this.log.warn({ req: request }, "Resource not found");
 
     reply.code(404);
 

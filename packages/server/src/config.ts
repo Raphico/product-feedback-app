@@ -42,6 +42,11 @@ const configSchema = z.object({
   rateLimitMax: z
     .number({ coerce: true })
     .describe("Maximum requests per time window"),
+  shutdownTimeout: z
+    .number({ coerce: true })
+    .describe(
+      "Maximum time in milliseconds allowed for cleanup tasks before forceful shutdown",
+    ),
   logLevel: z
     .enum(logLevels)
     .default("info")
@@ -72,6 +77,7 @@ export const config = (() => {
       process.env.RATE_LIMIT_TIME_WINDOW ?? "1m",
     ),
     rateLimitMax: process.env.RATE_LIMIT_MAX,
+    shutdownTimeout: parseDuration(process.env.SHUTDOWN_TIMEOUT ?? "5s"),
     corsOrigin: process.env.CORS_ORIGIN,
     corsMethods: process.env.CORS_METHODS,
   });

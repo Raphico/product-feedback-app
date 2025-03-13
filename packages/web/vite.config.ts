@@ -15,7 +15,6 @@ export default defineConfig({
     svgr(),
   ],
   resolve: {
-    preserveSymlinks: true,
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },

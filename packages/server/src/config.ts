@@ -28,7 +28,7 @@ const configSchema = z.object({
     .nativeEnum(Env)
     .default(Env.Dev)
     .describe("the current environment mode of the application"),
-  port: z
+  port: z.coerce
     .number({ coerce: true })
     .describe("port on which the server listens for incoming HTTP requests"),
   bodyLimit: z

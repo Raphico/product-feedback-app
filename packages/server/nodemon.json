@@ -2,6 +2,6 @@
   "watch": ["src"],
   "ext": "ts",
   "execMap": {
-    "ts": "node --loader ts-node/esm"
+    "ts": "node --import ./bootstrap.js"
   }
 }

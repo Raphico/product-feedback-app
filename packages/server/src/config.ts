@@ -63,6 +63,7 @@ const configSchema = z.object({
     .describe(
       "allowed CORS origins (comma-separated) https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin",
     ),
+  databaseUrl: z.string().url().describe("mongodb database url"),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -80,5 +81,6 @@ export const config = (() => {
     shutdownTimeout: parseDuration(process.env.SHUTDOWN_TIMEOUT ?? "5s"),
     corsOrigin: process.env.CORS_ORIGIN,
     corsMethods: process.env.CORS_METHODS,
+    databaseUrl: process.env.DATABASE_URL,
   });
 })();

@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Roles } from "../config.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,18 +15,24 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
     password: {
       type: String,
       required: true,
     },
     avatar: {
       type: String,
+      default: null,
     },
     role: {
       type: String,
-      default: "user",
+      enum: Object.values(Roles),
+      default: Roles.USER,
     },
-    emailVerificationToken: {
+    emailVerificationCode: {
       type: String,
     },
     passwordResetToken: {

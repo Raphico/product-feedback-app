@@ -3,6 +3,7 @@ import { config, Env } from "./config.js";
 import { initDB, shutdownDB } from "./db.js";
 import { initLogger } from "./logging.js";
 import gracefulShutdown from "http-graceful-shutdown";
+import { MailService } from "./services/mail.js";
 
 void (async function main() {
   const logger = initLogger(config);
@@ -11,7 +12,9 @@ void (async function main() {
     .then(() => logger.info("MongoDB connected successfully"))
     .catch((error) => logger.error(error));
 
-  const app = await initApp(config, { logger });
+  const mailService = new MailService(config, logger);
+
+  const app = await initApp(config, { logger, mailService });
 
   app.fastify.listen(
     {

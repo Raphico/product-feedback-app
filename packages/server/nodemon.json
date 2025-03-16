@@ -2,6 +2,6 @@
   "watch": ["src"],
   "ext": "ts",
   "execMap": {
-    "ts": "dotenvx run -- node --import ./bootstrap.js"
+    "ts": "TS_NODE_REGISTER=true dotenvx run -- node --import ./bootstrap.js"
   }
 }

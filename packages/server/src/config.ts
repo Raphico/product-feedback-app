@@ -8,6 +8,11 @@ export enum Env {
   Test = "test",
 }
 
+export enum Roles {
+  USER = "user",
+  ADMIN = "admin",
+}
+
 function getEnv() {
   switch (process.env.NODE_ENV?.toLowerCase()) {
     case "production":
@@ -64,6 +69,23 @@ const configSchema = z.object({
       "allowed CORS origins (comma-separated) https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Access-Control-Allow-Origin",
     ),
   databaseUrl: z.string().url().describe("mongodb database url"),
+  verificationExpiry: z
+    .number({ coerce: true })
+    .describe(
+      "Expiry in milliseconds for email verification code, password resets, etc",
+    ),
+  smtpHost: z.string().describe("SMTP server hostname for sending emails"),
+  smtpPort: z
+    .number({ coerce: true })
+    .describe("Port number for the SMTP server"),
+  smtpUser: z.string().describe("Username for SMTP authentication"),
+  smtpPass: z.string().describe("Password for SMTP authentication"),
+  senderEmailAddress: z
+    .string()
+    .email()
+    .describe("Email address used to send outgoing emails"),
+  clientUrl: z.string().url().describe("The base URL of the frontend client"),
+  productName: z.string().describe("The application name"),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -82,5 +104,13 @@ export const config = (() => {
     corsOrigin: process.env.CORS_ORIGIN,
     corsMethods: process.env.CORS_METHODS,
     databaseUrl: process.env.DATABASE_URL,
+    verificationExpiry: parseDuration(process.env.VERIFICATION_EXPIRY),
+    smtpHost: process.env.SMTP_HOST,
+    smtpPort: process.env.SMTP_PORT,
+    smtpUser: process.env.SMTP_USERNAME,
+    smtpPass: process.env.SMTP_PASSWORD,
+    senderEmailAddress: process.env.SENDER_EMAIL_ADDRESS,
+    clientUrl: process.env.CLIENT_URL,
+    productName: "Feedback App",
   });
 })();

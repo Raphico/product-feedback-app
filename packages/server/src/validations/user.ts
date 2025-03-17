@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Roles } from "../config.js";
 
 export const userSchema = z.object({
-  id: z.any(),
+  id: z.string(),
   fullName: z
     .string()
     .min(2, "Full name must be at least 2 characters long")
@@ -22,8 +22,9 @@ export const userSchema = z.object({
       "Username can only contain letters, numbers, and underscores",
     ),
   email: z.string().email("Invalid email format").toLowerCase(),
+  isEmailVerified: z.boolean(),
   avatar: z.string().url("Invalid avatar").nullable(),
-  role: z.nativeEnum(Roles).default(Roles.USER),
+  role: z.nativeEnum(Roles),
 });
 
 export type UserSchema = z.infer<typeof userSchema>;

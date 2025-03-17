@@ -28,10 +28,7 @@ export const userRepository = {
 
     return await User.findOne({ $or: query });
   },
-  async update(
-    _id: Types.ObjectId,
-    data: Partial<UserModel>,
-  ): Promise<UserModel | null> {
+  async update(_id: Types.ObjectId, data: Partial<UserModel>) {
     return await User.findOneAndUpdate({ _id }, data, { new: true });
   },
 };

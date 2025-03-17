@@ -1,3 +1,4 @@
+import type { SignupRequestDto, SignupResponseDto } from "../dtos/auth.js";
 import type { UserRepository } from "../repositories/user.js";
 import { ApiError } from "../utils/error.js";
 
@@ -22,13 +23,8 @@ type SignupUseCaseContext = {
 
 export async function signupUseCase(
   context: SignupUseCaseContext,
-  data: {
-    fullName: string;
-    email: string;
-    username: string;
-    password: string;
-  },
-) {
+  data: SignupRequestDto,
+): Promise<SignupResponseDto> {
   const { fullName, email, username, password } = data;
   const { db } = context;
 

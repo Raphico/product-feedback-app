@@ -1,3 +1,4 @@
+import "@dotenvx/dotenvx/config";
 import { initApp } from "./app.js";
 import { config, Env } from "./config.js";
 import { initDB, shutdownDB } from "./db.js";

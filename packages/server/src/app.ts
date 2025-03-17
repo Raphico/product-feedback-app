@@ -12,7 +12,9 @@ import {
 } from "fastify-type-provider-zod";
 import type { MailService } from "./services/mail.js";
 import { ApiError } from "./utils/error.js";
-import signupRoute from "./routes/auth/signup.js";
+import autoLoad from "@fastify/autoload";
+import { fileURLToPath } from "node:url";
+import { dirname, join } from "node:path";
 
 type Deps = {
   logger: Logger;
@@ -24,6 +26,9 @@ declare module "fastify" {
     mailService: MailService;
   }
 }
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export async function initApp(config: Config, deps: Deps) {
   const { logger, mailService } = deps;
@@ -49,7 +54,9 @@ export async function initApp(config: Config, deps: Deps) {
 
   app.decorate("mailService", mailService);
 
-  app.register(signupRoute, { prefix: "/api/v1/auth" });
+  app.register(autoLoad, {
+    dir: join(__dirname, "routes"),
+  });
 
   await app.after();
 

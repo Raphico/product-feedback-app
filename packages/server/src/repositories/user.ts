@@ -13,8 +13,8 @@ export const userRepository = {
       emailVerificationCode: string;
       emailVerificationExpiry: Date;
     },
-  ): Promise<void> {
-    await User.create(user);
+  ) {
+    return User.create(user);
   },
   async findByEmailOrUsername({
     email,
@@ -26,9 +26,9 @@ export const userRepository = {
     const query: FilterQuery<UserModel>[] = [{ email }];
     if (username) query.push({ username });
 
-    return await User.findOne({ $or: query });
+    return User.findOne({ $or: query });
   },
   async update(_id: Types.ObjectId, data: Partial<UserModel>) {
-    return await User.findOneAndUpdate({ _id }, data, { new: true });
+    return User.findOneAndUpdate({ _id }, data, { new: true });
   },
 };

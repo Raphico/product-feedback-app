@@ -38,7 +38,7 @@ export async function signupUseCase(
   const { unHashedCode, hashedCode, expiresAt } =
     context.generateVerificationCode();
 
-  await db.create({
+  const user = await db.create({
     email,
     fullName,
     username,
@@ -47,28 +47,19 @@ export async function signupUseCase(
     emailVerificationExpiry: expiresAt,
   });
 
-  const createdUser = await db.findByEmailOrUsername({ email });
-
-  if (!createdUser) {
-    throw new ApiError(
-      500,
-      "Something went wrong while creating user. Try again later",
-    );
-  }
-
   await context.sendEmailVerificationCode({
     emailVerificationCode: unHashedCode,
-    to: createdUser.email,
-    username: createdUser.username,
+    to: user.email,
+    username: user.username,
   });
 
   return {
-    id: createdUser.id,
-    fullName: createdUser.fullName,
-    email: createdUser.email,
-    username: createdUser.username,
-    avatar: createdUser.avatar,
-    isEmailVerified: createdUser.isEmailVerified,
-    role: createdUser.role,
+    id: user.id,
+    fullName: user.fullName,
+    email: user.email,
+    username: user.username,
+    avatar: user.avatar,
+    isEmailVerified: user.isEmailVerified,
+    role: user.role,
   };
 }

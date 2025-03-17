@@ -813,6 +813,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fastify/autoload@npm:^6.2.0":
+  version: 6.2.0
+  resolution: "@fastify/autoload@npm:6.2.0"
+  checksum: e7ef805a3cee0ec67a8559a75e2485fe986e01feea513537bf950b753d3a3610d80329bb2ece38551ab6248038a427475215949968a2b5efed0e7fa1807cbe52
+  languageName: node
+  linkType: hard
+
 "@fastify/compress@npm:^8.0.1":
   version: 8.0.1
   resolution: "@fastify/compress@npm:8.0.1"
@@ -1125,6 +1132,7 @@ __metadata:
   dependencies:
     "@dotenvx/dotenvx": ^1.38.5
     "@eslint/js": ^9.21.0
+    "@fastify/autoload": ^6.2.0
     "@fastify/compress": ^8.0.1
     "@fastify/cors": ^11.0.0
     "@fastify/helmet": ^13.0.1

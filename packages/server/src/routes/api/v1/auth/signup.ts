@@ -1,13 +1,13 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { signupRequestSchema } from "../../validations/auth.js";
-import { userSchema } from "../../validations/user.js";
-import { signupUseCase } from "../../use-cases/signup.js";
+import { signupRequestSchema } from "../../../../validations/auth.js";
+import { userSchema } from "../../../../validations/user.js";
+import { signupUseCase } from "../../../../use-cases/signup.js";
 import {
   hashPassword,
   generateVerificationCode,
-} from "../../utils/security.js";
-import { userRepository } from "../../repositories/user.js";
+} from "../../../../utils/security.js";
+import { userRepository } from "../../../../repositories/user.js";
 
 const signupRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({

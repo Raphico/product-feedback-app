@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "build": "yarn tsc",
-    "dev": "dotenvx run -- node --import tsx/esm --watch src src/index.ts",
-    "start": "dotenvx run -- node dist/index.js",
+    "dev": "FASTIFY_AUTOLOAD_TYPESCRIPT=1 node --import tsx/esm --watch src src/index.ts",
+    "start": "node dist/index.js",
     "typecheck": "yarn tsc --noEmit",
     "lint": "yarn eslint src"
   },
@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^1.38.5",
+    "@fastify/autoload": "^6.2.0",
     "@fastify/compress": "^8.0.1",
     "@fastify/cors": "^11.0.0",
     "@fastify/helmet": "^13.0.1",

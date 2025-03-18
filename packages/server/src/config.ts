@@ -41,6 +41,11 @@ const configSchema = z.object({
     .describe(
       "the maximum request payload in bytes the server is allowed to accept",
     ),
+  rateLimitIntensiveMax: z
+    .number({ coerce: true })
+    .describe(
+      "Maximum requests per time window for resource intensive endpoints like email sending",
+    ),
   rateLimitTimeWindow: z
     .number({ coerce: true })
     .describe("the time window in millisecond for rate limiting requests"),
@@ -96,6 +101,7 @@ export const config = (() => {
     port: process.env.PORT,
     bodyLimit: parseBytes(process.env.BODY_LIMIT ?? "500KB"),
     logLevel: process.env.LOG_LEVEL,
+    rateLimitIntensiveMax: process.env.RATE_LIMIT_INTENSIVE_MAX,
     rateLimitTimeWindow: parseDuration(
       process.env.RATE_LIMIT_TIME_WINDOW ?? "1m",
     ),

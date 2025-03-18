@@ -4,7 +4,7 @@ import { User } from "../models/user.js";
 export type UserRepository = typeof userRepository;
 
 export const userRepository = {
-  async create(user: CreateUserDto): Promise<UserDto | null> {
+  async create(user: CreateUserDto): Promise<UserDto> {
     const createdUser = await User.create(user);
     return {
       ...createdUser.toObject(),

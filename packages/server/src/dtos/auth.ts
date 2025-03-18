@@ -26,3 +26,7 @@ export type VerifyEmailResponseDto = {
   email: string;
   isEmailVerified: boolean;
 };
+
+export type ResendEmailVerificationRequestDto = {
+  email: string;
+};

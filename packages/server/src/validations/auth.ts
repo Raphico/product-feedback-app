@@ -22,3 +22,11 @@ export const verifyEmailResponseSchema = z.object({
   email: userSchema.shape.email,
   isEmailVerified: userSchema.shape.isEmailVerified,
 });
+
+export const emailRequestSchema = z.object({
+  email: userSchema.shape.email,
+});
+
+export const emailResponseSchema = z.object({
+  message: z.string(),
+});

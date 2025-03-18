@@ -1,33 +1,31 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { signupRequestSchema } from "../../../../validations/auth.js";
-import { userSchema } from "../../../../validations/user.js";
-import { signupUseCase } from "../../../../use-cases/signup.js";
-import {
-  hashPassword,
-  generateVerificationCode,
-} from "../../../../utils/security.js";
+import { generateVerificationCode } from "../../../../utils/security.js";
 import { userRepository } from "../../../../repositories/user.js";
+import { resendEmailVerificationUseCase } from "../../../../use-cases/resend-email-verification.js";
+import {
+  emailRequestSchema,
+  emailResponseSchema,
+} from "../../../../validations/auth.js";
 
-const signupRoute: FastifyPluginAsync = async (app) => {
+const resendEmailVerificationRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
-    url: "/signup",
+    url: "/resend-verification",
     config: {
       rateLimit: {
         max: app.config.rateLimitIntensiveMax,
       },
     },
     schema: {
-      body: signupRequestSchema,
+      body: emailRequestSchema,
       response: {
-        201: userSchema,
+        202: emailResponseSchema,
       },
     },
     async handler(request, reply) {
-      const result = await signupUseCase(
+      const result = await resendEmailVerificationUseCase(
         {
-          hashPassword,
           generateVerificationCode,
           sendEmailVerificationCode:
             app.mailService.sendEmailVerificationCode.bind(app.mailService),
@@ -40,4 +38,4 @@ const signupRoute: FastifyPluginAsync = async (app) => {
   });
 };
 
-export default signupRoute;
+export default resendEmailVerificationRoute;

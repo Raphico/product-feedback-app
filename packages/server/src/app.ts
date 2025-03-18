@@ -24,6 +24,7 @@ type Deps = {
 declare module "fastify" {
   interface FastifyInstance {
     mailService: MailService;
+    config: Config;
   }
 }
 
@@ -53,6 +54,7 @@ export async function initApp(config: Config, deps: Deps) {
   });
 
   app.decorate("mailService", mailService);
+  app.decorate("config", config);
 
   app.register(autoLoad, {
     dir: join(__dirname, "routes"),

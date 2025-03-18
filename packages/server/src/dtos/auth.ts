@@ -16,3 +16,13 @@ export type SignupResponseDto = {
   isEmailVerified: boolean;
   role: Roles;
 };
+
+export type VerifyEmailRequestDto = {
+  code: string;
+};
+
+export type VerifyEmailResponseDto = {
+  id: string;
+  email: string;
+  isEmailVerified: boolean;
+};

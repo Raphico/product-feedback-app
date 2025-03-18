@@ -13,10 +13,7 @@ export function generateHash(value: string) {
 /**@description generates temporary code for email verification*/
 export function generateVerificationCode() {
   const unHashedCode = crypto.randomInt(100000, 999999).toString();
-  const hashedCode = crypto
-    .createHash("sha256")
-    .update(unHashedCode)
-    .digest("hex");
+  const hashedCode = generateHash(unHashedCode);
   const expiresAt = new Date(Date.now() + config.verificationExpiry);
   return { unHashedCode, hashedCode, expiresAt };
 }

@@ -1,20 +1,25 @@
+import type { CreateUserDto, UserDto } from "../dtos/user.js";
 import { User } from "../models/user.js";
-import type { ExtractModelType } from "../types.js";
-import type { SignupRequestSchema } from "../validations/auth.js";
-import type { Types, FilterQuery } from "mongoose";
-
-type UserModel = ExtractModelType<typeof User>;
 
 export type UserRepository = typeof userRepository;
 
 export const userRepository = {
-  async create(
-    user: SignupRequestSchema & {
-      emailVerificationCode: string;
-      emailVerificationExpiry: Date;
-    },
-  ) {
-    return User.create(user);
+  async create(user: CreateUserDto): Promise<UserDto | null> {
+    const createdUser = await User.create(user);
+    return {
+      ...createdUser.toObject(),
+      id: createdUser._id.toString(),
+    };
+  },
+  async findByEmailVerificationCode(code: string): Promise<UserDto | null> {
+    const user = await User.findOne({ emailVerificationCode: code }).lean();
+
+    if (!user) return null;
+
+    return {
+      ...user,
+      id: user._id.toString(),
+    };
   },
   async findByEmailOrUsername({
     email,
@@ -22,13 +27,17 @@ export const userRepository = {
   }: {
     email: string;
     username?: string;
-  }) {
-    const query: FilterQuery<UserModel>[] = [{ email }];
-    if (username) query.push({ username });
+  }): Promise<UserDto | null> {
+    const user = await User.findOne({ $or: [{ email }, { username }] }).lean();
 
-    return User.findOne({ $or: query });
+    if (!user) return null;
+
+    return {
+      ...user,
+      id: user._id.toString(),
+    };
   },
-  async update(_id: Types.ObjectId, data: Partial<UserModel>) {
-    return User.findOneAndUpdate({ _id }, data, { new: true });
+  async update(id: string, data: Partial<UserDto>): Promise<UserDto | null> {
+    return User.findOneAndUpdate({ _id: id }, data, { new: true });
   },
 };

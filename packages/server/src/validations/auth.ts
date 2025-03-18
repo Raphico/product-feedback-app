@@ -11,4 +11,14 @@ export const signupRequestSchema = z.object({
     .max(100, "Password must be at most 100 characters long"),
 });
 
-export type SignupRequestSchema = z.infer<typeof signupRequestSchema>;
+export const verifyEmailRequestSchema = z.object({
+  code: z.string().length(6, {
+    message: "Verification code must be exactly 6 characters long",
+  }),
+});
+
+export const verifyEmailResponseSchema = z.object({
+  id: userSchema.shape.id,
+  email: userSchema.shape.email,
+  isEmailVerified: userSchema.shape.isEmailVerified,
+});

@@ -1,40 +1,35 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { generateVerificationToken } from "../../../../utils/security.js";
+import { hashPassword, generateHash } from "../../../../utils/security.js";
 import { userRepository } from "../../../../repositories/user.js";
-import { passwordResetUseCase } from "../../../../use-cases/password-reset.js";
+import { genericResponseSchema } from "../../../../validations/common.js";
 import {
-  emailRequestSchema,
-  emailResponseSchema,
+  passwordResetParamsSchema,
+  passwordResetRequestSchema,
 } from "../../../../validations/auth.js";
+import { passwordResetUseCase } from "../../../../use-cases/password-reset.js";
 
 const passwordResetRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
-    url: "/password-reset",
-    config: {
-      rateLimit: {
-        max: app.config.rateLimitIntensiveMax,
-      },
-    },
+    url: "/password-reset/:token",
     schema: {
-      body: emailRequestSchema,
+      params: passwordResetParamsSchema,
+      body: passwordResetRequestSchema,
       response: {
-        200: emailResponseSchema,
+        200: genericResponseSchema,
       },
     },
     async handler(request, reply) {
       const result = await passwordResetUseCase(
         {
-          generateVerificationToken,
-          sendPasswordResetLink: app.mailService.sendPasswordResetLink.bind(
-            app.mailService,
-          ),
+          generateHash,
+          hashPassword,
           db: userRepository,
         },
         {
           ...request.body,
-          url: app.config.clientForgotPasswordRedirectUrl,
+          token: request.params.token,
         },
       );
       return reply.code(200).send(result);

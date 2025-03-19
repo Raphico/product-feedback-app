@@ -3,10 +3,8 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { generateVerificationCode } from "../../../../utils/security.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { resendVerificationUseCase } from "../../../../use-cases/resend-verification.js";
-import {
-  emailRequestSchema,
-  emailResponseSchema,
-} from "../../../../validations/auth.js";
+import { emailRequestSchema } from "../../../../validations/auth.js";
+import { genericResponseSchema } from "../../../../validations/common.js";
 
 const resendVerificationRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -20,7 +18,7 @@ const resendVerificationRoute: FastifyPluginAsync = async (app) => {
     schema: {
       body: emailRequestSchema,
       response: {
-        202: emailResponseSchema,
+        202: genericResponseSchema,
       },
     },
     async handler(request, reply) {

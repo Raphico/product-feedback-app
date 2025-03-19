@@ -30,3 +30,8 @@ export type VerifyEmailResponseDto = {
 export type EmailRequestDto = {
   email: string;
 };
+
+export type PasswordResetRequestDto = {
+  token: string;
+  password: string;
+};

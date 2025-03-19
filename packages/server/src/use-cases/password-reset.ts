@@ -1,61 +1,44 @@
-import type { EmailRequestDto } from "../dtos/auth.js";
-import type { GenericResponseDto } from "../dtos/common.js";
-import type { UserRepository } from "../repositories/user.js";
+import { PasswordResetRequestDto } from "../dtos/auth.js";
+import { GenericResponseDto } from "../dtos/common.js";
+import { UserRepository } from "../repositories/user.js";
 import { ApiError } from "../utils/error.js";
 
 type PasswordResetUseCaseContext = {
   db: UserRepository;
-  generateVerificationToken: () => {
-    unHashedToken: string;
-    hashedToken: string;
-    expiresAt: Date;
-  };
-  sendPasswordResetLink: ({
-    username,
-    to,
-    passwordResetUrl,
-  }: {
-    username: string;
-    to: string;
-    passwordResetUrl: string;
-  }) => Promise<void>;
+  generateHash: (value: string) => string;
+  hashPassword: (password: string) => Promise<string>;
 };
 
 export async function passwordResetUseCase(
   context: PasswordResetUseCaseContext,
-  data: EmailRequestDto & { url: string },
+  data: PasswordResetRequestDto,
 ): Promise<GenericResponseDto> {
-  const { email, url } = data;
-  const { db, sendPasswordResetLink, generateVerificationToken } = context;
+  const { token, password } = data;
+  const { db, generateHash, hashPassword } = context;
 
-  const user = await db.findByEmailOrUsername({ email });
+  const hashedToken = generateHash(token);
+  const user = await db.findByField("passwordResetToken", hashedToken);
   if (!user) {
-    // Avoid revealing user existence for security reasons
-    return {
-      message:
-        "If your email is in our records, a password reset link will be sent shortly",
-    };
+    throw new ApiError(400, "Invalid token");
   }
 
-  const { unHashedToken, hashedToken, expiresAt } = generateVerificationToken();
-
-  const updatedUser = await db.update(user.id, {
-    passwordResetToken: hashedToken,
-    passwordResetExpiry: expiresAt,
-  });
-
-  if (!updatedUser) {
-    throw new ApiError(500, "Something went wrong. Please try again later");
+  if (!user.passwordResetExpiry) {
+    throw new ApiError(500, "Internal Server Error");
   }
 
-  await sendPasswordResetLink({
-    username: user.username,
-    to: user.email,
-    passwordResetUrl: `${url}/${unHashedToken}`,
+  if (Date.now() > user.passwordResetExpiry.getTime()) {
+    throw new ApiError(400, "Token has expired");
+  }
+
+  const hashedPassword = await hashPassword(password);
+
+  await db.update(user.id, {
+    password: hashedPassword,
+    passwordResetToken: null,
+    passwordResetExpiry: null,
   });
 
   return {
-    message:
-      "If your email is in our records, a password reset link will be sent shortly",
+    message: "Password reset successful",
   };
 }

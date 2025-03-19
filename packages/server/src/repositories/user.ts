@@ -11,6 +11,19 @@ export const userRepository = {
       id: createdUser._id.toString(),
     };
   },
+  async findByField<K extends keyof UserDto>(
+    field: K,
+    value: UserDto[K],
+  ): Promise<UserDto | null> {
+    const user = await User.findOne({ [field]: value }).lean();
+
+    if (!user) return null;
+
+    return {
+      ...user,
+      id: user._id.toString(),
+    };
+  },
   async findByEmailVerificationCode(code: string): Promise<UserDto | null> {
     const user = await User.findOne({ emailVerificationCode: code }).lean();
 

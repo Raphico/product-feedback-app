@@ -27,6 +27,10 @@ export const emailRequestSchema = z.object({
   email: userSchema.shape.email,
 });
 
-export const emailResponseSchema = z.object({
-  message: z.string(),
+export const passwordResetParamsSchema = z.object({
+  token: z.string(),
+});
+
+export const passwordResetRequestSchema = z.object({
+  password: signupRequestSchema.shape.password,
 });

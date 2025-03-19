@@ -5,13 +5,13 @@ import type {
 import type { UserRepository } from "../repositories/user.js";
 import { ApiError } from "../utils/error.js";
 
-type VerifyEmailUseCaseContext = {
+type verificationUseCaseContext = {
   db: UserRepository;
   generateHash: (value: string) => string;
 };
 
-export async function verifyEmailUseCase(
-  context: VerifyEmailUseCaseContext,
+export async function verificationUseCase(
+  context: verificationUseCaseContext,
   data: VerifyEmailRequestDto,
 ): Promise<VerifyEmailResponseDto> {
   const { db, generateHash } = context;
@@ -38,7 +38,7 @@ export async function verifyEmailUseCase(
   });
 
   if (!updatedUser) {
-    throw new ApiError(500, "Failed to update user verification status");
+    throw new ApiError(500, "Something went wrong. Please try again later");
   }
 
   return {

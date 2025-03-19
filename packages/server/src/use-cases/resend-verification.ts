@@ -1,9 +1,9 @@
-import type { ResendEmailVerificationRequestDto } from "../dtos/auth.js";
-import type { GenericSuccessResponseDto } from "../dtos/common.js";
+import type { EmailRequestDto } from "../dtos/auth.js";
+import type { GenericResponseDto } from "../dtos/common.js";
 import type { UserRepository } from "../repositories/user.js";
 import { ApiError } from "../utils/error.js";
 
-type ResendEmailVerificationUseCaseContext = {
+type ResendVerificationUseCaseContext = {
   db: UserRepository;
   generateVerificationCode: () => {
     unHashedCode: string;
@@ -21,20 +21,20 @@ type ResendEmailVerificationUseCaseContext = {
   }) => Promise<void>;
 };
 
-export async function resendEmailVerificationUseCase(
-  context: ResendEmailVerificationUseCaseContext,
-  data: ResendEmailVerificationRequestDto,
-): Promise<GenericSuccessResponseDto> {
+export async function resendVerificationUseCase(
+  context: ResendVerificationUseCaseContext,
+  data: EmailRequestDto,
+): Promise<GenericResponseDto> {
   const { email } = data;
   const { db, generateVerificationCode, sendEmailVerificationCode } = context;
 
-  // Avoid revealing user existence for security reasons
   const user = await db.findByEmailOrUsername({ email });
   if (!user) {
-    throw new ApiError(
-      202,
-      "If the email exists in our records, you will receive a verification code",
-    );
+    // Avoid revealing user existence for security reasons
+    return {
+      message:
+        "If the email exists in our records, you will receive a verification code shortly.",
+    };
   }
 
   if (user.isEmailVerified) {

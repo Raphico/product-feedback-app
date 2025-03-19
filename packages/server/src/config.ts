@@ -90,6 +90,10 @@ const configSchema = z.object({
     .email()
     .describe("Email address used to send outgoing emails"),
   clientUrl: z.string().url().describe("The base URL of the frontend client"),
+  clientForgotPasswordRedirectUrl: z
+    .string()
+    .url()
+    .describe("Frontend URL for the password reset page"),
   productName: z.string().describe("The application name"),
 });
 
@@ -117,6 +121,8 @@ export const config = (() => {
     smtpPass: process.env.SMTP_PASSWORD,
     senderEmailAddress: process.env.SENDER_EMAIL_ADDRESS,
     clientUrl: process.env.CLIENT_URL,
+    clientForgotPasswordRedirectUrl:
+      process.env.CLIENT_FORGOT_PASSWORD_REDIRECT_URL,
     productName: "Feedback App",
   });
 })();

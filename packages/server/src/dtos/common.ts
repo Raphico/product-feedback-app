@@ -1,3 +1,3 @@
-export type GenericSuccessResponseDto = {
+export type GenericResponseDto = {
   message: string;
 };

@@ -4,11 +4,11 @@ import {
   verifyEmailRequestSchema,
   verifyEmailResponseSchema,
 } from "../../../../validations/auth.js";
-import { verifyEmailUseCase } from "../../../../use-cases/verify-email.js";
+import { verificationUseCase } from "../../../../use-cases/verification.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { generateHash } from "../../../../utils/security.js";
 
-const verifyEmailRoute: FastifyPluginAsync = async (app) => {
+const verificationRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
     url: "/verification",
@@ -19,7 +19,7 @@ const verifyEmailRoute: FastifyPluginAsync = async (app) => {
       },
     },
     async handler(request, reply) {
-      const result = await verifyEmailUseCase(
+      const result = await verificationUseCase(
         {
           db: userRepository,
           generateHash,
@@ -32,4 +32,4 @@ const verifyEmailRoute: FastifyPluginAsync = async (app) => {
   });
 };
 
-export default verifyEmailRoute;
+export default verificationRoute;

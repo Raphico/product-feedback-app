@@ -3,6 +3,7 @@ import nodemailer, { type Transporter } from "nodemailer";
 import type { Config } from "../config.js";
 import type { Logger } from "pino";
 import { emailVerificationTemplate } from "../templates/email-verification.js";
+import { passwordResetTemplate } from "../templates/password-reset.js";
 
 export class MailService {
   private mailGenerator: Mailgen;
@@ -77,6 +78,25 @@ export class MailService {
         emailVerificationTemplate(username, emailVerificationCode),
       );
       await this.sendMail({ to, subject: "Email Verification", text, html });
+    } catch (error) {
+      this.logger.error("Email service failed silently", error);
+    }
+  }
+
+  async sendPasswordResetLink({
+    username,
+    passwordResetUrl,
+    to,
+  }: {
+    username: string;
+    passwordResetUrl: string;
+    to: string;
+  }) {
+    try {
+      const { html, text } = this.generateEmail(
+        passwordResetTemplate(username, passwordResetUrl),
+      );
+      await this.sendMail({ to, subject: "Reset Password", text, html });
     } catch (error) {
       this.logger.error("Email service failed silently", error);
     }

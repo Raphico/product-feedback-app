@@ -17,6 +17,16 @@ export type SignupResponseDto = {
   role: Roles;
 };
 
+export type LoginRequestDto = {
+  email: string;
+  password: string;
+};
+
+export type LoginResponseDto = {
+  accessToken: string;
+  refreshToken: string;
+} & SignupResponseDto;
+
 export type VerifyEmailRequestDto = {
   code: string;
 };

@@ -94,6 +94,20 @@ const configSchema = z.object({
     .string()
     .url()
     .describe("Frontend URL for the password reset page"),
+  accessTokenSecret: z
+    .string()
+    .describe("Secret key used for signing access tokens"),
+  accessTokenExpiry: z
+    .number({ coerce: true })
+    .transform((value) => value / 1000)
+    .describe("Expiration duration for access tokens in seconds"),
+  refreshTokenSecret: z
+    .string()
+    .describe("Secret key used for signing refresh tokens"),
+  refreshTokenExpiry: z
+    .number({ coerce: true })
+    .transform((value) => value / 1000)
+    .describe("Expiration duration for refresh tokens in seconds"),
   productName: z.string().describe("The application name"),
 });
 
@@ -123,6 +137,10 @@ export const config = (() => {
     clientUrl: process.env.CLIENT_URL,
     clientForgotPasswordRedirectUrl:
       process.env.CLIENT_FORGOT_PASSWORD_REDIRECT_URL,
+    accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+    accessTokenExpiry: parseDuration(process.env.ACCESS_TOKEN_EXPIRY),
+    refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
+    refreshTokenExpiry: parseDuration(process.env.REFRESH_TOKEN_EXPIRY),
     productName: "Feedback App",
   });
 })();

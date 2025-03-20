@@ -24,16 +24,6 @@ export const userRepository = {
       id: user._id.toString(),
     };
   },
-  async findByEmailVerificationCode(code: string): Promise<UserDto | null> {
-    const user = await User.findOne({ emailVerificationCode: code }).lean();
-
-    if (!user) return null;
-
-    return {
-      ...user,
-      id: user._id.toString(),
-    };
-  },
   async findByEmailOrUsername({
     email,
     username,

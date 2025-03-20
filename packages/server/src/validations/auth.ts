@@ -17,6 +17,11 @@ export const verifyEmailRequestSchema = z.object({
   }),
 });
 
+export const loginRequestSchema = z.object({
+  email: userSchema.shape.email,
+  password: signupRequestSchema.shape.password,
+});
+
 export const verifyEmailResponseSchema = z.object({
   id: userSchema.shape.id,
   email: userSchema.shape.email,

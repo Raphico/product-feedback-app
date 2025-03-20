@@ -1,9 +1,17 @@
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import crypto from "node:crypto";
-import { config } from "../config.js";
+import { config, type Roles } from "../config.js";
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
+}
+
+export async function comparePassword(
+  password: string,
+  hashedPassword: string,
+): Promise<boolean> {
+  return bcrypt.compare(password, hashedPassword);
 }
 
 export function generateHash(value: string) {
@@ -27,4 +35,21 @@ export function generateVerificationToken() {
     hashedToken,
     expiresAt,
   };
+}
+
+export function generateAccessToken(payload: {
+  id: string;
+  email: string;
+  username: string;
+  role: Roles;
+}): string {
+  return jwt.sign(payload, config.accessTokenSecret, {
+    expiresIn: config.accessTokenExpiry,
+  });
+}
+
+export function generateRefreshToken(payload: { id: string }): string {
+  return jwt.sign(payload, config.refreshTokenSecret, {
+    expiresIn: config.refreshTokenExpiry,
+  });
 }

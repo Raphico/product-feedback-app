@@ -19,14 +19,15 @@ type RequestPasswordResetUseCaseContext = {
     to: string;
     passwordResetUrl: string;
   }) => Promise<void>;
+  url: string;
 };
 
 export async function requestPasswordResetUseCase(
   context: RequestPasswordResetUseCaseContext,
-  data: EmailRequestDto & { url: string },
+  data: EmailRequestDto,
 ): Promise<GenericResponseDto> {
-  const { email, url } = data;
-  const { db, sendPasswordResetLink, generateVerificationToken } = context;
+  const { email } = data;
+  const { db, sendPasswordResetLink, generateVerificationToken, url } = context;
 
   const user = await db.findByEmailOrUsername({ email });
   if (!user) {

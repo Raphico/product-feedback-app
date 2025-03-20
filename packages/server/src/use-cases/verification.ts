@@ -18,7 +18,7 @@ export async function verificationUseCase(
   const { code } = data;
 
   const hashedCode = generateHash(code);
-  const user = await db.findByEmailVerificationCode(hashedCode);
+  const user = await db.findByField("emailVerificationCode", hashedCode);
   if (!user) {
     throw new ApiError(400, "Invalid verification code");
   }

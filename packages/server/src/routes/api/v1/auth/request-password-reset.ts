@@ -29,11 +29,9 @@ const requestPasswordResetRoute: FastifyPluginAsync = async (app) => {
             app.mailService,
           ),
           db: userRepository,
-        },
-        {
-          ...request.body,
           url: app.config.clientForgotPasswordRedirectUrl,
         },
+        request.body,
       );
       return reply.code(200).send(result);
     },

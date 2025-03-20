@@ -3,6 +3,7 @@ import compress from "@fastify/compress";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import cors from "@fastify/cors";
+import cookie from "@fastify/cookie";
 import { randomUUID } from "node:crypto";
 import type { Config } from "./config.js";
 import type { Logger } from "pino";
@@ -52,6 +53,8 @@ export async function initApp(config: Config, deps: Deps) {
     max: config.rateLimitMax,
     timeWindow: config.rateLimitTimeWindow,
   });
+
+  app.register(cookie);
 
   app.decorate("mailService", mailService);
   app.decorate("config", config);

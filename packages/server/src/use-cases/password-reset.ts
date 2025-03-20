@@ -1,6 +1,6 @@
-import { PasswordResetRequestDto } from "../dtos/auth.js";
-import { GenericResponseDto } from "../dtos/common.js";
-import { UserRepository } from "../repositories/user.js";
+import type { PasswordResetRequestDto } from "../dtos/auth.js";
+import type { GenericResponseDto } from "../dtos/common.js";
+import type { UserRepository } from "../repositories/user.js";
 import { ApiError } from "../utils/error.js";
 
 type PasswordResetUseCaseContext = {

@@ -11,9 +11,19 @@ export const userRepository = {
       id: createdUser._id.toString(),
     };
   },
-  async findByField<K extends keyof UserDto>(
+  async findById(id: string): Promise<UserDto | null> {
+    const user = await User.findOne({ _id: id }).lean();
+
+    if (!user) return null;
+
+    return {
+      ...user,
+      id: user._id.toString(),
+    };
+  },
+  async findByField<K extends keyof Omit<UserDto, "id">>(
     field: K,
-    value: UserDto[K],
+    value: Omit<UserDto, "id">[K],
   ): Promise<UserDto | null> {
     const user = await User.findOne({ [field]: value }).lean();
 

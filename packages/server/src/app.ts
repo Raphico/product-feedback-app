@@ -5,7 +5,7 @@ import rateLimit from "@fastify/rate-limit";
 import cors from "@fastify/cors";
 import cookie from "@fastify/cookie";
 import { randomUUID } from "node:crypto";
-import type { Config } from "./config.js";
+import type { Config, Roles } from "./config.js";
 import type { Logger } from "pino";
 import {
   serializerCompiler,
@@ -22,10 +22,21 @@ type Deps = {
   mailService: MailService;
 };
 
+export interface UserPayload {
+  id: string;
+  username: string;
+  email: string;
+  role: Roles;
+}
+
 declare module "fastify" {
   interface FastifyInstance {
     mailService: MailService;
     config: Config;
+  }
+
+  interface FastifyRequest {
+    user?: UserPayload;
   }
 }
 
@@ -61,6 +72,8 @@ export async function initApp(config: Config, deps: Deps) {
 
   app.register(autoLoad, {
     dir: join(__dirname, "routes"),
+    autoHooks: true,
+    cascadeHooks: true,
   });
 
   await app.after();

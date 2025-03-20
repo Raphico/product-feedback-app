@@ -53,3 +53,7 @@ export function generateRefreshToken(payload: { id: string }): string {
     expiresIn: config.refreshTokenExpiry,
   });
 }
+
+export function verifyToken(token: string, secret: string) {
+  return jwt.verify(token, secret);
+}

@@ -41,8 +41,13 @@ export async function loginUseCase(
     throw new ApiError(403, "Please, verify your email to login");
   }
 
-  const accessToken = generateAccessToken(user);
-  const refreshToken = generateRefreshToken(user);
+  const accessToken = generateAccessToken({
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    username: user.username,
+  });
+  const refreshToken = generateRefreshToken({ id: user.id });
 
   return {
     id: user.id,

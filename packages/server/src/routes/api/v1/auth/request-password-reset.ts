@@ -16,6 +16,10 @@ const requestPasswordResetRoute: FastifyPluginAsync = async (app) => {
       },
     },
     schema: {
+      description:
+        "Initiates a password reset request by sending a verification email to the user.",
+      summary: "Request Password Reset",
+      tags: ["Auth"],
       body: emailRequestSchema,
       response: {
         200: genericResponseSchema,

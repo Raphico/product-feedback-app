@@ -13,6 +13,10 @@ const refreshRoute: FastifyPluginAsync = async (app) => {
     method: "POST",
     url: "/refresh",
     schema: {
+      description:
+        "Refreshes the user's access token using a valid refresh token stored in cookies.",
+      summary: "Refresh Access Token",
+      tags: ["Auth"],
       response: {
         200: genericResponseSchema,
         404: genericResponseSchema,

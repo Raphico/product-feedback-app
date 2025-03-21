@@ -15,6 +15,10 @@ const verificationRoute: FastifyPluginAsync = async (app) => {
     method: "POST",
     url: "/verification",
     schema: {
+      description:
+        "Verifies a user's email using a one-time verification code.",
+      summary: "Verify Email",
+      tags: ["Auth"],
       body: verifyEmailRequestSchema,
       response: {
         200: verifyEmailResponseSchema,

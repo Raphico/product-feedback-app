@@ -117,6 +117,13 @@ const configSchema = z.object({
     .number({ coerce: true })
     .transform((value) => value / 1000)
     .describe("Expiration duration for refresh tokens in seconds"),
+  serviceName: z.string().default("Feedback App API").describe("The API name"),
+  serviceDescription: z
+    .string()
+    .default("The API for the product feedback app")
+    .describe("Service description"),
+  serviceVersion: z.string().default("1.0.0").describe("API version"),
+  swaggerUIPath: z.string().default("/api/docs").describe("Swagger UI path"),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -149,5 +156,9 @@ export const config = (() => {
     accessTokenExpiry: parseDuration(process.env.ACCESS_TOKEN_EXPIRY),
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
     refreshTokenExpiry: parseDuration(process.env.REFRESH_TOKEN_EXPIRY),
+    serviceName: process.env.SERVICE_NAME,
+    serviceDescription: process.env.SERVICE_DESCRIPTION,
+    serviceVersion: process.env.SERVICE_VERSION,
+    swaggerUIPath: process.env.SWAGGER_UI_PATH,
   });
 })();

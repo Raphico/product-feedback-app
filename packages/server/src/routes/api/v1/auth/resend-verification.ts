@@ -17,6 +17,10 @@ const resendVerificationRoute: FastifyPluginAsync = async (app) => {
       },
     },
     schema: {
+      description:
+        "Resend the email verification code to the user if they haven't verified their email yet.",
+      summary: "Resend Email Verification",
+      tags: ["Auth"],
       body: emailRequestSchema,
       response: {
         202: genericResponseSchema,

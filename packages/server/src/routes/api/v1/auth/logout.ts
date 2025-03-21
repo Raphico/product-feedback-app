@@ -8,6 +8,9 @@ const logoutRoute: FastifyPluginAsync = async (app) => {
     method: "POST",
     url: "/logout",
     schema: {
+      description: "Logs out the user by clearing authentication cookies.",
+      summary: "User Logout",
+      tags: ["Auth"],
       response: {
         200: genericResponseSchema,
       },

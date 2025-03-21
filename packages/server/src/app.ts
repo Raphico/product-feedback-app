@@ -3,11 +3,14 @@ import compress from "@fastify/compress";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
 import cors from "@fastify/cors";
-import cookie from "@fastify/cookie";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUI from "@fastify/swagger-ui";
+import fastifyCookie from "@fastify/cookie";
 import { randomUUID } from "node:crypto";
 import type { Config, Roles } from "./config.js";
 import type { Logger } from "pino";
 import {
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
 } from "fastify-type-provider-zod";
@@ -54,17 +57,29 @@ export async function initApp(config: Config, deps: Deps) {
   app.setSerializerCompiler(serializerCompiler);
 
   app.register(helmet);
+  app.register(fastifyCookie);
+  app.register(compress);
+  app.register(fastifySwagger, {
+    openapi: {
+      info: {
+        title: config.serviceName,
+        description: config.serviceDescription,
+        version: config.serviceVersion,
+      },
+    },
+    transform: jsonSchemaTransform,
+  });
+  app.register(fastifySwaggerUI, {
+    routePrefix: config.swaggerUIPath,
+  });
   app.register(cors, {
     methods: config.corsMethods,
     origin: config.corsOrigin,
   });
-  app.register(compress);
   app.register(rateLimit, {
     max: config.rateLimitMax,
     timeWindow: config.rateLimitTimeWindow,
   });
-
-  app.register(cookie);
 
   app.decorate("mailService", mailService);
   app.decorate("config", config);

@@ -21,6 +21,9 @@ const loginRoute: FastifyPluginAsync = async (app) => {
     method: "POST",
     url: "/login",
     schema: {
+      description: "Authenticates a user and returns access & refresh tokens.",
+      summary: "User Login",
+      tags: ["Auth"],
       body: loginRequestSchema,
       response: {
         200: userSchema,

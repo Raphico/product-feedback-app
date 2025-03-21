@@ -18,6 +18,9 @@ const passwordResetRoute: FastifyPluginAsync = async (app) => {
     method: "POST",
     url: "/password-reset/:token",
     schema: {
+      description: "Allows a user to reset their password using a reset token.",
+      summary: "Password Reset",
+      tags: ["Auth"],
       params: passwordResetParamsSchema,
       body: passwordResetRequestSchema,
       response: {

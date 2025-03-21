@@ -21,6 +21,10 @@ const signupRoute: FastifyPluginAsync = async (app) => {
       },
     },
     schema: {
+      description:
+        "Creates a new user account. Sends an email verification code upon successful signup.",
+      summary: "User Signup",
+      tags: ["Auth"],
       body: signupRequestSchema,
       response: {
         201: userSchema,

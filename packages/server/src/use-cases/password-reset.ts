@@ -1,7 +1,7 @@
 import type { PasswordResetRequestDto } from "../dtos/auth.js";
 import type { GenericResponseDto } from "../dtos/common.js";
+import { ExpiredTokenError, InvalidTokenError } from "../errors/auth.js";
 import type { UserRepository } from "../repositories/user.js";
-import { ApiError } from "../utils/error.js";
 
 type PasswordResetUseCaseContext = {
   db: UserRepository;
@@ -17,17 +17,13 @@ export async function passwordResetUseCase(
   const { db, generateHash, hashPassword } = context;
 
   const hashedToken = generateHash(token);
-  const user = await db.findByField("passwordResetToken", hashedToken);
-  if (!user) {
-    throw new ApiError(400, "Invalid token");
-  }
-
-  if (!user.passwordResetExpiry) {
-    throw new ApiError(500, "Internal Server Error");
+  const user = await db.findOne({ passwordResetToken: hashedToken });
+  if (!user || !user.passwordResetExpiry) {
+    throw new InvalidTokenError();
   }
 
   if (Date.now() > user.passwordResetExpiry.getTime()) {
-    throw new ApiError(400, "Token has expired");
+    throw new ExpiredTokenError();
   }
 
   const hashedPassword = await hashPassword(password);

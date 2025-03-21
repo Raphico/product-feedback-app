@@ -8,6 +8,10 @@ import {
   passwordResetRequestSchema,
 } from "../../../../validations/auth.js";
 import { passwordResetUseCase } from "../../../../use-cases/password-reset.js";
+import {
+  ExpiredTokenError,
+  InvalidTokenError,
+} from "../../../../errors/auth.js";
 
 const passwordResetRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -18,21 +22,35 @@ const passwordResetRoute: FastifyPluginAsync = async (app) => {
       body: passwordResetRequestSchema,
       response: {
         200: genericResponseSchema,
+        400: genericResponseSchema,
       },
     },
     async handler(request, reply) {
-      const result = await passwordResetUseCase(
-        {
-          generateHash,
-          hashPassword,
-          db: userRepository,
-        },
-        {
-          ...request.body,
-          token: request.params.token,
-        },
-      );
-      return reply.code(200).send(result);
+      try {
+        const result = await passwordResetUseCase(
+          {
+            generateHash,
+            hashPassword,
+            db: userRepository,
+          },
+          {
+            ...request.body,
+            token: request.params.token,
+          },
+        );
+        return reply.code(200).send(result);
+      } catch (error) {
+        if (
+          error instanceof InvalidTokenError ||
+          error instanceof ExpiredTokenError
+        ) {
+          return reply.code(400).send({
+            message: error.message,
+          });
+        }
+
+        throw error;
+      }
     },
   });
 };

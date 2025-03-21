@@ -16,7 +16,7 @@ export class MailService {
     this.mailGenerator = new Mailgen({
       theme: "default",
       product: {
-        name: config.productName,
+        name: "Feedback App",
         link: config.clientUrl,
       },
     });

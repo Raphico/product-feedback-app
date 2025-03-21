@@ -12,7 +12,6 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod";
 import type { MailService } from "./services/mail.js";
-import { ApiError } from "./utils/error.js";
 import autoLoad from "@fastify/autoload";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -36,7 +35,7 @@ declare module "fastify" {
   }
 
   interface FastifyRequest {
-    user?: UserPayload;
+    user: UserPayload;
   }
 }
 
@@ -87,14 +86,8 @@ export async function initApp(config: Config, deps: Deps) {
   app.setErrorHandler(function (error, _, reply) {
     this.log.error(error);
 
-    if (error instanceof ApiError) {
-      return reply.code(error.status).send({
-        message: error.message,
-      });
-    }
-
-    return reply.code(500).send({
-      message: "Something went wrong. Please try again later",
+    return reply.code(error?.statusCode ?? 500).send({
+      message: error.message,
     });
   });
 

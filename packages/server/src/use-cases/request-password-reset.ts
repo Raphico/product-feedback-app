@@ -1,7 +1,6 @@
 import type { EmailRequestDto } from "../dtos/auth.js";
 import type { GenericResponseDto } from "../dtos/common.js";
 import type { UserRepository } from "../repositories/user.js";
-import { ApiError } from "../utils/error.js";
 
 type RequestPasswordResetUseCaseContext = {
   db: UserRepository;
@@ -29,7 +28,7 @@ export async function requestPasswordResetUseCase(
   const { email } = data;
   const { db, sendPasswordResetLink, generateVerificationToken, url } = context;
 
-  const user = await db.findByEmailOrUsername({ email });
+  const user = await db.findOne({ email });
   if (!user) {
     // Avoid revealing user existence for security reasons
     return {
@@ -40,14 +39,10 @@ export async function requestPasswordResetUseCase(
 
   const { unHashedToken, hashedToken, expiresAt } = generateVerificationToken();
 
-  const updatedUser = await db.update(user.id, {
+  await db.update(user.id, {
     passwordResetToken: hashedToken,
     passwordResetExpiry: expiresAt,
   });
-
-  if (!updatedUser) {
-    throw new ApiError(500, "Something went wrong. Please try again later");
-  }
 
   await sendPasswordResetLink({
     username: user.username,

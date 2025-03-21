@@ -9,9 +9,14 @@ import {
 } from "../../../../utils/security.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { loginUseCase } from "../../../../use-cases/login.js";
-import { Env } from "../../../../config.js";
+import { getCookieOptions } from "../../../../config.js";
+import {
+  InvalidCredentialsError,
+  UnverifiedEmailError,
+} from "../../../../errors/auth.js";
+import { genericResponseSchema } from "../../../../validations/common.js";
 
-const signupRoute: FastifyPluginAsync = async (app) => {
+const loginRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
     url: "/login",
@@ -19,40 +24,54 @@ const signupRoute: FastifyPluginAsync = async (app) => {
       body: loginRequestSchema,
       response: {
         200: userSchema,
+        400: genericResponseSchema,
+        403: genericResponseSchema,
       },
     },
     async handler(request, reply) {
-      const result = await loginUseCase(
-        {
-          db: userRepository,
-          comparePassword,
-          generateAccessToken,
-          generateRefreshToken,
-        },
-        request.body,
-      );
+      try {
+        const result = await loginUseCase(
+          {
+            db: userRepository,
+            comparePassword,
+            generateAccessToken,
+            generateRefreshToken,
+          },
+          request.body,
+        );
 
-      const options = {
-        path: "/api",
-        httpOnly: true,
-        secure: app.config.env == Env.Prod,
-      };
+        const options = getCookieOptions(app.config.env);
 
-      return reply
-        .code(200)
-        .setCookie("refreshToken", result.refreshToken, options)
-        .setCookie("accessToken", result.accessToken, options)
-        .send({
-          id: result.id,
-          fullName: result.fullName,
-          email: result.email,
-          username: result.username,
-          avatar: result.avatar,
-          isEmailVerified: result.isEmailVerified,
-          role: result.role,
-        });
+        return reply
+          .code(200)
+          .setCookie("refreshToken", result.refreshToken, options)
+          .setCookie("accessToken", result.accessToken, options)
+          .send({
+            id: result.id,
+            fullName: result.fullName,
+            email: result.email,
+            username: result.username,
+            avatar: result.avatar,
+            isEmailVerified: result.isEmailVerified,
+            role: result.role,
+          });
+      } catch (error) {
+        if (error instanceof InvalidCredentialsError) {
+          return reply.code(400).send({
+            message: error.message,
+          });
+        }
+
+        if (error instanceof UnverifiedEmailError) {
+          return reply.code(403).send({
+            message: error.message,
+          });
+        }
+
+        throw error;
+      }
     },
   });
 };
 
-export default signupRoute;
+export default loginRoute;

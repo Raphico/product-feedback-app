@@ -21,11 +21,8 @@ export const userRepository = {
       id: user._id.toString(),
     };
   },
-  async findByField<K extends keyof Omit<UserDto, "id">>(
-    field: K,
-    value: Omit<UserDto, "id">[K],
-  ): Promise<UserDto | null> {
-    const user = await User.findOne({ [field]: value }).lean();
+  async findOne(filter: Partial<Omit<UserDto, "id">>): Promise<UserDto | null> {
+    const user = await User.findOne(filter).lean();
 
     if (!user) return null;
 

@@ -5,6 +5,7 @@ import { userRepository } from "../../../../repositories/user.js";
 import { resendVerificationUseCase } from "../../../../use-cases/resend-verification.js";
 import { emailRequestSchema } from "../../../../validations/auth.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
+import { ConflictError } from "../../../../errors/common.js";
 
 const resendVerificationRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -19,19 +20,31 @@ const resendVerificationRoute: FastifyPluginAsync = async (app) => {
       body: emailRequestSchema,
       response: {
         202: genericResponseSchema,
+        409: genericResponseSchema,
       },
     },
     async handler(request, reply) {
-      const result = await resendVerificationUseCase(
-        {
-          generateVerificationCode,
-          sendEmailVerificationCode:
-            app.mailService.sendEmailVerificationCode.bind(app.mailService),
-          db: userRepository,
-        },
-        request.body,
-      );
-      return reply.code(202).send(result);
+      try {
+        const result = await resendVerificationUseCase(
+          {
+            generateVerificationCode,
+            sendEmailVerificationCode:
+              app.mailService.sendEmailVerificationCode.bind(app.mailService),
+            db: userRepository,
+          },
+          request.body,
+        );
+
+        return reply.code(202).send(result);
+      } catch (error) {
+        if (error instanceof ConflictError) {
+          return reply.code(409).send({
+            message: error.message,
+          });
+        }
+
+        throw error;
+      }
     },
   });
 };

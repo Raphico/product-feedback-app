@@ -7,6 +7,8 @@ import {
 import { verificationUseCase } from "../../../../use-cases/verification.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { generateHash } from "../../../../utils/security.js";
+import { ExpiredCodeError, InvalidCodeError } from "../../../../errors/auth.js";
+import { genericResponseSchema } from "../../../../validations/common.js";
 
 const verificationRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -16,18 +18,32 @@ const verificationRoute: FastifyPluginAsync = async (app) => {
       body: verifyEmailRequestSchema,
       response: {
         200: verifyEmailResponseSchema,
+        400: genericResponseSchema,
       },
     },
     async handler(request, reply) {
-      const result = await verificationUseCase(
-        {
-          db: userRepository,
-          generateHash,
-        },
-        request.body,
-      );
+      try {
+        const result = await verificationUseCase(
+          {
+            db: userRepository,
+            generateHash,
+          },
+          request.body,
+        );
 
-      reply.code(200).send(result);
+        reply.code(200).send(result);
+      } catch (error) {
+        if (
+          error instanceof InvalidCodeError ||
+          error instanceof ExpiredCodeError
+        ) {
+          return reply.code(400).send({
+            message: error.message,
+          });
+        }
+
+        throw error;
+      }
     },
   });
 };

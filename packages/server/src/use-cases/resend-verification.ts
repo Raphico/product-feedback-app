@@ -1,7 +1,7 @@
 import type { EmailRequestDto } from "../dtos/auth.js";
 import type { GenericResponseDto } from "../dtos/common.js";
+import { ConflictError } from "../errors/common.js";
 import type { UserRepository } from "../repositories/user.js";
-import { ApiError } from "../utils/error.js";
 
 type ResendVerificationUseCaseContext = {
   db: UserRepository;
@@ -28,7 +28,7 @@ export async function resendVerificationUseCase(
   const { email } = data;
   const { db, generateVerificationCode, sendEmailVerificationCode } = context;
 
-  const user = await db.findByEmailOrUsername({ email });
+  const user = await db.findOne({ email });
   if (!user) {
     // Avoid revealing user existence for security reasons
     return {
@@ -38,7 +38,7 @@ export async function resendVerificationUseCase(
   }
 
   if (user.isEmailVerified) {
-    throw new ApiError(409, "Your email is already verified");
+    throw new ConflictError("Your email is already verified");
   }
 
   const { unHashedCode, hashedCode, expiresAt } = generateVerificationCode();

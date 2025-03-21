@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { Env } from "../../../../config.js";
+import { getCookieOptions } from "../../../../config.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
 
 const logoutRoute: FastifyPluginAsync = async (app) => {
@@ -13,11 +13,7 @@ const logoutRoute: FastifyPluginAsync = async (app) => {
       },
     },
     async handler(_, reply) {
-      const options = {
-        path: "/api",
-        httpOnly: true,
-        secure: app.config.env == Env.Prod,
-      };
+      const options = getCookieOptions(app.config.env);
 
       return reply
         .code(200)

@@ -1,6 +1,6 @@
 import type { SignupRequestDto, SignupResponseDto } from "../dtos/auth.js";
+import { ConflictError } from "../errors/common.js";
 import type { UserRepository } from "../repositories/user.js";
-import { ApiError } from "../utils/error.js";
 
 type SignupUseCaseContext = {
   hashPassword: (password: string) => Promise<string>;
@@ -30,7 +30,7 @@ export async function signupUseCase(
 
   const userExists = await db.findByEmailOrUsername({ email, username });
   if (userExists) {
-    throw new ApiError(409, "User already exists");
+    throw new ConflictError("User already exists");
   }
 
   const hashedPassword = await context.hashPassword(password);

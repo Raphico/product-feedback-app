@@ -1,6 +1,7 @@
 import { z } from "zod";
 import parseDuration from "parse-duration";
 import parseBytes from "bytes";
+import type { CookieSerializeOptions } from "@fastify/cookie";
 
 export enum Env {
   Dev = "development",
@@ -24,6 +25,14 @@ function getEnv() {
     default:
       return Env.Dev;
   }
+}
+
+export function getCookieOptions(env: Env): CookieSerializeOptions {
+  return {
+    path: "/",
+    httpOnly: true,
+    secure: env === Env.Prod,
+  };
 }
 
 const logLevels = ["fatal", "error", "warn", "info", "debug", "trace"] as const;
@@ -108,7 +117,6 @@ const configSchema = z.object({
     .number({ coerce: true })
     .transform((value) => value / 1000)
     .describe("Expiration duration for refresh tokens in seconds"),
-  productName: z.string().describe("The application name"),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -141,6 +149,5 @@ export const config = (() => {
     accessTokenExpiry: parseDuration(process.env.ACCESS_TOKEN_EXPIRY),
     refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
     refreshTokenExpiry: parseDuration(process.env.REFRESH_TOKEN_EXPIRY),
-    productName: "Feedback App",
   });
 })();

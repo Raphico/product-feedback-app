@@ -33,6 +33,7 @@ const requestPasswordResetRoute: FastifyPluginAsync = async (app) => {
         },
         request.body,
       );
+
       return reply.code(200).send(result);
     },
   });

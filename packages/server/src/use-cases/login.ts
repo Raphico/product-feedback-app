@@ -1,7 +1,10 @@
 import type { Roles } from "../config.js";
 import type { LoginRequestDto, LoginResponseDto } from "../dtos/auth.js";
+import {
+  InvalidCredentialsError,
+  UnverifiedEmailError,
+} from "../errors/auth.js";
 import type { UserRepository } from "../repositories/user.js";
-import { ApiError } from "../utils/error.js";
 
 type LoginUseCaseContext = {
   db: UserRepository;
@@ -26,19 +29,18 @@ export async function loginUseCase(
   const { db, comparePassword, generateAccessToken, generateRefreshToken } =
     context;
 
-  const user = await db.findByEmailOrUsername({ email });
+  const user = await db.findOne({ email });
   if (!user) {
-    // generic error message to prevent attackers from distinguishing between valid and invalid emails
-    throw new ApiError(400, "Invalid email or password");
+    throw new InvalidCredentialsError();
   }
 
   const passwordMatch = await comparePassword(password, user.password);
   if (!passwordMatch) {
-    throw new ApiError(400, "Invalid email or password");
+    throw new InvalidCredentialsError();
   }
 
   if (!user.isEmailVerified) {
-    throw new ApiError(403, "Please, verify your email to login");
+    throw new UnverifiedEmailError();
   }
 
   const accessToken = generateAccessToken({

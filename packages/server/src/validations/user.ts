@@ -22,7 +22,6 @@ export const userSchema = z.object({
       "Username can only contain letters, numbers, and underscores",
     ),
   email: z.string().email("Invalid email format").toLowerCase(),
-  isEmailVerified: z.boolean(),
   avatar: z.string().url("Invalid avatar").nullable(),
   role: z.nativeEnum(Roles),
 });

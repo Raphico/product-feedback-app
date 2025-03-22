@@ -59,7 +59,6 @@ export async function signupUseCase(
     email: user.email,
     username: user.username,
     avatar: user.avatar,
-    isEmailVerified: user.isEmailVerified,
     role: user.role,
   };
 }

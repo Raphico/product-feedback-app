@@ -55,7 +55,6 @@ const loginRoute: FastifyPluginAsync = async (app) => {
             email: result.email,
             username: result.username,
             avatar: result.avatar,
-            isEmailVerified: result.isEmailVerified,
             role: result.role,
           });
       } catch (error) {

@@ -13,7 +13,6 @@ export type SignupResponseDto = {
   username: string;
   email: string;
   avatar: string | null;
-  isEmailVerified: boolean;
   role: Roles;
 };
 

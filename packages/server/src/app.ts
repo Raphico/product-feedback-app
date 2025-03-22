@@ -7,7 +7,7 @@ import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
 import fastifyCookie from "@fastify/cookie";
 import { randomUUID } from "node:crypto";
-import type { Config, Roles } from "./config.js";
+import type { Config } from "./config.js";
 import type { Logger } from "pino";
 import {
   jsonSchemaTransform,
@@ -26,9 +26,6 @@ type Deps = {
 
 export interface UserPayload {
   id: string;
-  username: string;
-  email: string;
-  role: Roles;
 }
 
 declare module "fastify" {
@@ -87,6 +84,7 @@ export async function initApp(config: Config, deps: Deps) {
   app.register(autoLoad, {
     dir: join(__dirname, "routes"),
     autoHooks: true,
+    routeParams: true,
     cascadeHooks: true,
   });
 

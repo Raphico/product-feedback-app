@@ -9,3 +9,9 @@ export class NotFoundError extends Error {
     super(message);
   }
 }
+
+export class ForbiddenError extends Error {
+  constructor() {
+    super("You don't have the necessary permissions");
+  }
+}

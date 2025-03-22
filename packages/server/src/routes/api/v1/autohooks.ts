@@ -1,6 +1,5 @@
 import type { FastifyInstance } from "fastify";
 import { verifyToken } from "../../../utils/security.js";
-import type { UserPayload } from "../../../app.js";
 
 export default async function (app: FastifyInstance) {
   app.addHook("onRequest", async (request, reply) => {
@@ -19,23 +18,13 @@ export default async function (app: FastifyInstance) {
     try {
       const decoded = verifyToken(token, app.config.accessTokenSecret);
 
-      if (
-        !decoded ||
-        typeof decoded !== "object" ||
-        !decoded.id ||
-        !decoded.username ||
-        !decoded.email ||
-        !decoded.role
-      ) {
+      if (!decoded || typeof decoded !== "object" || !decoded.id) {
         return reply.code(401).send({ message: "Invalid token" });
       }
 
       request.user = {
         id: decoded.id,
-        username: decoded.username,
-        email: decoded.email,
-        role: decoded.role,
-      } as UserPayload;
+      };
     } catch (error) {
       app.log.error("JWT Verification Error:", error);
       return reply.code(401).send({ message: "Invalid token" });

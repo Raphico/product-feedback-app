@@ -25,3 +25,18 @@ export type CreateUserDto = {
   emailVerificationCode: string;
   emailVerificationExpiry: Date;
 };
+
+export type UpdateUserRoleRequestDto = {
+  targetUserId: string;
+  currentUserId: string;
+  newRole: Roles;
+};
+
+export type UpdateUserResponseDto = {
+  id: string;
+  fullName: string;
+  username: string;
+  email: string;
+  avatar: string | null;
+  role: Roles;
+};

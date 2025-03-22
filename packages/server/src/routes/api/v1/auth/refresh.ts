@@ -40,9 +40,6 @@ const refreshRoute: FastifyPluginAsync = async (app) => {
 
         const accessToken = generateAccessToken({
           id: request.user.id,
-          email: request.user.email,
-          username: request.user.username,
-          role: request.user.role,
         });
         const newRefreshToken = generateRefreshToken({ id: request.user.id });
 

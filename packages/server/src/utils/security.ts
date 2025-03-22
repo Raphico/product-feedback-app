@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import crypto from "node:crypto";
-import { config, type Roles } from "../config.js";
+import { config } from "../config.js";
 
 export async function hashPassword(password: string): Promise<string> {
   return bcrypt.hash(password, 10);
@@ -37,12 +37,7 @@ export function generateVerificationToken() {
   };
 }
 
-export function generateAccessToken(payload: {
-  id: string;
-  email: string;
-  username: string;
-  role: Roles;
-}): string {
+export function generateAccessToken(payload: { id: string }): string {
   return jwt.sign(payload, config.accessTokenSecret, {
     expiresIn: config.accessTokenExpiry,
   });

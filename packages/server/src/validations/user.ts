@@ -41,3 +41,7 @@ export const updateUserSchema = z
       Object.entries(data).filter(([_, value]) => value !== undefined),
     );
   });
+
+export const updateUserRoleSchema = z.object({
+  role: userSchema.shape.role,
+});

@@ -57,7 +57,6 @@ export async function loginUseCase(
     email: user.email,
     username: user.username,
     avatar: user.avatar,
-    isEmailVerified: user.isEmailVerified,
     role: user.role,
     accessToken,
     refreshToken,

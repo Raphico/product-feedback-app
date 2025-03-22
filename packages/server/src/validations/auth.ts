@@ -25,7 +25,7 @@ export const loginRequestSchema = z.object({
 export const verifyEmailResponseSchema = z.object({
   id: userSchema.shape.id,
   email: userSchema.shape.email,
-  isEmailVerified: userSchema.shape.isEmailVerified,
+  isEmailVerified: z.boolean(),
 });
 
 export const emailRequestSchema = z.object({

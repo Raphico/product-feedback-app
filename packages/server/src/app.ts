@@ -5,6 +5,7 @@ import rateLimit from "@fastify/rate-limit";
 import cors from "@fastify/cors";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
+import fastifyMultipart from "@fastify/multipart";
 import fastifyCookie from "@fastify/cookie";
 import { randomUUID } from "node:crypto";
 import type { Config } from "./config.js";
@@ -56,6 +57,7 @@ export async function initApp(config: Config, deps: Deps) {
   app.register(helmet);
   app.register(fastifyCookie);
   app.register(compress);
+  app.register(fastifyMultipart);
   app.register(fastifySwagger, {
     openapi: {
       info: {

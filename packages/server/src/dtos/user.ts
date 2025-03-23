@@ -1,3 +1,4 @@
+import type { MultipartFile } from "@fastify/multipart";
 import type { Roles } from "../config.js";
 
 export type UserDto = {
@@ -30,6 +31,11 @@ export type UpdateUserRoleRequestDto = {
   targetUserId: string;
   currentUserId: string;
   newRole: Roles;
+};
+
+export type UpdateAvatarRequestDto = {
+  avatar: MultipartFile;
+  userId: string;
 };
 
 export type UpdateUserResponseDto = {

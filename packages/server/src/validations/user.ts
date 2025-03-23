@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { Roles } from "../config.js";
+import { validateBufferMIMEType } from "validate-image-type";
 
 export const userSchema = z.object({
   id: z.string(),
@@ -45,3 +46,37 @@ export const updateUserSchema = z
 export const updateUserRoleSchema = z.object({
   role: userSchema.shape.role,
 });
+
+export async function avatarValidator(
+  buffer: Buffer,
+  maxSize: number,
+): Promise<
+  | {
+      ok: false;
+      error: string;
+    }
+  | {
+      ok: true;
+      error?: never;
+    }
+> {
+  if (buffer.byteLength > maxSize) {
+    return { ok: false, error: `File exceeds max size of ${maxSize} bytes` };
+  }
+
+  const mimeValidation = await validateBufferMIMEType(buffer, {
+    allowMimeTypes: [
+      "image/jpeg",
+      "image/png",
+      "image/webp",
+      "image/gif",
+      "image/svg+xml",
+    ],
+  });
+
+  if (mimeValidation.ok) {
+    return { ok: true };
+  }
+
+  return { ok: false, error: "Invalid file type" };
+}

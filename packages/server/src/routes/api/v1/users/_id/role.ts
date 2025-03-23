@@ -17,6 +17,9 @@ const updateUserRoleRoute: FastifyPluginAsync = async (app) => {
     method: "PATCH",
     url: "/role",
     schema: {
+      summary: "Update a user's role",
+      description:
+        "Allows an admin to update the role of a specific user by providing their ID and the new role.",
       tags: ["User"],
       params: idParamsSchema,
       body: updateUserRoleSchema,

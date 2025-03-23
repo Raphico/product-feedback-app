@@ -15,3 +15,9 @@ export class ForbiddenError extends Error {
     super("You don't have the necessary permissions");
   }
 }
+
+export class ValidationError extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}

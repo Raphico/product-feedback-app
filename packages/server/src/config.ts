@@ -124,6 +124,17 @@ const configSchema = z.object({
     .describe("Service description"),
   serviceVersion: z.string().default("1.0.0").describe("API version"),
   swaggerUIPath: z.string().default("/api/docs").describe("Swagger UI path"),
+  cloudinaryCloudName: z
+    .string()
+    .describe("The unique Cloudinary cloud name associated with your account."),
+  cloudinaryApiKey: z
+    .string()
+    .describe("The Cloudinary API key used for authentication and API access."),
+  cloudinarySecret: z
+    .string()
+    .describe(
+      "The Cloudinary API secret key used for secure API authentication.",
+    ),
 });
 
 export type Config = z.infer<typeof configSchema>;
@@ -160,5 +171,8 @@ export const config = (() => {
     serviceDescription: process.env.SERVICE_DESCRIPTION,
     serviceVersion: process.env.SERVICE_VERSION,
     swaggerUIPath: process.env.SWAGGER_UI_PATH,
+    cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME,
+    cloudinaryApiKey: process.env.CLOUDINARY_API_KEY,
+    cloudinarySecret: process.env.CLOUDINARY_SECRET,
   });
 })();

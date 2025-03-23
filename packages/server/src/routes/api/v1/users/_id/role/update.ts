@@ -3,19 +3,22 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import {
   updateUserRoleSchema,
   userSchema,
-} from "../../../../../validations/user.js";
+} from "../../../../../../validations/user.js";
 import {
   genericResponseSchema,
   idParamsSchema,
-} from "../../../../../validations/common.js";
-import { updateUserRoleUseCase } from "../../../../../use-cases/update-user-role.js";
-import { userRepository } from "../../../../../repositories/user.js";
-import { NotFoundError, ForbiddenError } from "../../../../../errors/common.js";
+} from "../../../../../../validations/common.js";
+import { updateUserRoleUseCase } from "../../../../../../use-cases/update-user-role.js";
+import { userRepository } from "../../../../../../repositories/user.js";
+import {
+  NotFoundError,
+  ForbiddenError,
+} from "../../../../../../errors/common.js";
 
 const updateUserRoleRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
-    url: "/role",
+    url: "/",
     schema: {
       summary: "Update a user's role",
       description:

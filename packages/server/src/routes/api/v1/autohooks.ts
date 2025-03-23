@@ -5,7 +5,7 @@ export default async function (app: FastifyInstance) {
   app.addHook("onRequest", async (request, reply) => {
     if (
       request.url.startsWith("/api/v1/auth") &&
-      !["/api/v1/auth/logout", "/api/v1/auth/refresh"].includes(request.url)
+      !["/api/v1/auth/logout"].includes(request.url)
     ) {
       return;
     }

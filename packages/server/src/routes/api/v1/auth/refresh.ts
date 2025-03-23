@@ -7,6 +7,7 @@ import {
   generateRefreshToken,
   verifyToken,
 } from "../../../../utils/security.js";
+import { userRepository } from "../../../../repositories/user.js";
 
 const refreshRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -34,14 +35,24 @@ const refreshRoute: FastifyPluginAsync = async (app) => {
           app.config.refreshTokenSecret,
         );
 
-        if (typeof decoded != "object" || !decoded.id) {
+        if (
+          typeof decoded != "object" ||
+          !decoded.id ||
+          typeof decoded.id != "string"
+        ) {
+          return reply.code(401).send({ message: "Invalid token" });
+        }
+
+        const user = await userRepository.findById(decoded?.id);
+
+        if (!user) {
           return reply.code(401).send({ message: "Invalid token" });
         }
 
         const accessToken = generateAccessToken({
-          id: request.user.id,
+          id: user.id,
         });
-        const newRefreshToken = generateRefreshToken({ id: request.user.id });
+        const newRefreshToken = generateRefreshToken({ id: user.id });
 
         const options = getCookieOptions(app.config.env);
 

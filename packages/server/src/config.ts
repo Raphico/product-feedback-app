@@ -14,6 +14,21 @@ export enum Roles {
   ADMIN = "admin",
 }
 
+export enum FeedbackCategories {
+  UI = "ui",
+  UX = "ux",
+  FEATURE = "feature",
+  BUG = "bug",
+  ENHANCEMENT = "enhancement",
+}
+
+export enum FeedbackStatuses {
+  SUGGESTION = "suggestion",
+  PLANNED = "planned",
+  IN_PROGRESS = "in_progress",
+  LIVE = "live",
+}
+
 function getEnv() {
   switch (process.env.NODE_ENV?.toLowerCase()) {
     case "production":

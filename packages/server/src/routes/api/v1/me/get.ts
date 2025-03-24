@@ -3,6 +3,8 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { userSchema } from "../../../../validations/user.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
+import { NotFoundError } from "../../../../errors/common.js";
+import { getMeUseCase } from "../../../../use-cases/get-me.js";
 
 const getMeRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -19,18 +21,20 @@ const getMeRoute: FastifyPluginAsync = async (app) => {
       },
     },
     async handler(request, reply) {
-      const user = await userRepository.findById(request.user.id);
+      try {
+        const result = await getMeUseCase(
+          { db: userRepository },
+          { id: request.user.id },
+        );
 
-      if (!user) return reply.code(404).send({ message: "User not found" });
+        reply.code(200).send(result);
+      } catch (error) {
+        if (error instanceof NotFoundError) {
+          return reply.code(404).send({ message: error.message });
+        }
 
-      return reply.code(200).send({
-        id: user.id,
-        fullName: user.fullName,
-        username: user.username,
-        email: user.email,
-        avatar: user.avatar,
-        role: user.role,
-      });
+        throw error;
+      }
     },
   });
 };

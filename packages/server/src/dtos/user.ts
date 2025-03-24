@@ -38,6 +38,11 @@ export type UpdateAvatarRequestDto = {
   userId: string;
 };
 
+export type UpdateUserRequestDto = {
+  id: string;
+  [k: string]: string | undefined;
+};
+
 export type UpdateUserResponseDto = {
   id: string;
   fullName: string;

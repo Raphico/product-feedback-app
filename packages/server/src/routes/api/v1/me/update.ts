@@ -3,6 +3,8 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { updateUserSchema, userSchema } from "../../../../validations/user.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
+import { updateMeUseCase } from "../../../../use-cases/update-me.js";
+import { NotFoundError } from "../../../../errors/common.js";
 
 const updateMeRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -20,23 +22,23 @@ const updateMeRoute: FastifyPluginAsync = async (app) => {
       },
     },
     async handler(request, reply) {
-      const updatedUser = await userRepository.update(
-        request.user.id,
-        request.body,
-      );
+      try {
+        const result = await updateMeUseCase(
+          { db: userRepository },
+          {
+            id: request.user.id,
+            ...request.body,
+          },
+        );
 
-      if (!updatedUser) {
-        return reply.code(404).send({ message: "User not found" });
+        return reply.code(200).send(result);
+      } catch (error) {
+        if (error instanceof NotFoundError) {
+          return reply.code(404).send({ message: error.message });
+        }
+
+        throw error;
       }
-
-      return reply.code(200).send({
-        id: updatedUser.id,
-        fullName: updatedUser.fullName,
-        email: updatedUser.email,
-        username: updatedUser.username,
-        avatar: updatedUser.avatar,
-        role: updatedUser.role,
-      });
     },
   });
 };

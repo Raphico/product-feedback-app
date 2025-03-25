@@ -1,13 +1,14 @@
-import { UpdateUserResponseDto } from "../dtos/user.js";
+import type { UserResponseDto } from "../dtos/user.js";
+import type { UserRepository } from "../repositories/user.interface.js";
 import { NotFoundError } from "../errors/common.js";
-import type { UserRepository } from "../repositories/user.js";
+import { userToDto } from "../mappers/user.js";
 
 export async function getMeUseCase(
   context: {
     db: UserRepository;
   },
   data: { id: string },
-): Promise<UpdateUserResponseDto> {
+): Promise<UserResponseDto> {
   const { db } = context;
   const { id } = data;
 
@@ -15,12 +16,5 @@ export async function getMeUseCase(
 
   if (!user) throw new NotFoundError("User not found");
 
-  return {
-    id: user.id,
-    fullName: user.fullName,
-    username: user.username,
-    email: user.email,
-    avatar: user.avatar,
-    role: user.role,
-  };
+  return userToDto(user);
 }

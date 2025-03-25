@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { signupRequestSchema } from "../../../../validations/auth.js";
-import { userSchema } from "../../../../validations/user.js";
+import { userResponseSchema } from "../../../../validations/user.js";
 import { signupUseCase } from "../../../../use-cases/signup.js";
 import {
   hashPassword,
@@ -27,7 +27,7 @@ const signupRoute: FastifyPluginAsync = async (app) => {
       tags: ["Auth"],
       body: signupRequestSchema,
       response: {
-        201: userSchema,
+        201: userResponseSchema,
         409: genericResponseSchema,
       },
     },

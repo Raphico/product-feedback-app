@@ -1,19 +1,19 @@
 import { Roles } from "../config.js";
-import type {
-  UpdateUserResponseDto,
-  UpdateUserRoleRequestDto,
-} from "../dtos/user.js";
+import type { UserResponseDto } from "../dtos/user.js";
 import { NotFoundError, ForbiddenError } from "../errors/common.js";
-import type { UserRepository } from "../repositories/user.js";
-
-type updateUserRoleUseCaseContext = {
-  db: UserRepository;
-};
+import { userToDto } from "../mappers/user.js";
+import type { UserRepository } from "../repositories/user.interface.js";
 
 export async function updateUserRoleUseCase(
-  context: updateUserRoleUseCaseContext,
-  data: UpdateUserRoleRequestDto,
-): Promise<UpdateUserResponseDto> {
+  context: {
+    db: UserRepository;
+  },
+  data: {
+    targetUserId: string;
+    currentUserId: string;
+    newRole: Roles;
+  },
+): Promise<UserResponseDto> {
   const { currentUserId, newRole, targetUserId } = data;
   const { db } = context;
 
@@ -29,12 +29,5 @@ export async function updateUserRoleUseCase(
 
   if (!updatedUser) throw new NotFoundError("User not found");
 
-  return {
-    id: updatedUser.id,
-    fullName: updatedUser.fullName,
-    email: updatedUser.email,
-    username: updatedUser.username,
-    avatar: updatedUser.avatar,
-    role: updatedUser.role,
-  };
+  return userToDto(updatedUser);
 }

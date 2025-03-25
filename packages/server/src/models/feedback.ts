@@ -1,7 +1,8 @@
 import mongoose, { Schema, Types, Document } from "mongoose";
 import { FeedbackCategories, FeedbackStatuses } from "../config.js";
 
-export interface FeedbackSchema extends Document<Types.ObjectId> {
+export interface FeedbackEntity extends Document {
+  _id: Types.ObjectId;
   createdBy: Types.ObjectId;
   title: string;
   category: FeedbackCategories;
@@ -10,7 +11,7 @@ export interface FeedbackSchema extends Document<Types.ObjectId> {
   upvotes: string[];
 }
 
-const feedbackSchema = new Schema<FeedbackSchema>(
+const feedbackSchema = new Schema<FeedbackEntity>(
   {
     createdBy: {
       type: Schema.Types.ObjectId,
@@ -45,7 +46,7 @@ const feedbackSchema = new Schema<FeedbackSchema>(
   { timestamps: true },
 );
 
-export const Feedback = mongoose.model<FeedbackSchema>(
+export const Feedback = mongoose.model<FeedbackEntity>(
   "Feedback",
   feedbackSchema,
 );

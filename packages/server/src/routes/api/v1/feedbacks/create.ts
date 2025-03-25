@@ -5,6 +5,7 @@ import {
   feedbackResponseSchema,
 } from "../../../../validations/feedback.js";
 import { feedbackRepository } from "../../../../repositories/feedback.js";
+import { createFeedbackUseCase } from "../../../../use-cases/create-feedback.js";
 
 const createFeedbackRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -20,12 +21,15 @@ const createFeedbackRoute: FastifyPluginAsync = async (app) => {
       },
     },
     async handler(request, reply) {
-      const createdFeedback = await feedbackRepository.create({
-        ...request.body,
-        createdBy: request.user.id,
-      });
+      const result = await createFeedbackUseCase(
+        { db: feedbackRepository },
+        {
+          ...request.body,
+          createdBy: request.user.id,
+        },
+      );
 
-      reply.code(201).send(createdFeedback);
+      reply.code(201).send(result);
     },
   });
 };

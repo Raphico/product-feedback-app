@@ -2,7 +2,7 @@ import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import {
   updateUserRoleSchema,
-  userSchema,
+  userResponseSchema,
 } from "../../../../../../validations/user.js";
 import {
   genericResponseSchema,
@@ -27,7 +27,7 @@ const updateUserRoleRoute: FastifyPluginAsync = async (app) => {
       params: idParamsSchema,
       body: updateUserRoleSchema,
       response: {
-        200: userSchema,
+        200: userResponseSchema,
         404: genericResponseSchema,
         403: genericResponseSchema,
       },

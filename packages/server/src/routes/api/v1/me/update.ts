@@ -1,6 +1,9 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { updateUserSchema, userSchema } from "../../../../validations/user.js";
+import {
+  updateUserSchema,
+  userResponseSchema,
+} from "../../../../validations/user.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
 import { updateMeUseCase } from "../../../../use-cases/update-me.js";
@@ -17,7 +20,7 @@ const updateMeRoute: FastifyPluginAsync = async (app) => {
       tags: ["Me"],
       body: updateUserSchema,
       response: {
-        200: userSchema,
+        200: userResponseSchema,
         404: genericResponseSchema,
       },
     },

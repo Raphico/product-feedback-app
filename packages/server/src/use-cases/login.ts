@@ -1,33 +1,23 @@
-import type { Roles } from "../config.js";
-import type { LoginRequestDto, LoginResponseDto } from "../dtos/auth.js";
+import { UserResponseDto } from "../dtos/user.js";
 import {
   InvalidCredentialsError,
   UnverifiedEmailError,
 } from "../errors/auth.js";
-import type { UserRepository } from "../repositories/user.js";
-
-type LoginUseCaseContext = {
-  db: UserRepository;
-  comparePassword: (
-    password: string,
-    hashedPassword: string,
-  ) => Promise<boolean>;
-  generateAccessToken: (payload: {
-    id: string;
-    email: string;
-    username: string;
-    role: Roles;
-  }) => string;
-  generateRefreshToken: (payload: { id: string }) => string;
-};
+import { userToDto } from "../mappers/user.js";
+import { UserRepository } from "../repositories/user.interface.js";
 
 export async function loginUseCase(
-  context: LoginUseCaseContext,
-  data: LoginRequestDto,
-): Promise<LoginResponseDto> {
+  context: {
+    db: UserRepository;
+    comparePassword: (
+      password: string,
+      hashedPassword: string,
+    ) => Promise<boolean>;
+  },
+  data: { email: string; password: string },
+): Promise<UserResponseDto> {
   const { email, password } = data;
-  const { db, comparePassword, generateAccessToken, generateRefreshToken } =
-    context;
+  const { db, comparePassword } = context;
 
   const user = await db.findOne({ email });
   if (!user) {
@@ -43,22 +33,5 @@ export async function loginUseCase(
     throw new UnverifiedEmailError();
   }
 
-  const accessToken = generateAccessToken({
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    username: user.username,
-  });
-  const refreshToken = generateRefreshToken({ id: user.id });
-
-  return {
-    id: user.id,
-    fullName: user.fullName,
-    email: user.email,
-    username: user.username,
-    avatar: user.avatar,
-    role: user.role,
-    accessToken,
-    refreshToken,
-  };
+  return userToDto(user);
 }

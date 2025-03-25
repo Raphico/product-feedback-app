@@ -1,5 +1,5 @@
-import { FeedbackCategories } from "../config.js";
-import { FeedbackResponseDto } from "../dtos/feedback.js";
+import type { FeedbackCategories } from "../config.js";
+import type { FeedbackEntity } from "../models/feedback.js";
 
 export interface FeedbackRepository {
   create(data: {
@@ -7,5 +7,5 @@ export interface FeedbackRepository {
     title: string;
     category: FeedbackCategories;
     detail: string;
-  }): Promise<FeedbackResponseDto>;
+  }): Promise<FeedbackEntity>;
 }

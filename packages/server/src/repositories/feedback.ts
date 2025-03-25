@@ -1,16 +1,15 @@
 import type { FeedbackCategories } from "../config.js";
-import type { FeedbackResponseDto } from "../dtos/feedback.js";
-import { feedbackToDto } from "../mappers/feedback.js";
+import type { FeedbackEntity } from "../models/feedback.js";
+import type { FeedbackRepository } from "./feedback.interface.js";
 import { Feedback } from "../models/feedback.js";
 
-export const feedbackRepository = {
+export const feedbackRepository: FeedbackRepository = {
   async create(feedback: {
     createdBy: string;
     title: string;
     category: FeedbackCategories;
     detail: string;
-  }): Promise<FeedbackResponseDto> {
-    const createdFeedback = await Feedback.create(feedback);
-    return feedbackToDto(createdFeedback);
+  }): Promise<FeedbackEntity> {
+    return Feedback.create(feedback);
   },
 };

@@ -1,29 +1,26 @@
-import type { EmailRequestDto } from "../dtos/auth.js";
 import type { GenericResponseDto } from "../dtos/common.js";
 import { ConflictError } from "../errors/common.js";
-import type { UserRepository } from "../repositories/user.js";
-
-type ResendVerificationUseCaseContext = {
-  db: UserRepository;
-  generateVerificationCode: () => {
-    unHashedCode: string;
-    hashedCode: string;
-    expiresAt: Date;
-  };
-  sendEmailVerificationCode: ({
-    username,
-    emailVerificationCode,
-    to,
-  }: {
-    username: string;
-    to: string;
-    emailVerificationCode: string;
-  }) => Promise<void>;
-};
+import type { UserRepository } from "../repositories/user.interface.js";
 
 export async function resendVerificationUseCase(
-  context: ResendVerificationUseCaseContext,
-  data: EmailRequestDto,
+  context: {
+    db: UserRepository;
+    generateVerificationCode: () => {
+      unHashedCode: string;
+      hashedCode: string;
+      expiresAt: Date;
+    };
+    sendEmailVerificationCode: ({
+      username,
+      emailVerificationCode,
+      to,
+    }: {
+      username: string;
+      to: string;
+      emailVerificationCode: string;
+    }) => Promise<void>;
+  },
+  data: { email: string },
 ): Promise<GenericResponseDto> {
   const { email } = data;
   const { db, generateVerificationCode, sendEmailVerificationCode } = context;
@@ -43,7 +40,7 @@ export async function resendVerificationUseCase(
 
   const { unHashedCode, hashedCode, expiresAt } = generateVerificationCode();
 
-  await db.update(user.id, {
+  await db.update(user._id.toString(), {
     emailVerificationCode: hashedCode,
     emailVerificationExpiry: expiresAt,
   });

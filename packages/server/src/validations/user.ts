@@ -2,7 +2,7 @@ import { z } from "zod";
 import { Roles } from "../config.js";
 import { validateBufferMIMEType } from "validate-image-type";
 
-export const userSchema = z.object({
+export const userResponseSchema = z.object({
   id: z.string(),
   fullName: z
     .string()
@@ -27,12 +27,10 @@ export const userSchema = z.object({
   role: z.nativeEnum(Roles),
 });
 
-export type UserSchema = z.infer<typeof userSchema>;
-
 export const updateUserSchema = z
   .object({
-    fullName: userSchema.shape.fullName.optional(),
-    username: userSchema.shape.username.optional(),
+    fullName: userResponseSchema.shape.fullName.optional(),
+    username: userResponseSchema.shape.username.optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "At least one field must be provided",
@@ -44,7 +42,7 @@ export const updateUserSchema = z
   });
 
 export const updateUserRoleSchema = z.object({
-  role: userSchema.shape.role,
+  role: userResponseSchema.shape.role,
 });
 
 export async function avatarValidator(

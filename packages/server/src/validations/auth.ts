@@ -1,10 +1,10 @@
 import { z } from "zod";
-import { userSchema } from "./user.js";
+import { userResponseSchema } from "./user.js";
 
 export const signupRequestSchema = z.object({
-  fullName: userSchema.shape.fullName,
-  username: userSchema.shape.username,
-  email: userSchema.shape.email,
+  fullName: userResponseSchema.shape.fullName,
+  username: userResponseSchema.shape.username,
+  email: userResponseSchema.shape.email,
   password: z
     .string()
     .min(8, "Password must be at least 8 characters long")
@@ -18,18 +18,12 @@ export const verifyEmailRequestSchema = z.object({
 });
 
 export const loginRequestSchema = z.object({
-  email: userSchema.shape.email,
+  email: userResponseSchema.shape.email,
   password: signupRequestSchema.shape.password,
 });
 
-export const verifyEmailResponseSchema = z.object({
-  id: userSchema.shape.id,
-  email: userSchema.shape.email,
-  isEmailVerified: z.boolean(),
-});
-
 export const emailRequestSchema = z.object({
-  email: userSchema.shape.email,
+  email: userResponseSchema.shape.email,
 });
 
 export const passwordResetParamsSchema = z.object({

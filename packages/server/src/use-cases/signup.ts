@@ -1,30 +1,34 @@
-import type { SignupRequestDto, SignupResponseDto } from "../dtos/auth.js";
+import type { UserResponseDto } from "../dtos/user.js";
+import type { UserRepository } from "../repositories/user.interface.js";
 import { ConflictError } from "../errors/common.js";
-import type { UserRepository } from "../repositories/user.js";
-
-type SignupUseCaseContext = {
-  hashPassword: (password: string) => Promise<string>;
-  generateVerificationCode: () => {
-    unHashedCode: string;
-    hashedCode: string;
-    expiresAt: Date;
-  };
-  sendEmailVerificationCode: ({
-    username,
-    emailVerificationCode,
-    to,
-  }: {
-    username: string;
-    to: string;
-    emailVerificationCode: string;
-  }) => Promise<void>;
-  db: UserRepository;
-};
+import { userToDto } from "../mappers/user.js";
 
 export async function signupUseCase(
-  context: SignupUseCaseContext,
-  data: SignupRequestDto,
-): Promise<SignupResponseDto> {
+  context: {
+    hashPassword: (password: string) => Promise<string>;
+    generateVerificationCode: () => {
+      unHashedCode: string;
+      hashedCode: string;
+      expiresAt: Date;
+    };
+    sendEmailVerificationCode: ({
+      username,
+      emailVerificationCode,
+      to,
+    }: {
+      username: string;
+      to: string;
+      emailVerificationCode: string;
+    }) => Promise<void>;
+    db: UserRepository;
+  },
+  data: {
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
+  },
+): Promise<UserResponseDto> {
   const { fullName, email, username, password } = data;
   const { db } = context;
 
@@ -53,12 +57,5 @@ export async function signupUseCase(
     username: user.username,
   });
 
-  return {
-    id: user.id,
-    fullName: user.fullName,
-    email: user.email,
-    username: user.username,
-    avatar: user.avatar,
-    role: user.role,
-  };
+  return userToDto(user);
 }

@@ -9,10 +9,3 @@ export type FeedbackResponseDto = {
   status: FeedbackStatuses;
   upvotes: string[];
 };
-
-export type CreateFeedbackDto = {
-  createdBy: string;
-  title: string;
-  category: FeedbackCategories;
-  detail: string;
-};

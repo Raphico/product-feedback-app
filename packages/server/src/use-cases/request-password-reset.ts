@@ -1,29 +1,26 @@
-import type { EmailRequestDto } from "../dtos/auth.js";
 import type { GenericResponseDto } from "../dtos/common.js";
-import type { UserRepository } from "../repositories/user.js";
-
-type RequestPasswordResetUseCaseContext = {
-  db: UserRepository;
-  generateVerificationToken: () => {
-    unHashedToken: string;
-    hashedToken: string;
-    expiresAt: Date;
-  };
-  sendPasswordResetLink: ({
-    username,
-    to,
-    passwordResetUrl,
-  }: {
-    username: string;
-    to: string;
-    passwordResetUrl: string;
-  }) => Promise<void>;
-  url: string;
-};
+import type { UserRepository } from "../repositories/user.interface.js";
 
 export async function requestPasswordResetUseCase(
-  context: RequestPasswordResetUseCaseContext,
-  data: EmailRequestDto,
+  context: {
+    db: UserRepository;
+    generateVerificationToken: () => {
+      unHashedToken: string;
+      hashedToken: string;
+      expiresAt: Date;
+    };
+    sendPasswordResetLink: ({
+      username,
+      to,
+      passwordResetUrl,
+    }: {
+      username: string;
+      to: string;
+      passwordResetUrl: string;
+    }) => Promise<void>;
+    url: string;
+  },
+  data: { email: string },
 ): Promise<GenericResponseDto> {
   const { email } = data;
   const { db, sendPasswordResetLink, generateVerificationToken, url } = context;
@@ -39,7 +36,7 @@ export async function requestPasswordResetUseCase(
 
   const { unHashedToken, hashedToken, expiresAt } = generateVerificationToken();
 
-  await db.update(user.id, {
+  await db.update(user._id.toString(), {
     passwordResetToken: hashedToken,
     passwordResetExpiry: expiresAt,
   });

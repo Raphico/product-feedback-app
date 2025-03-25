@@ -1,7 +1,7 @@
 import { FeedbackResponseDto } from "../dtos/feedback.js";
-import { FeedbackSchema } from "../models/feedback.js";
+import { FeedbackEntity } from "../models/feedback.js";
 
-export function feedbackToDto(feedback: FeedbackSchema): FeedbackResponseDto {
+export function feedbackToDto(feedback: FeedbackEntity): FeedbackResponseDto {
   return {
     id: feedback._id.toString(),
     createdBy: feedback.createdBy.toString(),

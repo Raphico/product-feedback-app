@@ -1,9 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import {
-  verifyEmailRequestSchema,
-  verifyEmailResponseSchema,
-} from "../../../../validations/auth.js";
+import { verifyEmailRequestSchema } from "../../../../validations/auth.js";
 import { verificationUseCase } from "../../../../use-cases/verification.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { generateHash } from "../../../../utils/security.js";
@@ -21,7 +18,7 @@ const verificationRoute: FastifyPluginAsync = async (app) => {
       tags: ["Auth"],
       body: verifyEmailRequestSchema,
       response: {
-        200: verifyEmailResponseSchema,
+        200: genericResponseSchema,
         400: genericResponseSchema,
       },
     },

@@ -1,7 +1,7 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { loginRequestSchema } from "../../../../validations/auth.js";
-import { userSchema } from "../../../../validations/user.js";
+import { userResponseSchema } from "../../../../validations/user.js";
 import {
   generateAccessToken,
   generateRefreshToken,
@@ -26,7 +26,7 @@ const loginRoute: FastifyPluginAsync = async (app) => {
       tags: ["Auth"],
       body: loginRequestSchema,
       response: {
-        200: userSchema,
+        200: userResponseSchema,
         400: genericResponseSchema,
         403: genericResponseSchema,
       },
@@ -37,18 +37,21 @@ const loginRoute: FastifyPluginAsync = async (app) => {
           {
             db: userRepository,
             comparePassword,
-            generateAccessToken,
-            generateRefreshToken,
           },
           request.body,
         );
+
+        const accessToken = generateAccessToken({
+          id: result.id,
+        });
+        const refreshToken = generateRefreshToken({ id: result.id });
 
         const options = getCookieOptions(app.config.env);
 
         return reply
           .code(200)
-          .setCookie("refreshToken", result.refreshToken, options)
-          .setCookie("accessToken", result.accessToken, options)
+          .setCookie("refreshToken", refreshToken, options)
+          .setCookie("accessToken", accessToken, options)
           .send({
             id: result.id,
             fullName: result.fullName,

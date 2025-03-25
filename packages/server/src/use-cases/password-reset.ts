@@ -1,17 +1,14 @@
-import type { PasswordResetRequestDto } from "../dtos/auth.js";
 import type { GenericResponseDto } from "../dtos/common.js";
 import { ExpiredTokenError, InvalidTokenError } from "../errors/auth.js";
-import type { UserRepository } from "../repositories/user.js";
-
-type PasswordResetUseCaseContext = {
-  db: UserRepository;
-  generateHash: (value: string) => string;
-  hashPassword: (password: string) => Promise<string>;
-};
+import type { UserRepository } from "../repositories/user.interface.js";
 
 export async function passwordResetUseCase(
-  context: PasswordResetUseCaseContext,
-  data: PasswordResetRequestDto,
+  context: {
+    db: UserRepository;
+    generateHash: (value: string) => string;
+    hashPassword: (password: string) => Promise<string>;
+  },
+  data: { token: string; password: string },
 ): Promise<GenericResponseDto> {
   const { token, password } = data;
   const { db, generateHash, hashPassword } = context;
@@ -28,7 +25,7 @@ export async function passwordResetUseCase(
 
   const hashedPassword = await hashPassword(password);
 
-  await db.update(user.id, {
+  await db.update(user._id.toString(), {
     password: hashedPassword,
     passwordResetToken: null,
     passwordResetExpiry: null,

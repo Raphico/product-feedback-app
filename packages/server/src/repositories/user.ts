@@ -1,35 +1,30 @@
-import type { CreateUserDto, UserDto } from "../dtos/user.js";
+import type { UserRepository } from "./user.interface.js";
+import type { UserEntity } from "../models/user.js";
+import type { RootFilterQuery, UpdateQuery } from "mongoose";
 import { User } from "../models/user.js";
 
-export type UserRepository = typeof userRepository;
-
-export const userRepository = {
-  async create(user: CreateUserDto): Promise<UserDto> {
-    const createdUser = await User.create(user);
-    return {
-      ...createdUser.toObject(),
-      id: createdUser._id.toString(),
-    };
+export const userRepository: UserRepository = {
+  async create(user: {
+    fullName: string;
+    username: string;
+    email: string;
+    password: string;
+    emailVerificationCode: string;
+    emailVerificationExpiry: Date;
+  }): Promise<UserEntity> {
+    return User.create(user);
   },
-  async findById(id: string): Promise<UserDto | null> {
-    const user = await User.findOne({ _id: id }).lean();
-
+  async findById(id: string): Promise<UserEntity | null> {
+    const user = await User.findOne({ _id: id });
     if (!user) return null;
-
-    return {
-      ...user,
-      id: user._id.toString(),
-    };
+    return user;
   },
-  async findOne(filter: Partial<Omit<UserDto, "id">>): Promise<UserDto | null> {
-    const user = await User.findOne(filter).lean();
-
+  async findOne(
+    filter: RootFilterQuery<UserEntity>,
+  ): Promise<UserEntity | null> {
+    const user = await User.findOne(filter);
     if (!user) return null;
-
-    return {
-      ...user,
-      id: user._id.toString(),
-    };
+    return user;
   },
   async findByEmailOrUsername({
     email,
@@ -37,17 +32,15 @@ export const userRepository = {
   }: {
     email: string;
     username?: string;
-  }): Promise<UserDto | null> {
-    const user = await User.findOne({ $or: [{ email }, { username }] }).lean();
-
+  }): Promise<UserEntity | null> {
+    const user = await User.findOne({ $or: [{ email }, { username }] });
     if (!user) return null;
-
-    return {
-      ...user,
-      id: user._id.toString(),
-    };
+    return user;
   },
-  async update(id: string, data: Partial<UserDto>): Promise<UserDto | null> {
+  async update(
+    id: string,
+    data: UpdateQuery<UserEntity>,
+  ): Promise<UserEntity | null> {
     return User.findOneAndUpdate({ _id: id }, data, { new: true });
   },
 };

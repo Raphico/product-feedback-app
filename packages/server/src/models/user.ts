@@ -1,7 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Types } from "mongoose";
 import { Roles } from "../config.js";
 
-const userSchema = new mongoose.Schema(
+export interface UserEntity extends Document {
+  _id: Types.ObjectId;
+  fullName: string;
+  username: string;
+  email: string;
+  isEmailVerified: boolean;
+  password: string;
+  avatar: string | null;
+  role: Roles;
+  emailVerificationCode: string | null;
+  passwordResetToken: string | null;
+  emailVerificationExpiry: Date | null;
+  passwordResetExpiry: Date | null;
+}
+
+const userSchema = new mongoose.Schema<UserEntity>(
   {
     fullName: {
       type: String,
@@ -52,4 +67,4 @@ const userSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-export const User = mongoose.model("User", userSchema);
+export const User = mongoose.model<UserEntity>("User", userSchema);

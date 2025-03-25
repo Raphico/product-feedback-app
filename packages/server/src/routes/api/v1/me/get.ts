@@ -1,6 +1,6 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { userSchema } from "../../../../validations/user.js";
+import { userResponseSchema } from "../../../../validations/user.js";
 import { userRepository } from "../../../../repositories/user.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
 import { NotFoundError } from "../../../../errors/common.js";
@@ -16,7 +16,7 @@ const getMeRoute: FastifyPluginAsync = async (app) => {
       summary: "Get current user details",
       tags: ["Me"],
       response: {
-        200: userSchema,
+        200: userResponseSchema,
         404: genericResponseSchema,
       },
     },

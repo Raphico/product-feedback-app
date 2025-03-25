@@ -1,7 +1,7 @@
 import "@dotenvx/dotenvx/config";
 import { initApp } from "./app.js";
 import { config, Env } from "./config.js";
-import { initDB, shutdownDB } from "./db.js";
+import { initDB, shutdownDB } from "./db/index.js";
 import { initLogger } from "./logging.js";
 import gracefulShutdown from "http-graceful-shutdown";
 import { MailService } from "./services/mail.js";

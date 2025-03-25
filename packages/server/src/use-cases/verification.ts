@@ -1,19 +1,14 @@
-import type {
-  VerifyEmailRequestDto,
-  VerifyEmailResponseDto,
-} from "../dtos/auth.js";
+import type { GenericResponseDto } from "../dtos/common.js";
+import type { UserRepository } from "../repositories/user.interface.js";
 import { ExpiredCodeError, InvalidCodeError } from "../errors/auth.js";
-import type { UserRepository } from "../repositories/user.js";
-
-type verificationUseCaseContext = {
-  db: UserRepository;
-  generateHash: (value: string) => string;
-};
 
 export async function verificationUseCase(
-  context: verificationUseCaseContext,
-  data: VerifyEmailRequestDto,
-): Promise<VerifyEmailResponseDto> {
+  context: {
+    db: UserRepository;
+    generateHash: (value: string) => string;
+  },
+  data: { code: string },
+): Promise<GenericResponseDto> {
   const { db, generateHash } = context;
   const { code } = data;
 
@@ -27,15 +22,13 @@ export async function verificationUseCase(
     throw new ExpiredCodeError();
   }
 
-  await db.update(user.id, {
+  await db.update(user._id.toString(), {
     isEmailVerified: true,
     emailVerificationCode: null,
     emailVerificationExpiry: null,
   });
 
   return {
-    id: user.id,
-    email: user.email,
-    isEmailVerified: true,
+    message: "Email verification successful",
   };
 }

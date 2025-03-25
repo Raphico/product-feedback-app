@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import type { Config } from "./config.js";
+import type { Config } from "../config.js";
 
 export async function initDB(config: Config) {
   await mongoose.connect(config.databaseUrl);

@@ -22,3 +22,19 @@ export const createFeedbackRequestSchema = z.object({
   category: feedbackResponseSchema.shape.category,
   detail: feedbackResponseSchema.shape.detail,
 });
+
+export const updateFeedbackRequestSchema = z
+  .object({
+    title: feedbackResponseSchema.shape.title.optional(),
+    category: feedbackResponseSchema.shape.category.optional(),
+    detail: feedbackResponseSchema.shape.detail.optional(),
+    status: feedbackResponseSchema.shape.status.optional(),
+  })
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  })
+  .transform((data) =>
+    Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== undefined),
+    ),
+  );

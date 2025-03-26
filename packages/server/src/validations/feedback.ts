@@ -28,6 +28,17 @@ export const createFeedbackRequestSchema = z.object({
   detail: feedbackResponseSchema.shape.detail,
 });
 
+export const feedbacksResponseSchema = z.array(
+  feedbackResponseWithCommentCountSchema,
+);
+
+export const feedbacksQuerySchema = z.object({
+  category: feedbackResponseSchema.shape.category.optional(),
+  status: feedbackResponseSchema.shape.status.optional(),
+});
+
+export type FeedbacksQuerySchema = z.infer<typeof feedbacksQuerySchema>;
+
 export const updateFeedbackRequestSchema = z
   .object({
     title: feedbackResponseSchema.shape.title.optional(),

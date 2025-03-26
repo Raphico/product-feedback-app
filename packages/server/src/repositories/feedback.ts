@@ -1,6 +1,9 @@
 import type { FeedbackCategories } from "../config.js";
 import type { FeedbackEntity } from "../models/feedback.js";
-import type { FeedbackRepository } from "./feedback.interface.js";
+import {
+  FeedbackWithCommentCount,
+  type FeedbackRepository,
+} from "./feedback.interface.js";
 import type { UpdateQuery } from "mongoose";
 import { Feedback } from "../models/feedback.js";
 import { Comment } from "../models/comment.js";
@@ -24,6 +27,41 @@ export const feedbackRepository: FeedbackRepository = {
       feedbackId: feedbackId,
     });
     return commentCount;
+  },
+  async findMany(
+    filter?: UpdateQuery<FeedbackEntity>,
+  ): Promise<FeedbackWithCommentCount[]> {
+    const pipeline: any[] = [];
+
+    if (filter && Object.keys(filter).length > 0) {
+      pipeline.push({ $match: filter });
+    }
+
+    pipeline.push(
+      {
+        $lookup: {
+          from: "comments",
+          localField: "_id",
+          foreignField: "feedbackId",
+          as: "comments",
+        },
+      },
+      {
+        $addFields: {
+          commentCount: { $size: "$comments" },
+        },
+      },
+      {
+        $project: {
+          comments: 0,
+        },
+      },
+    );
+
+    const feedbacks =
+      await Feedback.aggregate<FeedbackWithCommentCount>(pipeline).exec();
+
+    return feedbacks;
   },
   async update(
     id: string,

@@ -1,9 +1,17 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Types, Schema } from "mongoose";
 
-const commentSchema = new mongoose.Schema(
+interface CommentEntity extends Document {
+  _id: Types.ObjectId;
+  createdBy: Types.ObjectId;
+  content: string;
+  parentId: Types.ObjectId;
+  feedbackId: Types.ObjectId;
+}
+
+const commentSchema = new mongoose.Schema<CommentEntity>(
   {
     createdBy: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
@@ -11,16 +19,16 @@ const commentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    parent: {
-      type: mongoose.Types.ObjectId,
+    parentId: {
+      type: Schema.Types.ObjectId,
       ref: "Comment",
     },
-    feedback: {
-      type: mongoose.Types.ObjectId,
+    feedbackId: {
+      type: Schema.Types.ObjectId,
       ref: "Feedback",
     },
   },
   { timestamps: true },
 );
 
-export const Comment = mongoose.model("Comment", commentSchema);
+export const Comment = mongoose.model<CommentEntity>("Comment", commentSchema);

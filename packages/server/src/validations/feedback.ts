@@ -17,6 +17,11 @@ export const feedbackResponseSchema = z.object({
   upvotes: z.array(z.string().regex(/^[a-f\d]{24}$/)).default([]),
 });
 
+export const feedbackResponseWithCommentCountSchema =
+  feedbackResponseSchema.extend({
+    commentCount: z.number(),
+  });
+
 export const createFeedbackRequestSchema = z.object({
   title: feedbackResponseSchema.shape.title,
   category: feedbackResponseSchema.shape.category,

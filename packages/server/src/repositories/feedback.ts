@@ -3,6 +3,7 @@ import type { FeedbackEntity } from "../models/feedback.js";
 import type { FeedbackRepository } from "./feedback.interface.js";
 import type { UpdateQuery } from "mongoose";
 import { Feedback } from "../models/feedback.js";
+import { Comment } from "../models/comment.js";
 
 export const feedbackRepository: FeedbackRepository = {
   async create(feedback: {
@@ -17,6 +18,12 @@ export const feedbackRepository: FeedbackRepository = {
     const feedback = await Feedback.findOne({ _id: id });
     if (!feedback) return null;
     return feedback;
+  },
+  async getFeedbackCommentCount(feedbackId: string): Promise<number> {
+    const commentCount = await Comment.countDocuments({
+      feedbackId: feedbackId,
+    });
+    return commentCount;
   },
   async update(
     id: string,

@@ -9,3 +9,7 @@ export type FeedbackResponseDto = {
   status: FeedbackStatuses;
   upvotes: string[];
 };
+
+export type FeedbackResponseWithCommentCountDto = FeedbackResponseDto & {
+  commentCount: number;
+};

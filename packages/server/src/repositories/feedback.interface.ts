@@ -10,6 +10,7 @@ export interface FeedbackRepository {
     detail: string;
   }): Promise<FeedbackEntity>;
   findById(id: string): Promise<FeedbackEntity | null>;
+  getFeedbackCommentCount(feedbackId: string): Promise<number>;
   update(
     id: string,
     data: UpdateQuery<FeedbackEntity>,

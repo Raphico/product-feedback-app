@@ -17,25 +17,28 @@ export const feedbackRepository: FeedbackRepository = {
   }): Promise<FeedbackEntity> {
     return Feedback.create(feedback);
   },
+
   async findById(id: string): Promise<FeedbackEntity | null> {
-    const feedback = await Feedback.findOne({ _id: id });
+    const feedback = await Feedback.findOne({ _id: id, deletedAt: null });
     if (!feedback) return null;
     return feedback;
   },
+
   async getFeedbackCommentCount(feedbackId: string): Promise<number> {
     const commentCount = await Comment.countDocuments({
       feedbackId: feedbackId,
     });
     return commentCount;
   },
+
   async findMany(
     filter?: UpdateQuery<FeedbackEntity>,
   ): Promise<FeedbackWithCommentCount[]> {
     const pipeline: any[] = [];
 
-    if (filter && Object.keys(filter).length > 0) {
-      pipeline.push({ $match: filter });
-    }
+    const matchFilter = { ...filter, deletedAt: null };
+
+    pipeline.push({ $match: matchFilter });
 
     pipeline.push(
       {
@@ -58,31 +61,28 @@ export const feedbackRepository: FeedbackRepository = {
       },
     );
 
-    const feedbacks =
-      await Feedback.aggregate<FeedbackWithCommentCount>(pipeline).exec();
-
-    return feedbacks;
+    return Feedback.aggregate<FeedbackWithCommentCount>(pipeline).exec();
   },
+
   async updateUpvote(
     id: string,
     alreadyVoted: boolean,
     userId: string,
   ): Promise<FeedbackEntity | null> {
     return Feedback.findOneAndUpdate(
-      { _id: id },
+      { _id: id, deletedAt: null },
       alreadyVoted
         ? { $pull: { upvotes: userId } }
         : { $addToSet: { upvotes: userId } },
-      {
-        new: true,
-      },
+      { new: true },
     );
   },
+
   async update(
     id: string,
     data: UpdateQuery<FeedbackEntity>,
   ): Promise<FeedbackEntity | null> {
-    return Feedback.findOneAndUpdate({ _id: id }, data, {
+    return Feedback.findOneAndUpdate({ _id: id, deletedAt: null }, data, {
       new: true,
     });
   },

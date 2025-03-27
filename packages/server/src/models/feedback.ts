@@ -9,6 +9,7 @@ export interface FeedbackEntity extends Document {
   detail: string;
   status: FeedbackStatuses;
   upvotes: Types.ObjectId[];
+  deletedAt: Date | null;
 }
 
 const feedbackSchema = new Schema<FeedbackEntity>(
@@ -42,6 +43,10 @@ const feedbackSchema = new Schema<FeedbackEntity>(
         ref: "User",
       },
     ],
+    deletedAt: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true },
 );

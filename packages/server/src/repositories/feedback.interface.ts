@@ -18,6 +18,11 @@ export interface FeedbackRepository {
     data?: UpdateQuery<FeedbackEntity>,
   ): Promise<FeedbackWithCommentCount[]>;
   getFeedbackCommentCount(feedbackId: string): Promise<number>;
+  updateUpvote(
+    id: string,
+    alreadyVoted: boolean,
+    userId: string,
+  ): Promise<FeedbackEntity | null>;
   update(
     id: string,
     data: UpdateQuery<FeedbackEntity>,

@@ -1,11 +1,13 @@
-import { FeedbackResponseDto } from "../dtos/feedback.js";
+import type { Types } from "mongoose";
+import type { FeedbackRepository } from "../repositories/feedback.interface.js";
+import type { FeedbackResponseDto } from "../dtos/feedback.js";
 import { ForbiddenError, NotFoundError } from "../errors/common.js";
 import { feedbackToDto } from "../mappers/feedback.js";
-import { FeedbackRepository } from "../repositories/feedback.interface.js";
 
 export async function updateFeedbackUseCase(
   context: {
     db: FeedbackRepository;
+    fromObjectId: (id: Types.ObjectId) => string;
   },
   data: {
     userId: string;
@@ -13,7 +15,7 @@ export async function updateFeedbackUseCase(
     [key: string]: string | undefined;
   },
 ): Promise<FeedbackResponseDto> {
-  const { db } = context;
+  const { db, fromObjectId } = context;
   const { id, userId, ...changes } = data;
 
   const feedback = await db.findById(id);
@@ -22,7 +24,7 @@ export async function updateFeedbackUseCase(
     throw new NotFoundError("Feedback not found");
   }
 
-  if (feedback.createdBy.toString() != userId) {
+  if (fromObjectId(feedback.createdBy) != userId) {
     throw new ForbiddenError("You are not allowed to update this feedback");
   }
 

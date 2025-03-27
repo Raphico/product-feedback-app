@@ -12,6 +12,7 @@ import {
   ExpiredTokenError,
   InvalidTokenError,
 } from "../../../../errors/auth.js";
+import { fromObjectId } from "../../../../utils/object-id.js";
 
 const passwordResetRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -35,6 +36,7 @@ const passwordResetRoute: FastifyPluginAsync = async (app) => {
             generateHash,
             hashPassword,
             db: userRepository,
+            fromObjectId,
           },
           {
             ...request.body,

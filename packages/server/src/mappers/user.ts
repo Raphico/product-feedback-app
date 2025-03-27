@@ -1,9 +1,10 @@
-import { UserResponseDto } from "../dtos/user.js";
-import { UserEntity } from "../models/user.js";
+import type { UserResponseDto } from "../dtos/user.js";
+import type { UserEntity } from "../models/user.js";
+import { fromObjectId } from "../utils/object-id.js";
 
 export function userToDto(user: UserEntity): UserResponseDto {
   return {
-    id: user._id.toString(),
+    id: fromObjectId(user._id),
     fullName: user.fullName,
     username: user.username,
     email: user.email,

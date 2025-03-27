@@ -1,3 +1,4 @@
+import type { Types } from "mongoose";
 import type { GenericResponseDto } from "../dtos/common.js";
 import type { UserRepository } from "../repositories/user.interface.js";
 
@@ -19,11 +20,18 @@ export async function requestPasswordResetUseCase(
       passwordResetUrl: string;
     }) => Promise<void>;
     url: string;
+    fromObjectId: (id: Types.ObjectId) => string;
   },
   data: { email: string },
 ): Promise<GenericResponseDto> {
   const { email } = data;
-  const { db, sendPasswordResetLink, generateVerificationToken, url } = context;
+  const {
+    db,
+    sendPasswordResetLink,
+    generateVerificationToken,
+    url,
+    fromObjectId,
+  } = context;
 
   const user = await db.findOne({ email });
   if (!user) {
@@ -36,7 +44,7 @@ export async function requestPasswordResetUseCase(
 
   const { unHashedToken, hashedToken, expiresAt } = generateVerificationToken();
 
-  await db.update(user._id.toString(), {
+  await db.update(fromObjectId(user._id), {
     passwordResetToken: hashedToken,
     passwordResetExpiry: expiresAt,
   });

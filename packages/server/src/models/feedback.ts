@@ -8,7 +8,7 @@ export interface FeedbackEntity extends Document {
   category: FeedbackCategories;
   detail: string;
   status: FeedbackStatuses;
-  upvotes: string[];
+  upvotes: Types.ObjectId[];
 }
 
 const feedbackSchema = new Schema<FeedbackEntity>(

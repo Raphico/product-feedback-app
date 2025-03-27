@@ -63,6 +63,21 @@ export const feedbackRepository: FeedbackRepository = {
 
     return feedbacks;
   },
+  async updateUpvote(
+    id: string,
+    alreadyVoted: boolean,
+    userId: string,
+  ): Promise<FeedbackEntity | null> {
+    return Feedback.findOneAndUpdate(
+      { _id: id },
+      alreadyVoted
+        ? { $pull: { upvotes: userId } }
+        : { $addToSet: { upvotes: userId } },
+      {
+        new: true,
+      },
+    );
+  },
   async update(
     id: string,
     data: UpdateQuery<FeedbackEntity>,

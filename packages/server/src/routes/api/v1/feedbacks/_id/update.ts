@@ -11,6 +11,7 @@ import {
 import { updateFeedbackUseCase } from "../../../../../use-cases/update-feedback.js";
 import { feedbackRepository } from "../../../../../repositories/feedback.js";
 import { ForbiddenError, NotFoundError } from "../../../../../errors/common.js";
+import { fromObjectId } from "../../../../../utils/object-id.js";
 
 const updateFeedbackRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -32,7 +33,7 @@ const updateFeedbackRoute: FastifyPluginAsync = async (app) => {
     async handler(request, reply) {
       try {
         const result = await updateFeedbackUseCase(
-          { db: feedbackRepository },
+          { db: feedbackRepository, fromObjectId },
           { id: request.params.id, userId: request.user.id, ...request.body },
         );
 

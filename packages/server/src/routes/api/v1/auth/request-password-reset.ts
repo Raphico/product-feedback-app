@@ -5,6 +5,7 @@ import { userRepository } from "../../../../repositories/user.js";
 import { requestPasswordResetUseCase } from "../../../../use-cases/request-password-reset.js";
 import { emailRequestSchema } from "../../../../validations/auth.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
+import { fromObjectId } from "../../../../utils/object-id.js";
 
 const requestPasswordResetRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -34,6 +35,7 @@ const requestPasswordResetRoute: FastifyPluginAsync = async (app) => {
           ),
           db: userRepository,
           url: app.config.clientForgotPasswordRedirectUrl,
+          fromObjectId,
         },
         request.body,
       );

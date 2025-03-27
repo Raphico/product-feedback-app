@@ -8,6 +8,7 @@ import {
 import { feedbackRepository } from "../../../../../repositories/feedback.js";
 import { NotFoundError } from "../../../../../errors/common.js";
 import { getFeedbackUseCase } from "../../../../../use-cases/get-feedback.js";
+import { fromObjectId } from "../../../../../utils/object-id.js";
 
 const getFeedbackRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -26,7 +27,7 @@ const getFeedbackRoute: FastifyPluginAsync = async (app) => {
     async handler(request, reply) {
       try {
         const result = await getFeedbackUseCase(
-          { db: feedbackRepository },
+          { db: feedbackRepository, fromObjectId },
           { id: request.params.id },
         );
 

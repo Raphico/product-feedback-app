@@ -1,6 +1,7 @@
+import type { Types } from "mongoose";
 import type { GenericResponseDto } from "../dtos/common.js";
-import { ConflictError } from "../errors/common.js";
 import type { UserRepository } from "../repositories/user.interface.js";
+import { ConflictError } from "../errors/common.js";
 
 export async function resendVerificationUseCase(
   context: {
@@ -19,11 +20,17 @@ export async function resendVerificationUseCase(
       to: string;
       emailVerificationCode: string;
     }) => Promise<void>;
+    fromObjectId: (id: Types.ObjectId) => string;
   },
   data: { email: string },
 ): Promise<GenericResponseDto> {
   const { email } = data;
-  const { db, generateVerificationCode, sendEmailVerificationCode } = context;
+  const {
+    db,
+    generateVerificationCode,
+    sendEmailVerificationCode,
+    fromObjectId,
+  } = context;
 
   const user = await db.findOne({ email });
   if (!user) {
@@ -40,7 +47,7 @@ export async function resendVerificationUseCase(
 
   const { unHashedCode, hashedCode, expiresAt } = generateVerificationCode();
 
-  await db.update(user._id.toString(), {
+  await db.update(fromObjectId(user._id), {
     emailVerificationCode: hashedCode,
     emailVerificationExpiry: expiresAt,
   });

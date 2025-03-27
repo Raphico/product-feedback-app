@@ -6,6 +6,7 @@ import { resendVerificationUseCase } from "../../../../use-cases/resend-verifica
 import { emailRequestSchema } from "../../../../validations/auth.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
 import { ConflictError } from "../../../../errors/common.js";
+import { fromObjectId } from "../../../../utils/object-id.js";
 
 const resendVerificationRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -35,6 +36,7 @@ const resendVerificationRoute: FastifyPluginAsync = async (app) => {
             sendEmailVerificationCode:
               app.mailService.sendEmailVerificationCode.bind(app.mailService),
             db: userRepository,
+            fromObjectId,
           },
           request.body,
         );

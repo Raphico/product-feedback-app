@@ -9,6 +9,7 @@ import { NotFoundError } from "../../../../errors/common.js";
 import { createCommentUseCase } from "../../../../use-cases/create-comment.js";
 import { commentRepository } from "../../../../repositories/comment.js";
 import { fromObjectId } from "../../../../utils/object-id.js";
+import { feedbackRepository } from "../../../../repositories/feedback.js";
 
 const createCommentRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
@@ -28,7 +29,10 @@ const createCommentRoute: FastifyPluginAsync = async (app) => {
       try {
         const result = await createCommentUseCase(
           {
-            db: commentRepository,
+            db: {
+              comments: commentRepository,
+              feedbacks: feedbackRepository,
+            },
             fromObjectId,
           },
           {

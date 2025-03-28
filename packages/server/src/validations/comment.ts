@@ -12,6 +12,7 @@ export const commentResponseSchema = z.object({
     fullName: userResponseSchema.shape.fullName,
     username: userResponseSchema.shape.username,
     avatar: userResponseSchema.shape.avatar.nullable(),
+    role: userResponseSchema.shape.role,
   }),
   feedbackId: z.string().regex(/^[a-f\d]{24}$/),
   parentId: z

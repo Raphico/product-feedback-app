@@ -19,6 +19,7 @@ export function commentToDto(comment: CommentEntity): CommentResponseDto {
       fullName: comment.createdBy.fullName,
       username: comment.createdBy.username,
       avatar: comment.createdBy.avatar,
+      role: comment.createdBy.role,
     },
   };
 }

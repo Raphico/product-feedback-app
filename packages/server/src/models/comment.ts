@@ -1,8 +1,9 @@
 import mongoose, { Document, Types, Schema } from "mongoose";
+import { UserEntity } from "./user.js";
 
-interface CommentEntity extends Document {
+export interface CommentEntity extends Document {
   _id: Types.ObjectId;
-  createdBy: Types.ObjectId;
+  createdBy: Types.ObjectId | UserEntity;
   content: string;
   parentId: Types.ObjectId;
   feedbackId: Types.ObjectId;

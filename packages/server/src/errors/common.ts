@@ -21,3 +21,9 @@ export class ValidationError extends Error {
     super(message);
   }
 }
+
+export class InternalServerError extends Error {
+  constructor(message?: string) {
+    super(message ?? "Something went wrong. Please, try again later");
+  }
+}

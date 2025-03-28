@@ -43,7 +43,7 @@ const createCommentRoute: FastifyPluginAsync = async (app) => {
           },
         );
 
-        return reply.code(200).send(result);
+        return reply.code(201).send(result);
       } catch (error) {
         if (error instanceof NotFoundError) {
           return reply.code(404).send({ message: error.message });

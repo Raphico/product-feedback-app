@@ -25,3 +25,9 @@ export const createCommentRequestSchema = z.object({
   feedbackId: commentResponseSchema.shape.feedbackId,
   parentId: commentResponseSchema.shape.feedbackId.optional(),
 });
+
+export const commentsResponseSchema = z.array(commentResponseSchema);
+
+export const commentsRequestParamsSchema = z.object({
+  feedbackId: z.string().regex(/^[a-f\d]{24}$/),
+});

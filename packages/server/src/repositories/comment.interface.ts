@@ -8,4 +8,5 @@ export interface CommentRepository {
     parentId?: string;
   }): Promise<CommentEntity>;
   findById(id: string): Promise<CommentEntity | null>;
+  findMany(feedbackId: string): Promise<CommentEntity[]>;
 }

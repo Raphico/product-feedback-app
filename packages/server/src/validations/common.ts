@@ -5,5 +5,5 @@ export const genericResponseSchema = z.object({
 });
 
 export const idParamsSchema = z.object({
-  id: z.string(),
+  id: z.string().regex(/^[a-f\d]{24}$/),
 });

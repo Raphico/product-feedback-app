@@ -13,9 +13,15 @@ export const commentRepository: CommentRepository = {
   async findById(id: string): Promise<CommentEntity | null> {
     const comment = await Comment.findOne({ _id: id }).populate({
       path: "createdBy",
-      select: "username fullname avatar",
+      select: "username fullName avatar",
     });
     if (!comment) return null;
     return comment;
+  },
+  async findMany(feedbackId: string): Promise<CommentEntity[]> {
+    return Comment.find({ feedbackId }).populate({
+      path: "createdBy",
+      select: "username fullName avatar",
+    });
   },
 };

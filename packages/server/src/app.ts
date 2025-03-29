@@ -19,10 +19,12 @@ import type { MailService } from "./services/mail.js";
 import autoLoad from "@fastify/autoload";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { FileUploadService } from "./services/file-upload.js";
 
 type Deps = {
   logger: Logger;
   mailService: MailService;
+  fileUploadService: FileUploadService;
 };
 
 export interface UserPayload {
@@ -32,6 +34,7 @@ export interface UserPayload {
 declare module "fastify" {
   interface FastifyInstance {
     mailService: MailService;
+    fileUploadService: FileUploadService;
     config: Config;
   }
 
@@ -44,7 +47,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 export async function initApp(config: Config, deps: Deps) {
-  const { logger, mailService } = deps;
+  const { logger, mailService, fileUploadService } = deps;
   const app = Fastify({
     loggerInstance: logger,
     bodyLimit: config.bodyLimit,
@@ -81,6 +84,7 @@ export async function initApp(config: Config, deps: Deps) {
   });
 
   app.decorate("mailService", mailService);
+  app.decorate("fileUploadService", fileUploadService);
   app.decorate("config", config);
 
   app.register(autoLoad, {

@@ -4,42 +4,54 @@ import {
   UploadApiResponse,
   type TransformationOptions,
 } from "cloudinary";
-import { config } from "../config.js";
+import type { Config } from "../config.js";
+import type { Logger } from "pino";
 import type { Readable } from "stream";
+import { InternalServerError } from "../errors/common.js";
 
-cloudinary.config({
-  cloud_name: config.cloudinaryCloudName,
-  api_key: config.cloudinaryApiKey,
-  api_secret: config.cloudinarySecret,
-});
+export class FileUploadService {
+  constructor(
+    private config: Config,
+    private logger: Logger,
+  ) {
+    cloudinary.config({
+      cloud_name: this.config.cloudinaryCloudName,
+      api_key: this.config.cloudinaryApiKey,
+      api_secret: this.config.cloudinarySecret,
+    });
+  }
 
-export async function uploadFile(stream: Readable): Promise<UploadApiResponse> {
-  const uploadResult = await new Promise((resolve, reject) => {
-    const uploadStream = cloudinary.uploader.upload_stream(
-      (error, uploadResult) => {
-        if (error) {
-          return reject(
-            new Error("Something went wrong. Please try again later"),
-          );
-        }
+  async uploadFile(stream: Readable): Promise<UploadApiResponse> {
+    const uploadResult = await new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        (error, uploadResult) => {
+          if (error) {
+            this.logger.error(error, "File upload failed");
+            return reject(
+              new InternalServerError(
+                "Something went wrong. Please try again later",
+              ),
+            );
+          }
 
-        return resolve(uploadResult);
-      },
-    );
+          return resolve(uploadResult);
+        },
+      );
 
-    stream.pipe(uploadStream);
-  });
+      stream.pipe(uploadStream);
+    });
 
-  return uploadResult as UploadApiResponse;
-}
+    return uploadResult as UploadApiResponse;
+  }
 
-export function getOptimizedUrl(
-  publicId: string,
-  options?: TransformationOptions | ConfigAndUrlOptions,
-) {
-  return cloudinary.url(publicId, options);
-}
+  getOptimizedUrl(
+    publicId: string,
+    options?: TransformationOptions | ConfigAndUrlOptions,
+  ) {
+    return cloudinary.url(publicId, options);
+  }
 
-export function deleteFile(publicId: string) {
-  return cloudinary.uploader.destroy(publicId);
+  deleteFile(publicId: string) {
+    return cloudinary.uploader.destroy(publicId);
+  }
 }

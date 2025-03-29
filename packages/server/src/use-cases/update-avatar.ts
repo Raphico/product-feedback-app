@@ -1,11 +1,10 @@
 import { Readable } from "node:stream";
 import type { UserResponseDto } from "../dtos/user.js";
-import { type UploadApiResponse } from "cloudinary";
 import { NotFoundError, ValidationError } from "../errors/common.js";
-import { deleteFile, getOptimizedUrl } from "../services/file-upload.js";
 import { MultipartFile } from "@fastify/multipart";
 import { UserRepository } from "../repositories/user.interface.js";
 import { userToDto } from "../mappers/user.js";
+import { FileUploadService } from "../services/file-upload.js";
 
 export async function updateAvatarUseCase(
   context: {
@@ -23,14 +22,14 @@ export async function updateAvatarUseCase(
           error?: never;
         }
     >;
-    uploadFile: (stream: Readable) => Promise<UploadApiResponse>;
+    fileUpload: FileUploadService;
   },
   data: {
     userId: string;
     avatarFile: MultipartFile;
   },
 ): Promise<UserResponseDto> {
-  const { db, uploadFile, avatarValidator } = context;
+  const { db, fileUpload, avatarValidator } = context;
   const { avatarFile, userId } = data;
 
   const avatarBuffer = await avatarFile.toBuffer();
@@ -39,8 +38,8 @@ export async function updateAvatarUseCase(
     throw new ValidationError(validationResult.error);
   }
 
-  const uploadResult = await uploadFile(Readable.from(avatarBuffer));
-  const optimizedUrl = getOptimizedUrl(uploadResult.public_id, {
+  const uploadResult = await fileUpload.uploadFile(Readable.from(avatarBuffer));
+  const optimizedUrl = fileUpload.getOptimizedUrl(uploadResult.public_id, {
     fetch_format: "auto",
     quality: "auto",
   });
@@ -57,7 +56,7 @@ export async function updateAvatarUseCase(
     return userToDto(updatedUser);
   } catch (error) {
     if (uploadResult && uploadResult.public_id) {
-      await deleteFile(uploadResult.public_id);
+      await fileUpload.deleteFile(uploadResult.public_id);
     }
 
     throw error;

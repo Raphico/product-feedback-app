@@ -2,7 +2,6 @@ import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { userResponseSchema } from "../../../../validations/user.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
-import { uploadFile } from "../../../../services/file-upload.js";
 import { avatarValidator } from "../../../../validations/user.js";
 import { updateAvatarUseCase } from "../../../../use-cases/update-avatar.js";
 import { userRepository } from "../../../../repositories/user.js";
@@ -33,7 +32,11 @@ const updateAvatarRoute: FastifyPluginAsync = async (app) => {
         }
 
         const result = await updateAvatarUseCase(
-          { db: userRepository, uploadFile, avatarValidator },
+          {
+            db: userRepository,
+            fileUpload: app.fileUploadService,
+            avatarValidator,
+          },
           { avatarFile: file, userId: request.user.id },
         );
 

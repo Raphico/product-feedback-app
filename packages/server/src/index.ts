@@ -5,6 +5,7 @@ import { initDB, shutdownDB } from "./db/index.js";
 import { initLogger } from "./logging.js";
 import gracefulShutdown from "http-graceful-shutdown";
 import { MailService } from "./services/mail.js";
+import { FileUploadService } from "./services/file-upload.js";
 
 void (async function main() {
   const logger = initLogger(config);
@@ -14,8 +15,9 @@ void (async function main() {
     .catch((error) => logger.error(error));
 
   const mailService = new MailService(config, logger);
+  const fileUploadService = new FileUploadService(config, logger);
 
-  const app = await initApp(config, { logger, mailService });
+  const app = await initApp(config, { logger, mailService, fileUploadService });
 
   app.fastify.listen(
     {

@@ -9,11 +9,13 @@ import { NotFoundError } from "../../../../../../errors/common.js";
 import { upvoteFeedbackUseCase } from "../../../../../../use-cases/upvote-feedback.js";
 import { feedbackRepository } from "../../../../../../repositories/feedback.js";
 import { toObjectId } from "../../../../../../utils/object-id.js";
+import { verifyJWT } from "../../../../../../middleware/auth.js";
 
 const upvoteFeedbackRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/",
+    onRequest: [verifyJWT],
     schema: {
       summary: "Toggle Upvote on Feedback",
       description:

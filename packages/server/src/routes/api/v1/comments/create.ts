@@ -10,11 +10,13 @@ import { createCommentUseCase } from "../../../../use-cases/create-comment.js";
 import { commentRepository } from "../../../../repositories/comment.js";
 import { fromObjectId } from "../../../../utils/object-id.js";
 import { feedbackRepository } from "../../../../repositories/feedback.js";
+import { verifyJWT } from "../../../../middleware/auth.js";
 
 const createCommentRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
     url: "/",
+    onRequest: [verifyJWT],
     schema: {
       summary: "Add a comment",
       description: "Allows users to add a comment to a feedback for a product",

@@ -12,11 +12,13 @@ import { updateFeedbackUseCase } from "../../../../../use-cases/update-feedback.
 import { feedbackRepository } from "../../../../../repositories/feedback.js";
 import { ForbiddenError, NotFoundError } from "../../../../../errors/common.js";
 import { fromObjectId } from "../../../../../utils/object-id.js";
+import { verifyJWT } from "../../../../../middleware/auth.js";
 
 const updateFeedbackRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/",
+    onRequest: [verifyJWT],
     schema: {
       summary: "Update Feedback",
       description:

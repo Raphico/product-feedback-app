@@ -14,11 +14,13 @@ import {
   NotFoundError,
   ForbiddenError,
 } from "../../../../../../errors/common.js";
+import { verifyJWT } from "../../../../../../middleware/auth.js";
 
 const updateUserRoleRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/",
+    onRequest: [verifyJWT],
     schema: {
       summary: "Update a user's role",
       description:

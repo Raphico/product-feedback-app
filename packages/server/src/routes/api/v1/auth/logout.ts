@@ -2,11 +2,13 @@ import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { getCookieOptions } from "../../../../config.js";
 import { genericResponseSchema } from "../../../../validations/common.js";
+import { verifyJWT } from "../../../../middleware/auth.js";
 
 const logoutRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
     url: "/logout",
+    onRequest: [verifyJWT],
     schema: {
       description: "Logs out the user by clearing authentication cookies.",
       summary: "User Logout",

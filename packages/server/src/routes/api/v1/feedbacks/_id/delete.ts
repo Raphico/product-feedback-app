@@ -9,11 +9,13 @@ import { feedbackRepository } from "../../../../../repositories/feedback.js";
 import { ForbiddenError, NotFoundError } from "../../../../../errors/common.js";
 import { fromObjectId } from "../../../../../utils/object-id.js";
 import { deleteFeedbackUseCase } from "../../../../../use-cases/delete-feedback.js";
+import { verifyJWT } from "../../../../../middleware/auth.js";
 
 const deleteFeedbackRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "DELETE",
     url: "/",
+    onRequest: [verifyJWT],
     schema: {
       summary: "Soft Delete Feedback",
       description: "Marks feedback as deleted without permanent removal.",

@@ -1,20 +1,25 @@
 import type { FastifyPluginAsync } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
-import { userResponseSchema } from "../../../../validations/user.js";
-import { genericResponseSchema } from "../../../../validations/common.js";
-import { avatarValidator } from "../../../../validations/user.js";
-import { updateAvatarUseCase } from "../../../../use-cases/update-avatar.js";
-import { userRepository } from "../../../../repositories/user.js";
-import { NotFoundError, ValidationError } from "../../../../errors/common.js";
+import { userResponseSchema } from "../../../../../validations/user.js";
+import { genericResponseSchema } from "../../../../../validations/common.js";
+import { avatarValidator } from "../../../../../validations/user.js";
+import { updateAvatarUseCase } from "../../../../../use-cases/update-avatar.js";
+import { userRepository } from "../../../../../repositories/user.js";
+import {
+  NotFoundError,
+  ValidationError,
+} from "../../../../../errors/common.js";
+import { verifyJWT } from "../../../../../middleware/auth.js";
 
 const updateAvatarRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/avatar",
+    onRequest: [verifyJWT],
     schema: {
       description: "Updates the currently authenticated user's avatar.",
       summary: "Update current user avatar",
-      tags: ["Me"],
+      tags: ["User"],
       response: {
         200: userResponseSchema,
         404: genericResponseSchema,

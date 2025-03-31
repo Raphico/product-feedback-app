@@ -54,3 +54,9 @@ export const updateFeedbackRequestSchema = z
       Object.entries(data).filter(([_, value]) => value !== undefined),
     ),
   );
+
+export const feedbackStatsSchema = z.object({
+  in_progress: z.number(),
+  planned: z.number(),
+  live: z.number(),
+});

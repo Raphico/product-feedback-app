@@ -1,8 +1,9 @@
 import type { FeedbackCategories } from "../config.js";
 import type { FeedbackEntity } from "../models/feedback.js";
 import {
-  FeedbackWithCommentCount,
+  type FeedbackWithCommentCount,
   type FeedbackRepository,
+  type FeedbackStats,
 } from "./feedback.interface.js";
 import type { UpdateQuery } from "mongoose";
 import { Feedback } from "../models/feedback.js";
@@ -29,6 +30,20 @@ export const feedbackRepository: FeedbackRepository = {
       feedbackId: feedbackId,
     });
     return commentCount;
+  },
+
+  async getFeedbackStats(): Promise<FeedbackStats[]> {
+    return Feedback.aggregate<FeedbackStats>([
+      {
+        $match: { deletedAt: null, status: { $ne: "suggestion" } },
+      },
+      {
+        $group: {
+          _id: "$status",
+          count: { $sum: 1 },
+        },
+      },
+    ]);
   },
 
   async findMany(

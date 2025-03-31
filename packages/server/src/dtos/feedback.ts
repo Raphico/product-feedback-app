@@ -13,3 +13,9 @@ export type FeedbackResponseDto = {
 export type FeedbackResponseWithCommentCountDto = FeedbackResponseDto & {
   commentCount: number;
 };
+
+export type FeedbackStatsDto = {
+  in_progress: number;
+  planned: number;
+  live: number;
+};

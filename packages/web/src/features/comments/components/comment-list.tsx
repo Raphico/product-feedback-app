@@ -1,15 +1,15 @@
 import { cn } from "@/lib/utils";
 import styles from "./comment-list.module.css";
 import type { Feedback } from "@/features/feedbacks/types";
-import { useFeedbackComments } from "../hooks";
 import CommentListItem from "./comment-list-item";
+import { CommentWithReplies } from "../types";
 
 interface CommentListProps extends React.ComponentProps<"article"> {
   feedbackId: Feedback["id"];
 }
 
-function CommentList({ feedbackId, className }: CommentListProps) {
-  const comments = useFeedbackComments(feedbackId);
+function CommentList({ className }: CommentListProps) {
+  const comments: CommentWithReplies[] = [];
 
   return (
     <article className={cn(styles["comments"], className)}>

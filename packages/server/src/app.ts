@@ -77,6 +77,7 @@ export async function initApp(config: Config, deps: Deps) {
   app.register(cors, {
     methods: config.corsMethods,
     origin: config.corsOrigin,
+    credentials: true,
   });
   app.register(rateLimit, {
     max: config.rateLimitMax,

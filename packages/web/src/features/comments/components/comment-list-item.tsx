@@ -29,7 +29,7 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
     >
       <Avatar>
         <AvatarImage
-          src={comment.createdBy.image}
+          src={comment.createdBy.avatar}
           alt={`${comment.createdBy.fullName} profile image`}
         />
         <AvatarFallback>{initials}</AvatarFallback>

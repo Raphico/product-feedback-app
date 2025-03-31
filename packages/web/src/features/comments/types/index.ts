@@ -1,5 +1,5 @@
 import { Feedback } from "@/features/feedbacks/types";
-import type { User } from "@/features/users/types";
+import type { User } from "@/features/user/types";
 
 export type Comment = {
   id: string;

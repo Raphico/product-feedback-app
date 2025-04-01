@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import type { Feedback } from "../types";
 
 interface FeedbackForm extends React.HTMLAttributes<HTMLFormElement> {
-  initialValue?: Pick<Feedback, "title" | "category" | "description">;
+  initialValue?: Pick<Feedback, "title" | "category" | "detail">;
 }
 
 function FeedbackForm({ initialValue, children, ...props }: FeedbackForm) {
@@ -70,7 +70,7 @@ function FeedbackForm({ initialValue, children, ...props }: FeedbackForm) {
           className={styles["feedback-form-input"]}
           id="detail"
           name="detail"
-          value={initialValue?.description ?? ""}
+          value={initialValue?.detail ?? ""}
         />
       </FormItem>
       {children}

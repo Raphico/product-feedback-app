@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import styles from "./index.module.css";
-import { useFeedbackById } from "@/features/feedbacks/hooks";
 import GoBack from "@/components/go-back";
 import FeedbackItem from "@/features/feedbacks/components/feedback-item";
 import { buttonVariants } from "@/components/button";
@@ -14,7 +13,7 @@ export const Route = createFileRoute("/feedback/$feedbackId/")({
 
 function Feedback() {
   const { feedbackId } = Route.useParams();
-  const feedback = useFeedbackById(feedbackId);
+  const feedback = null;
 
   if (!feedback) {
     return;
@@ -25,7 +24,7 @@ function Feedback() {
       <GoBack className={styles["feedback__go-back"]} />
       <Link
         to="/feedback/$feedbackId/edit"
-        params={{ feedbackId: feedback.id }}
+        params={{ feedbackId }}
         className={cn(
           buttonVariants["tertiary"],
           styles["feedback__edit-link"],
@@ -39,7 +38,7 @@ function Feedback() {
         feedback={feedback}
       />
       <CommentList
-        feedbackId={feedback.id}
+        feedbackId={feedback}
         className={styles["feedback__comments"]}
       />
       <AddComment className={styles["feedback__add-comment"]} />

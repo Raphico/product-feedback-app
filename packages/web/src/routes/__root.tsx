@@ -12,10 +12,7 @@ function Root() {
 
   return (
     <>
-      <main>{isLoading ? <LoadingScreen /> : <Outlet />}</main>
-      <div aria-live="polite" className="sr-only">
-        {isLoading ? "Loading" : "Loading complete"}
-      </div>
+      {isLoading ? <LoadingScreen /> : <Outlet />}
       <TanStackRouterDevtools />
     </>
   );

@@ -75,8 +75,8 @@ export async function initApp(config: Config, deps: Deps) {
     routePrefix: config.swaggerUIPath,
   });
   app.register(cors, {
-    methods: config.corsMethods,
-    origin: config.corsOrigin,
+    methods: config.corsMethods.split(","),
+    origin: config.corsOrigin.split(","),
     credentials: true,
   });
   app.register(rateLimit, {

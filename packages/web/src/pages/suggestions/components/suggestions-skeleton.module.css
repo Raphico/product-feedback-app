@@ -1,0 +1,10 @@
+.suggestions-skeleton {
+  display: grid;
+  gap: 1.25rem;
+
+  & > * {
+    width: 100%;
+    height: 150px;
+    border-radius: var(--radius);
+  }
+}

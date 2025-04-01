@@ -1,5 +1,5 @@
-import type { Feedback } from "../types";
-import SuggestionListItem from "./feedback-item";
+import { Feedback } from "@/features/feedbacks/types";
+import FeedbackItem from "@/features/feedbacks/components/feedback-item";
 import styles from "./suggestion-list.module.css";
 import { cn } from "@/lib/utils";
 
@@ -12,7 +12,7 @@ function SuggestionList({ suggestions, className }: SuggestionListProps) {
     <article className={cn(styles["suggestion-list"], className)}>
       <h2 className="sr-only">suggestions</h2>
       {suggestions.map((suggestion) => (
-        <SuggestionListItem key={suggestion.id} feedback={suggestion} />
+        <FeedbackItem key={suggestion.id} feedback={suggestion} />
       ))}
     </article>
   );

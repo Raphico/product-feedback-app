@@ -13,6 +13,7 @@
     "typecheck": "yarn workspaces foreach  -vpi run typecheck",
     "build": "yarn workspaces foreach -vpi run build",
     "dev": "yarn workspaces foreach -vpi run dev",
+    "preview": "yarn workspaces foreach -vpi run preview",
     "lint": "yarn workspaces foreach -vpi run lint",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

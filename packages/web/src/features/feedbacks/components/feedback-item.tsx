@@ -23,17 +23,17 @@ function FeedbackItem({
           {feedback.title}
         </Comp>
       </Link>
-      <p className={styles["feedback__desc"]}>{feedback.description}</p>
+      <p className={styles["feedback__desc"]}>{feedback.detail}</p>
       <Badge className={styles["feedback__category"]}>
         {feedback.category}
       </Badge>
       <UpvoteButton
         className={styles["feedback__upvote-button"]}
-        upvotes={feedback.upvotes}
+        upvotes={feedback.upvotes.length}
       />
       <TotalComments
         className={styles["feedback__total-comments"]}
-        total={feedback.comments.length}
+        total={feedback.commentCount}
       />
     </article>
   );

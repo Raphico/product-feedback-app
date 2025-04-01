@@ -6,6 +6,7 @@
   "scripts": {
     "build": "yarn tsc",
     "dev": "FASTIFY_AUTOLOAD_TYPESCRIPT=1 node --import tsx/esm --watch src src/index.ts | pino-pretty",
+    "preview": "node dist/index.js",
     "start": "node dist/index.js",
     "typecheck": "yarn tsc --noEmit",
     "lint": "yarn eslint src"

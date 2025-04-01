@@ -4,15 +4,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import styles from "./edit.module.css";
 import FeedbackForm from "@/features/feedbacks/components/feedback-form";
 import { Button } from "@/components/button";
-import { useFeedbackById } from "@/features/feedbacks/hooks";
 
 export const Route = createFileRoute("/feedback/$feedbackId/edit")({
   component: UpdateFeedback,
 });
 
 function UpdateFeedback() {
-  const { feedbackId } = Route.useParams();
-  const feedback = useFeedbackById(feedbackId);
+  // const { feedbackId } = Route.useParams();
+  const feedback = null;
 
   if (!feedback) {
     return null;
@@ -25,9 +24,7 @@ function UpdateFeedback() {
         <div className={styles["edit-feedback__decoration"]}>
           <IconEditFeedback />
         </div>
-        <h1 className={styles["edit-feedback__header"]}>
-          Editing '{feedback.title}'
-        </h1>
+        <h1 className={styles["edit-feedback__header"]}>Editing '{}'</h1>
         <FeedbackForm initialValue={feedback}>
           <div className={styles["edit-feedback__actions"]}>
             <Button type="submit" variants="primary">

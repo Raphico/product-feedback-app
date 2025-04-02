@@ -17,6 +17,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.6.0",
     "@tanstack/react-router": "^1.112.0",
+    "@tanstack/zod-adapter": "^1.114.32",
     "axios": "^1.8.4",
     "clsx": "^2.1.1",
     "react": "^19.0.0",

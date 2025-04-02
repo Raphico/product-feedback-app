@@ -29,6 +29,13 @@ export enum FeedbackStatuses {
   LIVE = "live",
 }
 
+export enum FeedbackSortOptions {
+  MOST_UPVOTES = "most_upvotes",
+  LEAST_UPVOTES = "least_upvotes",
+  MOST_COMMENTS = "most_comments",
+  LEAST_COMMENTS = "least_comments",
+}
+
 function getEnv() {
   switch (process.env.NODE_ENV?.toLowerCase()) {
     case "production":

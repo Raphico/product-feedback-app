@@ -7,26 +7,32 @@ import {
 } from "@/components/select";
 import styles from "./suggestions-sort.module.css";
 import { cn } from "@/lib/utils";
+import { FeedbackSortOptions, feedbackSortOptions } from "@/config";
+import { useRouter } from "@tanstack/react-router";
 
 function SuggestionsSort() {
-  const options = [
-    { label: "Most Upvotes", value: "most_upvotes" },
-    { label: "Least Upvotes", value: "least_upvotes" },
-    { label: "Most Comments", value: "most_comments" },
-    { label: "Least Comments", value: "least_comments" },
-  ];
+  const router = useRouter();
+
+  function handleSort(value: FeedbackSortOptions) {
+    router.navigate({
+      to: ".",
+      search: { sort: value },
+    });
+  }
 
   return (
     <Select
-      defaultValue="most_upvotes"
-      onValueChange={(value: string) => console.log(value)}
+      defaultValue={FeedbackSortOptions.MOST_UPVOTES}
+      onValueChange={(value: string) =>
+        handleSort(value as FeedbackSortOptions)
+      }
     >
       <SelectTrigger className={cn("h4", styles["sort-button"])}>
         <span className={styles["sort-button__text"]}>Sort by:</span>
         <SelectValue />
       </SelectTrigger>
       <SelectContent sideOffset={45}>
-        {options.map((option) => (
+        {feedbackSortOptions.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             {option.label}
           </SelectItem>

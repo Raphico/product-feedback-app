@@ -1,11 +1,11 @@
-import type { FeedbackCategories } from "../config.js";
+import { type FeedbackCategories, FeedbackSortOptions } from "../config.js";
 import type { FeedbackEntity } from "../models/feedback.js";
 import {
   type FeedbackWithCommentCount,
   type FeedbackRepository,
   type FeedbackStats,
 } from "./feedback.interface.js";
-import type { UpdateQuery } from "mongoose";
+import type { UpdateQuery, FilterQuery, PipelineStage } from "mongoose";
 import { Feedback } from "../models/feedback.js";
 import { Comment } from "../models/comment.js";
 
@@ -47,9 +47,17 @@ export const feedbackRepository: FeedbackRepository = {
   },
 
   async findMany(
-    filter?: UpdateQuery<FeedbackEntity>,
+    sortOption: FeedbackSortOptions,
+    filter?: FilterQuery<FeedbackEntity>,
   ): Promise<FeedbackWithCommentCount[]> {
-    const pipeline: any[] = [];
+    const pipeline: PipelineStage[] = [];
+
+    const sortBy: Record<FeedbackSortOptions, Record<string, -1 | 1>> = {
+      [FeedbackSortOptions.MOST_UPVOTES]: { upvoteCount: -1 },
+      [FeedbackSortOptions.LEAST_UPVOTES]: { upvoteCount: 1 },
+      [FeedbackSortOptions.MOST_COMMENTS]: { commentCount: -1 },
+      [FeedbackSortOptions.LEAST_COMMENTS]: { commentCount: 1 },
+    };
 
     const matchFilter = { ...filter, deletedAt: null };
 
@@ -67,7 +75,11 @@ export const feedbackRepository: FeedbackRepository = {
       {
         $addFields: {
           commentCount: { $size: "$comments" },
+          upvoteCount: { $size: "$upvotes" },
         },
+      },
+      {
+        $sort: sortBy[sortOption],
       },
       {
         $project: {

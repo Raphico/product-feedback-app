@@ -10,7 +10,8 @@
   flex-flow: wrap;
   gap: 1rem;
 
-  & button {
+  & a {
+    display: block;
     cursor: pointer;
     border: none;
     color: var(--clr-vibrant-blue);
@@ -24,7 +25,7 @@
     }
   }
 
-  & button.current {
+  & a.current {
     background-color: var(--clr-vibrant-blue);
     color: var(--clr-pure-white);
 

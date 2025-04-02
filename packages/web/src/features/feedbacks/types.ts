@@ -1,4 +1,8 @@
-import type { FeedbackCategories, FeedbackStatuses } from "@/config";
+import type {
+  FeedbackCategories,
+  FeedbackSortOptions,
+  FeedbackStatuses,
+} from "@/config";
 
 export type Feedback = {
   id: string;
@@ -13,7 +17,8 @@ export type Feedback = {
 
 export type GetFeedbacksParams = {
   status?: FeedbackStatuses;
-  categories?: FeedbackCategories;
+  category?: FeedbackCategories;
+  sort?: FeedbackSortOptions;
 };
 
 export type FeedbackStats = {

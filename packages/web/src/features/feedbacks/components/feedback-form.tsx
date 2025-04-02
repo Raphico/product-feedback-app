@@ -13,10 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/select";
-import { feedbackCategories } from "@/config";
 import styles from "./feedback-form.module.css";
 import { cn } from "@/lib/utils";
 import type { Feedback } from "../types";
+import { feedbackCategoryOptions } from "@/config";
 
 interface FeedbackForm extends React.HTMLAttributes<HTMLFormElement> {
   initialValue?: Pick<Feedback, "title" | "category" | "detail">;
@@ -53,9 +53,9 @@ function FeedbackForm({ initialValue, children, ...props }: FeedbackForm) {
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
-            {feedbackCategories.slice(1).map((category) => (
-              <SelectItem key={category} value={category.toLowerCase()}>
-                {category}
+            {feedbackCategoryOptions.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
               </SelectItem>
             ))}
           </SelectContent>

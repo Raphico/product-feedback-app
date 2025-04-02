@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { FeedbackCategories, FeedbackStatuses } from "../config.js";
+import {
+  FeedbackCategories,
+  FeedbackSortOptions,
+  FeedbackStatuses,
+} from "../config.js";
 
 export const feedbackResponseSchema = z.object({
   id: z.string().regex(/^[a-f\d]{24}$/),
@@ -35,6 +39,9 @@ export const feedbacksResponseSchema = z.array(
 export const feedbacksQuerySchema = z.object({
   category: feedbackResponseSchema.shape.category.optional(),
   status: feedbackResponseSchema.shape.status.optional(),
+  sort: z
+    .nativeEnum(FeedbackSortOptions)
+    .default(FeedbackSortOptions.MOST_UPVOTES),
 });
 
 export type FeedbacksQuerySchema = z.infer<typeof feedbacksQuerySchema>;

@@ -1,5 +1,9 @@
-import type { UpdateQuery } from "mongoose";
-import { type FeedbackCategories, FeedbackStatuses } from "../config.js";
+import type { UpdateQuery, FilterQuery } from "mongoose";
+import {
+  type FeedbackCategories,
+  FeedbackSortOptions,
+  FeedbackStatuses,
+} from "../config.js";
 import type { FeedbackEntity } from "../models/feedback.js";
 
 export interface FeedbackWithCommentCount extends FeedbackEntity {
@@ -25,7 +29,8 @@ export interface FeedbackRepository {
   }): Promise<FeedbackEntity>;
   findById(id: string): Promise<FeedbackEntity | null>;
   findMany(
-    data?: UpdateQuery<FeedbackEntity>,
+    sortOption: FeedbackSortOptions,
+    filter?: FilterQuery<FeedbackEntity>,
   ): Promise<FeedbackWithCommentCount[]>;
   getFeedbackStats(): Promise<FeedbackStats[]>;
   getFeedbackCommentCount(feedbackId: string): Promise<number>;

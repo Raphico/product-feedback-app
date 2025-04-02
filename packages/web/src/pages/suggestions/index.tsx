@@ -6,10 +6,16 @@ import SuggestionsAside from "./components/suggestions-aside";
 import SuggestionsHeader from "./components/suggestions-header";
 import SuggestionList from "./components/suggestion-list";
 import EmptySuggestions from "./components/empty-suggestions";
+import { getRouteApi } from "@tanstack/react-router";
+
+const routeApi = getRouteApi("/");
 
 function SuggestionsPage() {
+  const { sort, category } = routeApi.useSearch();
   const { data: suggestions, isLoading } = useGetFeedbacksQuery({
     status: FeedbackStatuses.SUGGESTION,
+    sort,
+    category,
   });
 
   const hasSuggestions = !!suggestions && suggestions.length > 0;

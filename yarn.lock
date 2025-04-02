@@ -1270,6 +1270,7 @@ __metadata:
     "@tanstack/react-router": ^1.112.0
     "@tanstack/router-devtools": ^1.112.6
     "@tanstack/router-plugin": ^1.112.3
+    "@tanstack/zod-adapter": ^1.114.32
     "@types/eslint-plugin-jsx-a11y": ^6
     "@types/node": ^22.13.8
     "@types/react": ^19
@@ -1787,6 +1788,16 @@ __metadata:
   version: 1.114.12
   resolution: "@tanstack/virtual-file-routes@npm:1.114.12"
   checksum: 645430a0afc3147279ad247355374aa77ac3cc024bd0de58aa44204b41f6714f6c7271984d5daf7d9de0f836db8d7a0e0863fda3ba79afe275cd086eba04d988
+  languageName: node
+  linkType: hard
+
+"@tanstack/zod-adapter@npm:^1.114.32":
+  version: 1.114.32
+  resolution: "@tanstack/zod-adapter@npm:1.114.32"
+  peerDependencies:
+    "@tanstack/react-router": ">=1.43.2"
+    zod: ^3.23.8
+  checksum: c7251a4226e88c6154287423d64cb59d5d328afd7246d824c5f04474c493b8d0818588906a053e4a4d03f9f7797cff219ba21f431e193a8401ede5cdab321d7c
   languageName: node
   linkType: hard
 

@@ -1,12 +1,12 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/avatar";
-import type { CommentWithReplies } from "../types";
 import styles from "./comment-list-item.module.css";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import ReplyForm from "./reply-form";
+import { Comment } from "../types";
 
 interface CommentListItemProps extends React.ComponentProps<"article"> {
-  comment: CommentWithReplies;
+  comment: Comment;
   parentComment?: {
     id: string;
     username: string;
@@ -14,7 +14,7 @@ interface CommentListItemProps extends React.ComponentProps<"article"> {
 }
 
 function CommentListItem({ comment, parentComment }: CommentListItemProps) {
-  const [showReply, setShowReply] = useState(false);
+  const [showReplyForm, setShowReplyForm] = useState(false);
   const initials = comment.createdBy.fullName
     .split(" ")
     .map((name) => name.charAt(0))
@@ -24,7 +24,7 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
   return (
     <article
       className={cn(styles["comment"], {
-        [styles["with-replies"]]: comment.replies.length > 0,
+        [styles["comment__top-level"]]: !parentComment,
       })}
     >
       <Avatar>
@@ -43,8 +43,8 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
         </span>
       </div>
       <button
-        onClick={() => setShowReply(true)}
-        className={styles["comment__reply"]}
+        onClick={() => setShowReplyForm(true)}
+        className={styles["comment__reply-button"]}
       >
         Reply
       </button>
@@ -54,10 +54,10 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
         </span>{" "}
         {comment.content}
       </p>
-      {showReply && (
+      {showReplyForm && (
         <ReplyForm
           className={styles["comment__reply-form"]}
-          closeForm={() => setShowReply(false)}
+          closeForm={() => setShowReplyForm(false)}
         />
       )}
       {comment.replies.length > 0 && (

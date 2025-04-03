@@ -5,5 +5,5 @@ export const selectUser = (state: AppState) => state.user;
 
 export const selectIsLoggedIn = createSelector(
   [selectUser],
-  ({ user }) => !!user,
+  (user) => !!user.data,
 );

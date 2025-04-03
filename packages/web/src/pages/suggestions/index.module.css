@@ -27,8 +27,6 @@
     grid-template-columns: 255px 1fr;
     grid-template-rows: auto 1fr;
     gap: 1.5rem 2rem;
-    align-items: start;
-    min-height: 100vh;
   }
 
   .suggestions__aside {
@@ -41,10 +39,13 @@
     grid-row: 1 / 2;
   }
 
+  .suggestions__empty {
+    min-height: 500px;
+  }
+
   .suggestions__list,
   .suggestions__empty,
   .suggestions__skeleton {
     grid-column: 2 / -1;
-    /* grid-row: 2 / -1; */
   }
 }

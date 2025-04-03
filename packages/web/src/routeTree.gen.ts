@@ -13,7 +13,7 @@
 import { Route as rootRoute } from "./routes/__root";
 import { Route as CreateFeedbackImport } from "./routes/create-feedback";
 import { Route as IndexImport } from "./routes/index";
-import { Route as FeedbackFeedbackIdIndexImport } from "./routes/feedback/$feedbackId/index";
+import { Route as FeedbackFeedbackIdImport } from "./routes/feedback.$feedbackId";
 import { Route as FeedbackFeedbackIdEditImport } from "./routes/feedback/$feedbackId/edit";
 
 // Create/Update Routes
@@ -30,16 +30,16 @@ const IndexRoute = IndexImport.update({
   getParentRoute: () => rootRoute,
 } as any);
 
-const FeedbackFeedbackIdIndexRoute = FeedbackFeedbackIdIndexImport.update({
-  id: "/feedback/$feedbackId/",
-  path: "/feedback/$feedbackId/",
+const FeedbackFeedbackIdRoute = FeedbackFeedbackIdImport.update({
+  id: "/feedback/$feedbackId",
+  path: "/feedback/$feedbackId",
   getParentRoute: () => rootRoute,
 } as any);
 
 const FeedbackFeedbackIdEditRoute = FeedbackFeedbackIdEditImport.update({
-  id: "/feedback/$feedbackId/edit",
-  path: "/feedback/$feedbackId/edit",
-  getParentRoute: () => rootRoute,
+  id: "/edit",
+  path: "/edit",
+  getParentRoute: () => FeedbackFeedbackIdRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -60,45 +60,56 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof CreateFeedbackImport;
       parentRoute: typeof rootRoute;
     };
-    "/feedback/$feedbackId/edit": {
-      id: "/feedback/$feedbackId/edit";
-      path: "/feedback/$feedbackId/edit";
-      fullPath: "/feedback/$feedbackId/edit";
-      preLoaderRoute: typeof FeedbackFeedbackIdEditImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/feedback/$feedbackId/": {
-      id: "/feedback/$feedbackId/";
+    "/feedback/$feedbackId": {
+      id: "/feedback/$feedbackId";
       path: "/feedback/$feedbackId";
       fullPath: "/feedback/$feedbackId";
-      preLoaderRoute: typeof FeedbackFeedbackIdIndexImport;
+      preLoaderRoute: typeof FeedbackFeedbackIdImport;
       parentRoute: typeof rootRoute;
+    };
+    "/feedback/$feedbackId/edit": {
+      id: "/feedback/$feedbackId/edit";
+      path: "/edit";
+      fullPath: "/feedback/$feedbackId/edit";
+      preLoaderRoute: typeof FeedbackFeedbackIdEditImport;
+      parentRoute: typeof FeedbackFeedbackIdImport;
     };
   }
 }
 
 // Create and export the route tree
 
+interface FeedbackFeedbackIdRouteChildren {
+  FeedbackFeedbackIdEditRoute: typeof FeedbackFeedbackIdEditRoute;
+}
+
+const FeedbackFeedbackIdRouteChildren: FeedbackFeedbackIdRouteChildren = {
+  FeedbackFeedbackIdEditRoute: FeedbackFeedbackIdEditRoute,
+};
+
+const FeedbackFeedbackIdRouteWithChildren =
+  FeedbackFeedbackIdRoute._addFileChildren(FeedbackFeedbackIdRouteChildren);
+
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/feedback/$feedbackId": typeof FeedbackFeedbackIdRouteWithChildren;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
-  "/feedback/$feedbackId": typeof FeedbackFeedbackIdIndexRoute;
 }
 
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/feedback/$feedbackId": typeof FeedbackFeedbackIdRouteWithChildren;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
-  "/feedback/$feedbackId": typeof FeedbackFeedbackIdIndexRoute;
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
   "/": typeof IndexRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/feedback/$feedbackId": typeof FeedbackFeedbackIdRouteWithChildren;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
-  "/feedback/$feedbackId/": typeof FeedbackFeedbackIdIndexRoute;
 }
 
 export interface FileRouteTypes {
@@ -106,35 +117,33 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | "/create-feedback"
-    | "/feedback/$feedbackId/edit"
-    | "/feedback/$feedbackId";
+    | "/feedback/$feedbackId"
+    | "/feedback/$feedbackId/edit";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
     | "/create-feedback"
-    | "/feedback/$feedbackId/edit"
-    | "/feedback/$feedbackId";
+    | "/feedback/$feedbackId"
+    | "/feedback/$feedbackId/edit";
   id:
     | "__root__"
     | "/"
     | "/create-feedback"
-    | "/feedback/$feedbackId/edit"
-    | "/feedback/$feedbackId/";
+    | "/feedback/$feedbackId"
+    | "/feedback/$feedbackId/edit";
   fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   CreateFeedbackRoute: typeof CreateFeedbackRoute;
-  FeedbackFeedbackIdEditRoute: typeof FeedbackFeedbackIdEditRoute;
-  FeedbackFeedbackIdIndexRoute: typeof FeedbackFeedbackIdIndexRoute;
+  FeedbackFeedbackIdRoute: typeof FeedbackFeedbackIdRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CreateFeedbackRoute: CreateFeedbackRoute,
-  FeedbackFeedbackIdEditRoute: FeedbackFeedbackIdEditRoute,
-  FeedbackFeedbackIdIndexRoute: FeedbackFeedbackIdIndexRoute,
+  FeedbackFeedbackIdRoute: FeedbackFeedbackIdRouteWithChildren,
 };
 
 export const routeTree = rootRoute
@@ -149,8 +158,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/create-feedback",
-        "/feedback/$feedbackId/edit",
-        "/feedback/$feedbackId/"
+        "/feedback/$feedbackId"
       ]
     },
     "/": {
@@ -159,11 +167,15 @@ export const routeTree = rootRoute
     "/create-feedback": {
       "filePath": "create-feedback.tsx"
     },
-    "/feedback/$feedbackId/edit": {
-      "filePath": "feedback/$feedbackId/edit.tsx"
+    "/feedback/$feedbackId": {
+      "filePath": "feedback.$feedbackId.tsx",
+      "children": [
+        "/feedback/$feedbackId/edit"
+      ]
     },
-    "/feedback/$feedbackId/": {
-      "filePath": "feedback/$feedbackId/index.tsx"
+    "/feedback/$feedbackId/edit": {
+      "filePath": "feedback/$feedbackId/edit.tsx",
+      "parent": "/feedback/$feedbackId"
     }
   }
 }

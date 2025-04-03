@@ -1,19 +1,23 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { commentsReducer } from "@/features/comments/slice";
 import { userReducer } from "@/features/user/slice";
 import userApi from "@/features/user/service";
 import feedbackApi from "@/features/feedbacks/service";
+import commentApi from "@/features/comments/service";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
-    comments: commentsReducer,
+    [commentApi.reducerPath]: commentApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [feedbackApi.reducerPath]: feedbackApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(userApi.middleware, feedbackApi.middleware),
+    getDefaultMiddleware().concat(
+      userApi.middleware,
+      feedbackApi.middleware,
+      commentApi.middleware,
+    ),
 });
 
 setupListeners(store.dispatch);

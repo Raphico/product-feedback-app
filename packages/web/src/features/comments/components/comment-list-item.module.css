@@ -22,7 +22,7 @@
   font-size: var(--fs-100);
 }
 
-.comment__reply {
+.comment__reply-button {
   cursor: pointer;
   border: 0;
   justify-self: right;
@@ -43,17 +43,12 @@
   grid-column: 1 / -1;
   display: grid;
   gap: 1rem;
-  border-left: 1px solid var(--clr-border);
-  padding-left: 1rem;
   margin-top: 0.5rem;
+}
 
-  & > * + * {
-    margin-top: 0.5rem;
-  }
-
-  & .comment {
-    gap: 0.75rem 1rem;
-  }
+.comment__top-level > .comment__replies {
+  padding-left: 1rem;
+  border-left: 1px solid var(--clr-border);
 }
 
 .comment__at {
@@ -83,22 +78,12 @@
   }
 
   .comment__replies {
-    margin-left: 1.5rem;
+    /* margin-left: 1.5rem; */
     border: none;
   }
 
   .comment {
     gap: 1rem 1.75rem;
-  }
-
-  .comment.with-replies::before {
-    content: "";
-    position: absolute;
-    height: calc(100% - 2.5rem - 40px);
-    bottom: 0;
-    left: 20px;
-    width: 1px;
-    background-color: var(--clr-border);
   }
 
   .comment__content {
@@ -107,5 +92,24 @@
 
   .comment__content {
     grid-column: 2 / -1;
+  }
+
+  .comment__top-level > .comment__replies {
+    padding-left: 2.5rem;
+    border: none;
+  }
+
+  .comment__replies {
+    margin-top: 1rem;
+  }
+
+  .comment__top-level::before {
+    content: "";
+    position: absolute;
+    height: calc(100% - 2.5rem - 40px);
+    bottom: 0;
+    left: 20px;
+    width: 1px;
+    background-color: var(--clr-border);
   }
 }

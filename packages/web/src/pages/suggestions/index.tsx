@@ -5,8 +5,10 @@ import SuggestionsSkeleton from "./components/suggestions-skeleton";
 import SuggestionsAside from "./components/suggestions-aside";
 import SuggestionsHeader from "./components/suggestions-header";
 import SuggestionList from "./components/suggestion-list";
-import EmptySuggestions from "./components/empty-suggestions";
-import { getRouteApi } from "@tanstack/react-router";
+import IconPlus from "@/assets/icon-plus.svg?react";
+import { getRouteApi, Link } from "@tanstack/react-router";
+import EmptyCard from "@/components/empty-card";
+import { buttonVariants } from "@/components/button";
 
 const routeApi = getRouteApi("/");
 
@@ -41,7 +43,17 @@ function SuggestionsPage() {
           suggestions={suggestions}
         />
       ) : (
-        <EmptySuggestions className={styles["suggestions__empty"]} />
+        <EmptyCard
+          className={styles["suggestions__empty"]}
+          title="There are no feedbacks yet"
+          description="Got a suggestion? Found a bug that needs to be squashed? We love hearing
+        about new ideas to improve our app."
+        >
+          <Link to="/create-feedback" className={buttonVariants["primary"]}>
+            <IconPlus />
+            Add Feedback
+          </Link>
+        </EmptyCard>
       )}
     </div>
   );

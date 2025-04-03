@@ -1,0 +1,31 @@
+.empty-card {
+  background-color: var(--clr-pure-white);
+  border-radius: var(--radius);
+  display: grid;
+  text-align: center;
+  place-content: center;
+  place-items: center;
+  padding: 1em 1.5em;
+}
+
+.empty-card__desc {
+  max-width: 410px;
+  margin: 0.3em auto 1.5em;
+}
+
+.empty-card__title {
+  color: var(--clr-deep-slate-blue);
+  margin-top: 1.25em;
+}
+
+@media (max-width: 480px) {
+  .empty-card__title {
+    font-size: var(--fs-500);
+    line-height: 1.63;
+    letter-spacing: -0.25px;
+  }
+
+  .empty-card__desc {
+    font-size: var(--fs-100);
+  }
+}

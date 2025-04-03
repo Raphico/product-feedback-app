@@ -8,21 +8,33 @@ import { Link } from "@tanstack/react-router";
 
 interface FeedbackProps extends React.ComponentProps<"article"> {
   feedback: Feedback;
+  isFeedbackPage?: boolean;
   headingTag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
 function FeedbackItem({
   className,
   feedback,
+  isFeedbackPage = false,
   headingTag: Comp = "h3",
 }: FeedbackProps) {
   return (
     <article className={cn(styles["feedback"], className)}>
-      <Link to="/feedback/$feedbackId" params={{ feedbackId: feedback.id }}>
+      {!isFeedbackPage ? (
+        <Link
+          className={styles["feedback__page-link"]}
+          to="/feedback/$feedbackId"
+          params={{ feedbackId: feedback.id }}
+        >
+          <Comp className={cn("h3", styles["feedback__header"])}>
+            {feedback.title}
+          </Comp>
+        </Link>
+      ) : (
         <Comp className={cn("h3", styles["feedback__header"])}>
           {feedback.title}
         </Comp>
-      </Link>
+      )}
       <p className={styles["feedback__desc"]}>{feedback.detail}</p>
       <Badge className={styles["feedback__category"]}>
         {feedback.category}

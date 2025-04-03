@@ -1,0 +1,38 @@
+.card-container {
+  display: grid;
+  place-content: center;
+  min-height: 100vh;
+}
+
+.card {
+  background-color: var(--clr-pure-white);
+  border-radius: var(--radius);
+  display: grid;
+  text-align: center;
+  place-content: center;
+  place-items: center;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1.5em 1.5em;
+}
+
+.card__description {
+  max-width: 410px;
+  margin: 0.3em auto 1.5em;
+}
+
+.card__title {
+  margin-top: 1.25em;
+}
+
+@media (max-width: 480px) {
+  .card__title {
+    font-size: var(--fs-500);
+    line-height: 1.63;
+    letter-spacing: -0.25px;
+  }
+
+  .card__description {
+    font-size: var(--fs-100);
+  }
+}

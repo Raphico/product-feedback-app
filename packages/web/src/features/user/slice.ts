@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "./types";
 import userApi from "./service";
 
-type AuthState = {
-  user: User | null;
+type UserState = {
+  data: User | null;
 };
 
-const initialState: AuthState = {
-  user: null,
+const initialState: UserState = {
+  data: null,
 };
 
 const userSlice = createSlice({
@@ -15,21 +15,21 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action: PayloadAction<User>) {
-      state.user = action.payload;
+      state.data = action.payload;
     },
     clearUser(state) {
-      state.user = null;
+      state.data = null;
     },
   },
   extraReducers: (builder) => {
     builder.addMatcher(
       userApi.endpoints.getMe.matchFulfilled,
       (state, action) => {
-        state.user = action.payload;
+        state.data = action.payload;
       },
     );
     builder.addMatcher(userApi.endpoints.getMe.matchRejected, (state) => {
-      state.user = null;
+      state.data = null;
     });
   },
 });

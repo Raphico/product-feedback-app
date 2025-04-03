@@ -11,15 +11,15 @@
   grid-column: 1 / -1;
   transition: color var(--transition-easing) var(--transition-duration);
 
-  &:hover {
-    color: var(--clr-vibrant-blue);
-  }
-
   @media (max-width: 480px) {
     font-size: var(--fs-100);
     line-height: 1.1875;
     letter-spacing: -0.18px;
   }
+}
+
+.feedback__page-link:hover .feedback__header {
+  color: var(--clr-vibrant-blue);
 }
 
 .feedback__desc {

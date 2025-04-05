@@ -10,14 +10,25 @@ import { FileUploadService } from "./services/file-upload.js";
 void (async function main() {
   const logger = initLogger(config);
 
-  await initDB(config)
-    .then(() => logger.info("MongoDB connected successfully"))
-    .catch((error) => logger.error(error));
+  const { db, pool } = await initDB(config)
+    .then((response) => {
+      logger.info("Database connected successfully");
+      return response;
+    })
+    .catch((error) => {
+      logger.error(error);
+      process.exit(1);
+    });
 
   const mailService = new MailService(config, logger);
   const fileUploadService = new FileUploadService(config, logger);
 
-  const app = await initApp(config, { logger, mailService, fileUploadService });
+  const app = await initApp(config, {
+    logger,
+    mailService,
+    fileUploadService,
+    db,
+  });
 
   app.fastify.listen(
     {
@@ -40,7 +51,7 @@ void (async function main() {
     },
     async onShutdown() {
       await app.shutdown();
-      await shutdownDB();
+      await shutdownDB(pool);
     },
     finally() {
       logger.info("Shutdown complete");

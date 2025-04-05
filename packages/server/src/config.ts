@@ -9,25 +9,25 @@ export enum Env {
   Test = "test",
 }
 
-export enum Roles {
-  USER = "user",
-  ADMIN = "admin",
-}
+export const ROLES = ["user", "admin"] as const;
+export type Roles = (typeof ROLES)[number];
 
-export enum FeedbackCategories {
-  UI = "ui",
-  UX = "ux",
-  FEATURE = "feature",
-  BUG = "bug",
-  ENHANCEMENT = "enhancement",
-}
+export const FEEDBACK_CATEGORIES = [
+  "ui",
+  "ux",
+  "feature",
+  "bug",
+  "enhancement",
+] as const;
+export type FeedbackCategories = (typeof FEEDBACK_CATEGORIES)[number];
 
-export enum FeedbackStatuses {
-  SUGGESTION = "suggestion",
-  PLANNED = "planned",
-  IN_PROGRESS = "in_progress",
-  LIVE = "live",
-}
+export const FEEDBACK_STATUSES = [
+  "suggestion",
+  "planned",
+  "in_progress",
+  "live",
+] as const;
+export type FeedbackStatuses = (typeof FEEDBACK_STATUSES)[number];
 
 export enum FeedbackSortOptions {
   MOST_UPVOTES = "most_upvotes",

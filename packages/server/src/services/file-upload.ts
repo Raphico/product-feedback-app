@@ -7,7 +7,7 @@ import {
 import type { Config } from "../config.js";
 import type { Logger } from "pino";
 import type { Readable } from "stream";
-import { InternalServerError } from "../errors/common.js";
+import { InternalServerError } from "../core/exceptions.js";
 
 export class FileUploadService {
   constructor(

@@ -1,10 +1,14 @@
 services:
   db:
-    image: mongo
+    image: postgres
     ports:
-      - "27017:27017"
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=product_feedback
     volumes:
-      - mongodb_data:/data
+      - app_data:/data
 
 volumes:
-  mongodb_data:
+  app_data:

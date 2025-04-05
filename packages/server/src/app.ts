@@ -16,15 +16,18 @@ import {
   validatorCompiler,
 } from "fastify-type-provider-zod";
 import type { MailService } from "./services/mail.js";
-import autoLoad from "@fastify/autoload";
-import { fileURLToPath } from "node:url";
-import { dirname, join } from "node:path";
+import type { DB } from "./db/index.js";
 import { FileUploadService } from "./services/file-upload.js";
+import usersRoute from "./modules/users/routes.js";
+import feedbacksRoute from "./modules/feedbacks/routes.js";
+import commentsRoute from "./modules/comments/routes.js";
+import authRoute from "./modules/auth/routes.js";
 
 type Deps = {
   logger: Logger;
   mailService: MailService;
   fileUploadService: FileUploadService;
+  db: DB;
 };
 
 export interface UserPayload {
@@ -36,6 +39,7 @@ declare module "fastify" {
     mailService: MailService;
     fileUploadService: FileUploadService;
     config: Config;
+    db: DB;
   }
 
   interface FastifyRequest {
@@ -43,11 +47,8 @@ declare module "fastify" {
   }
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 export async function initApp(config: Config, deps: Deps) {
-  const { logger, mailService, fileUploadService } = deps;
+  const { logger, mailService, fileUploadService, db } = deps;
   const app = Fastify({
     loggerInstance: logger,
     bodyLimit: config.bodyLimit,
@@ -87,13 +88,12 @@ export async function initApp(config: Config, deps: Deps) {
   app.decorate("mailService", mailService);
   app.decorate("fileUploadService", fileUploadService);
   app.decorate("config", config);
+  app.decorate("db", db);
 
-  app.register(autoLoad, {
-    dir: join(__dirname, "routes"),
-    autoHooks: true,
-    routeParams: true,
-    cascadeHooks: true,
-  });
+  app.register(usersRoute, { prefix: "/api/v1/users" });
+  app.register(feedbacksRoute, { prefix: "/api/v1/feedbacks" });
+  app.register(commentsRoute, { prefix: "/api/v1/comments" });
+  app.register(authRoute, { prefix: "/api/v1/auth" });
 
   await app.after();
 

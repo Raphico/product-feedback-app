@@ -20,7 +20,7 @@
     background-color: #cfd7ff;
   }
 
-  &.upvoted {
+  &.has-upvote {
     background-color: var(--clr-vibrant-blue);
 
     &:hover {

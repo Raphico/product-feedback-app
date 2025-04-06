@@ -5,13 +5,23 @@ import { cn } from "@/lib/utils";
 interface UpvoteButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   upvotes: number;
+  hasUpvote: boolean;
 }
 
-function UpvoteButton({ upvotes, className, ...props }: UpvoteButtonProps) {
+function UpvoteButton({
+  hasUpvote,
+  upvotes,
+  className,
+  ...props
+}: UpvoteButtonProps) {
   return (
     <button
       aria-label="upvote"
-      className={cn(styles["upvote-button"], className)}
+      className={cn(
+        styles["upvote-button"],
+        hasUpvote && styles["has-upvote"],
+        className,
+      )}
       {...props}
     >
       <IconArrowUp />

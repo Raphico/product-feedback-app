@@ -7,7 +7,7 @@ function RoadmapCard() {
   const { data: stats, isLoading } = useGetFeedbackStatsQuery();
 
   const planned = stats?.planned ?? 0;
-  const inProgress = stats?.in_progress ?? 0;
+  const inProgress = stats?.inProgress ?? 0;
   const live = stats?.live ?? 0;
 
   return (

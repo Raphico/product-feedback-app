@@ -41,7 +41,8 @@ function FeedbackItem({
       </Badge>
       <UpvoteButton
         className={styles["feedback__upvote-button"]}
-        upvotes={feedback.upvotes.length}
+        upvotes={feedback.upvoteCount}
+        hasUpvote={feedback.hasUpvote}
       />
       <TotalComments
         className={styles["feedback__total-comments"]}

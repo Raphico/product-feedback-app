@@ -8,11 +8,12 @@ export type Feedback = {
   id: string;
   title: string;
   category: FeedbackCategories;
-  upvotes: string[];
   status: FeedbackStatuses;
   detail: string;
   createdBy: string;
   commentCount: number;
+  upvoteCount: number;
+  hasUpvote: boolean;
 };
 
 export type GetFeedbacksParams = {
@@ -22,7 +23,7 @@ export type GetFeedbacksParams = {
 };
 
 export type FeedbackStats = {
-  in_progress: number;
+  inProgress: number;
   planned: number;
   live: number;
 };

@@ -1,6 +1,6 @@
 import type { UserRepository } from "../repository.js";
-import type { UserResponseDto } from "../dto.js";
-import type { UpdateUserSchema } from "../validations.js";
+import type { UpdateUser } from "../validations.js";
+import type { UserResponse } from "../validations.js";
 import { NotFoundError } from "../../../core/exceptions.js";
 import { userToDto } from "../mapper.js";
 
@@ -8,8 +8,8 @@ export async function updateMeUseCase(
   context: {
     db: UserRepository;
   },
-  data: UpdateUserSchema & { id: string },
-): Promise<UserResponseDto> {
+  data: UpdateUser & { id: string },
+): Promise<UserResponse> {
   const { db } = context;
   const { id, ...changes } = data;
 

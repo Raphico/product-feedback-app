@@ -1,13 +1,13 @@
-import type { FeedbackResponseDto } from "../dto.js";
+import type { FeedbackResponse } from "../validation.js";
 import type { FeedbackRepository } from "../repository.js";
-import type { CreateFeedbackSchema } from "../validation.js";
+import type { CreateFeedback } from "../validation.js";
 import { feedbackToDto } from "../mapper.js";
 import { InternalServerError } from "../../../core/exceptions.js";
 
 export async function createFeedbackUseCase(
   context: { db: FeedbackRepository },
-  data: CreateFeedbackSchema & { createdBy: string },
-): Promise<FeedbackResponseDto> {
+  data: CreateFeedback & { createdBy: string },
+): Promise<FeedbackResponse> {
   const createdFeedback = await context.db.create(data);
   if (!createdFeedback) {
     throw new InternalServerError(

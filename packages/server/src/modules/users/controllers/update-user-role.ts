@@ -1,14 +1,14 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { IdParamsSchema } from "../../../shared/validation.js";
+import type { IdParams } from "../../../shared/validation.js";
+import type { UpdateUserRole } from "../validations.js";
 import { createUserRepository } from "../repository.js";
-import { updateUserRoleSchema } from "../validations.js";
 import { ForbiddenError, NotFoundError } from "../../../core/exceptions.js";
 import { updateUserRoleUseCase } from "../use-cases/update-user-role.js";
 
 export async function updateUserRoleController(
   request: FastifyRequest<{
-    Body: updateUserRoleSchema;
-    Params: IdParamsSchema;
+    Body: UpdateUserRole;
+    Params: IdParams;
   }>,
   reply: FastifyReply,
 ) {

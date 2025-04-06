@@ -1,12 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { CreateCommentSchema } from "../validations.js";
+import type { CreateComment } from "../validations.js";
 import { NotFoundError } from "../../../core/exceptions.js";
 import { createCommentUseCase } from "../use-cases/create-comment.js";
 import { createCommentRepository } from "../repository.js";
 import { createFeedbackRepository } from "../../feedbacks/repository.js";
 
 export async function createCommentController(
-  request: FastifyRequest<{ Body: CreateCommentSchema }>,
+  request: FastifyRequest<{ Body: CreateComment }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

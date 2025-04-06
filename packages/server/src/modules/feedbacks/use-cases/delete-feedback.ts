@@ -1,5 +1,5 @@
 import type { FeedbackRepository } from "../repository.js";
-import type { FeedbackResponseDto } from "../dto.js";
+import type { FeedbackResponse } from "../validation.js";
 import { ForbiddenError, NotFoundError } from "../../../core/exceptions.js";
 import { feedbackToDto } from "../mapper.js";
 
@@ -8,7 +8,7 @@ export async function deleteFeedbackUseCase(
     db: FeedbackRepository;
   },
   data: { id: string; userId: string },
-): Promise<FeedbackResponseDto> {
+): Promise<FeedbackResponse> {
   const { db } = context;
   const { id, userId } = data;
 

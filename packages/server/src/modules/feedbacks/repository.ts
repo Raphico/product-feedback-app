@@ -8,7 +8,7 @@ import {
   type NewFeedback,
 } from "../../db/schema.js";
 import { FeedbackSortOptions } from "../../config.js";
-import { ExtendedFeedbackSchema } from "./validation.js";
+import { ExtendedFeedback } from "./validation.js";
 
 export function createFeedbackRepository(db: DB) {
   return {
@@ -23,7 +23,7 @@ export function createFeedbackRepository(db: DB) {
     async findById(
       id: string,
       currentUserId?: string,
-    ): Promise<ExtendedFeedbackSchema | undefined> {
+    ): Promise<ExtendedFeedback | undefined> {
       const [feedback] = await db
         .select({
           id: feedbacks.id,
@@ -86,7 +86,7 @@ export function createFeedbackRepository(db: DB) {
       sortOption: FeedbackSortOptions;
       currentUserId?: string;
       filter: Omit<Partial<Feedback>, "deletedAt">;
-    }): Promise<ExtendedFeedbackSchema[]> {
+    }): Promise<ExtendedFeedback[]> {
       const sortBy = {
         [FeedbackSortOptions.MOST_UPVOTES]: desc(
           sql<number>`COUNT(${feedbackUpvotes.userId})`,

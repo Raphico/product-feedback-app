@@ -1,13 +1,13 @@
 import { NotFoundError } from "../../../core/exceptions.js";
 import { FeedbackRepository } from "../repository.js";
-import { ExtendedFeedbackSchema } from "../validation.js";
+import { ExtendedFeedback } from "../validation.js";
 
 export async function getFeedbackUseCase(
   context: {
     db: FeedbackRepository;
   },
   data: { id: string },
-): Promise<ExtendedFeedbackSchema> {
+): Promise<ExtendedFeedback> {
   const { db } = context;
   const { id } = data;
 

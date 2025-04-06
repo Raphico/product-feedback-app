@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { UpdateUserSchema } from "../validations.js";
+import type { UpdateUser } from "../validations.js";
 import { NotFoundError } from "../../../core/exceptions.js";
 import { createUserRepository } from "../repository.js";
 import { updateMeUseCase } from "../use-cases/update-me.js";
 
 export async function updateMeController(
-  request: FastifyRequest<{ Body: UpdateUserSchema }>,
+  request: FastifyRequest<{ Body: UpdateUser }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

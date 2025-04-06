@@ -18,7 +18,7 @@ const usersRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       description:
         "Updates the currently authenticated user's profile information.",
@@ -36,7 +36,7 @@ const usersRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
     url: "/",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       description:
         "Fetches the currently authenticated user's profile information.",
@@ -53,7 +53,7 @@ const usersRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       summary: "Update a user's role",
       description:

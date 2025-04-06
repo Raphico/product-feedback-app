@@ -1,12 +1,12 @@
 import type { UserRepository } from "../repository.js";
+import type { UserResponse } from "../validations.js";
 import { NotFoundError } from "../../../core/exceptions.js";
-import { UserResponseDto } from "../dto.js";
 import { userToDto } from "../mapper.js";
 
 export async function getMeUseCase(
   context: { db: UserRepository },
   data: { id: string },
-): Promise<UserResponseDto> {
+): Promise<UserResponse> {
   const { db } = context;
   const { id } = data;
 

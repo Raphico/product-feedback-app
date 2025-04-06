@@ -1,11 +1,11 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { IdParamsSchema } from "../../../shared/validation.js";
+import { IdParams } from "../../../shared/validation.js";
 import { NotFoundError } from "../../../core/exceptions.js";
 import { createFeedbackRepository } from "../repository.js";
 import { toggleUpvoteUseCase } from "../use-cases/toggle-upvote.js";
 
 export async function toggleUpvoteController(
-  request: FastifyRequest<{ Params: IdParamsSchema }>,
+  request: FastifyRequest<{ Params: IdParams }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

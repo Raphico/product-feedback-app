@@ -20,13 +20,15 @@ export const feedbackResponseSchema = z.object({
   status: z.enum(FEEDBACK_STATUSES),
 });
 
+export type FeedbackResponse = z.infer<typeof feedbackResponseSchema>;
+
 export const extendedFeedbackSchema = feedbackResponseSchema.extend({
   commentCount: z.number(),
   upvoteCount: z.number(),
   hasUpvote: z.boolean(),
 });
 
-export type ExtendedFeedbackSchema = z.infer<typeof extendedFeedbackSchema>;
+export type ExtendedFeedback = z.infer<typeof extendedFeedbackSchema>;
 
 export const createFeedbackSchema = z.object({
   title: feedbackResponseSchema.shape.title,
@@ -34,7 +36,7 @@ export const createFeedbackSchema = z.object({
   detail: feedbackResponseSchema.shape.detail,
 });
 
-export type CreateFeedbackSchema = z.infer<typeof createFeedbackSchema>;
+export type CreateFeedback = z.infer<typeof createFeedbackSchema>;
 
 export const feedbackListResponseSchema = z.array(extendedFeedbackSchema);
 
@@ -46,7 +48,7 @@ export const feedbackListQuerySchema = z.object({
     .default(FeedbackSortOptions.MOST_UPVOTES),
 });
 
-export type FeedbackListQuerySchema = z.infer<typeof feedbackListQuerySchema>;
+export type FeedbackListQuery = z.infer<typeof feedbackListQuerySchema>;
 
 export const updateFeedbackSchema = z.object({
   title: feedbackResponseSchema.shape.title,
@@ -55,7 +57,7 @@ export const updateFeedbackSchema = z.object({
   status: feedbackResponseSchema.shape.status,
 });
 
-export type UpdateFeedbackSchema = z.infer<typeof updateFeedbackSchema>;
+export type UpdateFeedback = z.infer<typeof updateFeedbackSchema>;
 
 export const feedbackStatsSchema = z.object({
   inProgress: z.number(),
@@ -63,4 +65,4 @@ export const feedbackStatsSchema = z.object({
   live: z.number(),
 });
 
-export type FeedbackStatsSchema = z.infer<typeof feedbackStatsSchema>;
+export type FeedbackStats = z.infer<typeof feedbackStatsSchema>;

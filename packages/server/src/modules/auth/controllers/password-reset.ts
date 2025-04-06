@@ -1,6 +1,6 @@
 import type {
-  PasswordResetParamsSchema,
-  PasswordResetRequestSchema,
+  PasswordResetParams,
+  PasswordResetRequest,
 } from "../validations.js";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { ExpiredTokenError, InvalidTokenError } from "../exceptions.js";
@@ -10,8 +10,8 @@ import { passwordResetUseCase } from "../use-cases/password-reset.js";
 
 export async function passwordResetController(
   request: FastifyRequest<{
-    Body: PasswordResetRequestSchema;
-    Params: PasswordResetParamsSchema;
+    Body: PasswordResetRequest;
+    Params: PasswordResetParams;
   }>,
   reply: FastifyReply,
 ) {

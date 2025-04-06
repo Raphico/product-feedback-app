@@ -1,5 +1,5 @@
-import { GenericResponseDto } from "../../../shared/dto.js";
-import { UserRepository } from "../../users/repository.js";
+import type { GenericResponse } from "../../../shared/validation.js";
+import type { UserRepository } from "../../users/repository.js";
 import { ExpiredTokenError, InvalidTokenError } from "../exceptions.js";
 
 export async function passwordResetUseCase(
@@ -9,7 +9,7 @@ export async function passwordResetUseCase(
     hashPassword: (password: string) => Promise<string>;
   },
   data: { token: string; password: string },
-): Promise<GenericResponseDto> {
+): Promise<GenericResponse> {
   const { token, password } = data;
   const { db, generateHash, hashPassword } = context;
 

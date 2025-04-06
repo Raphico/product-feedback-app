@@ -1,4 +1,4 @@
-import { GenericResponseDto } from "../../../shared/dto.js";
+import type { GenericResponse } from "../../../shared/validation.js";
 import { UserRepository } from "../../users/repository.js";
 import { ExpiredCodeError, InvalidCodeError } from "../exceptions.js";
 
@@ -8,7 +8,7 @@ export async function verificationUseCase(
     generateHash: (value: string) => string;
   },
   data: { code: string },
-): Promise<GenericResponseDto> {
+): Promise<GenericResponse> {
   const { db, generateHash } = context;
   const { code } = data;
 

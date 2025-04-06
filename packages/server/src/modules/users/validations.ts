@@ -27,18 +27,20 @@ export const userResponseSchema = z.object({
   role: z.enum(ROLES),
 });
 
+export type UserResponse = z.infer<typeof userResponseSchema>;
+
 export const updateUserSchema = z.object({
   fullName: userResponseSchema.shape.fullName,
   username: userResponseSchema.shape.username,
 });
 
-export type UpdateUserSchema = z.infer<typeof updateUserSchema>;
+export type UpdateUser = z.infer<typeof updateUserSchema>;
 
 export const updateUserRoleSchema = z.object({
   role: userResponseSchema.shape.role,
 });
 
-export type updateUserRoleSchema = z.infer<typeof updateUserRoleSchema>;
+export type UpdateUserRole = z.infer<typeof updateUserRoleSchema>;
 
 export async function avatarValidator(
   buffer: Buffer,

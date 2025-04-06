@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { EmailRequestSchema } from "../validations.js";
+import type { EmailRequest } from "../validations.js";
 import { createUserRepository } from "../../users/repository.js";
 import { generateVerificationToken } from "../../../core/security.js";
 import { requestPasswordResetUseCase } from "../use-cases/request-password-reset.js";
 
 export async function requestPasswordResetController(
-  request: FastifyRequest<{ Body: EmailRequestSchema }>,
+  request: FastifyRequest<{ Body: EmailRequest }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

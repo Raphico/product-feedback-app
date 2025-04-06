@@ -1,10 +1,10 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { CreateFeedbackSchema } from "../validation.js";
+import type { CreateFeedback } from "../validation.js";
 import { createFeedbackRepository } from "../repository.js";
 import { createFeedbackUseCase } from "../use-cases/create-feedback.js";
 
 export async function createFeedbackController(
-  request: FastifyRequest<{ Body: CreateFeedbackSchema }>,
+  request: FastifyRequest<{ Body: CreateFeedback }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

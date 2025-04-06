@@ -3,10 +3,10 @@ import { createUserRepository } from "../../users/repository.js";
 import { generateVerificationCode } from "../../../core/security.js";
 import { ConflictError } from "../../../core/exceptions.js";
 import { resendVerificationUseCase } from "../use-cases/resend-verification.js";
-import { EmailRequestSchema } from "../validations.js";
+import { EmailRequest } from "../validations.js";
 
 export async function resendVerificationController(
-  request: FastifyRequest<{ Body: EmailRequestSchema }>,
+  request: FastifyRequest<{ Body: EmailRequest }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

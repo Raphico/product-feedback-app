@@ -1,4 +1,4 @@
-import type { GenericResponseDto } from "../../../shared/dto.js";
+import type { GenericResponse } from "../../../shared/validation.js";
 import type { UserRepository } from "../../users/repository.js";
 import { ConflictError } from "../../../core/exceptions.js";
 
@@ -21,7 +21,7 @@ export async function resendVerificationUseCase(
     }) => Promise<void>;
   },
   data: { email: string },
-): Promise<GenericResponseDto> {
+): Promise<GenericResponse> {
   const { email } = data;
   const { db, generateVerificationCode, sendEmailVerificationCode } = context;
 

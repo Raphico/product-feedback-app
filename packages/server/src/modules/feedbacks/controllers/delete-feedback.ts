@@ -1,11 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { IdParamsSchema } from "../../../shared/validation.js";
+import type { IdParams } from "../../../shared/validation.js";
 import { ForbiddenError, NotFoundError } from "../../../core/exceptions.js";
 import { createFeedbackRepository } from "../repository.js";
 import { deleteFeedbackUseCase } from "../use-cases/delete-feedback.js";
 
 export async function deleteFeedbackController(
-  request: FastifyRequest<{ Params: IdParamsSchema }>,
+  request: FastifyRequest<{ Params: IdParams }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

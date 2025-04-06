@@ -26,7 +26,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
     url: "/",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       summary: "Create a product feedback",
       description: "Allows users to submit a feedback for a product",
@@ -75,7 +75,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       summary: "Update Feedback",
       description:
@@ -95,7 +95,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "DELETE",
     url: "/",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       summary: "Soft Delete Feedback",
       description: "Marks feedback as deleted without permanent removal.",
@@ -113,7 +113,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
     url: "/",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       summary: "Toggle Upvote on Feedback",
       description:

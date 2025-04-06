@@ -8,7 +8,7 @@ export const signupRequestSchema = z.object({
   password: z.string().min(8, "Password must be at least 8 characters long"),
 });
 
-export type SignupRequestSchema = z.infer<typeof signupRequestSchema>;
+export type SignupRequest = z.infer<typeof signupRequestSchema>;
 
 export const verificationSchema = z.object({
   code: z.string().length(6, {
@@ -16,33 +16,29 @@ export const verificationSchema = z.object({
   }),
 });
 
-export type VerificationSchema = z.infer<typeof verificationSchema>;
+export type Verification = z.infer<typeof verificationSchema>;
 
 export const loginRequestSchema = z.object({
   email: signupRequestSchema.shape.email,
   password: signupRequestSchema.shape.password,
 });
 
-export type LoginRequestSchema = z.infer<typeof loginRequestSchema>;
+export type LoginRequest = z.infer<typeof loginRequestSchema>;
 
 export const emailRequestSchema = z.object({
   email: signupRequestSchema.shape.email,
 });
 
-export type EmailRequestSchema = z.infer<typeof emailRequestSchema>;
+export type EmailRequest = z.infer<typeof emailRequestSchema>;
 
 export const passwordResetParamsSchema = z.object({
   token: z.string(),
 });
 
-export type PasswordResetParamsSchema = z.infer<
-  typeof passwordResetParamsSchema
->;
+export type PasswordResetParams = z.infer<typeof passwordResetParamsSchema>;
 
 export const passwordResetRequestSchema = z.object({
   password: signupRequestSchema.shape.password,
 });
 
-export type PasswordResetRequestSchema = z.infer<
-  typeof passwordResetRequestSchema
->;
+export type PasswordResetRequest = z.infer<typeof passwordResetRequestSchema>;

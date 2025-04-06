@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { SignupRequestSchema } from "../validations.js";
+import type { SignupRequest } from "../validations.js";
 import {
   generateVerificationCode,
   hashPassword,
@@ -9,7 +9,7 @@ import { createUserRepository } from "../../users/repository.js";
 import { signupUseCase } from "../use-cases/signup.js";
 
 export async function signupController(
-  request: FastifyRequest<{ Body: SignupRequestSchema }>,
+  request: FastifyRequest<{ Body: SignupRequest }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

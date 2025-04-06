@@ -1,14 +1,14 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { UpdateFeedbackSchema } from "../validation.js";
-import type { IdParamsSchema } from "../../../shared/validation.js";
+import type { UpdateFeedback } from "../validation.js";
+import type { IdParams } from "../../../shared/validation.js";
 import { ForbiddenError, NotFoundError } from "../../../core/exceptions.js";
 import { createFeedbackRepository } from "../repository.js";
 import { updateFeedbackUseCase } from "../use-cases/update-feedback.js";
 
 export async function updateFeedbackController(
   request: FastifyRequest<{
-    Body: UpdateFeedbackSchema;
-    Params: IdParamsSchema;
+    Body: UpdateFeedback;
+    Params: IdParams;
   }>,
   reply: FastifyReply,
 ) {

@@ -10,7 +10,7 @@ export const createCommentSchema = z.object({
   parentId: z.string().optional(),
 });
 
-export type CreateCommentSchema = z.infer<typeof createCommentSchema>;
+export type CreateComment = z.infer<typeof createCommentSchema>;
 
 export const createCommentResponseSchema = z.object({
   id: z.string(),
@@ -37,6 +37,4 @@ export const commentThreadParamsSchema = z.object({
   feedbackId: z.string().regex(/^[a-f\d]{24}$/),
 });
 
-export type CommentThreadParamsSchema = z.infer<
-  typeof commentThreadParamsSchema
->;
+export type CommentThreadParams = z.infer<typeof commentThreadParamsSchema>;

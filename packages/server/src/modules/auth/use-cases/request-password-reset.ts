@@ -1,4 +1,4 @@
-import type { GenericResponseDto } from "../../../shared/dto.js";
+import type { GenericResponse } from "../../../shared/validation.js";
 import type { UserRepository } from "../../users/repository.js";
 
 export async function requestPasswordResetUseCase(
@@ -21,7 +21,7 @@ export async function requestPasswordResetUseCase(
     url: string;
   },
   data: { email: string },
-): Promise<GenericResponseDto> {
+): Promise<GenericResponse> {
   const { email } = data;
   const { db, sendPasswordResetLink, generateVerificationToken, url } = context;
 

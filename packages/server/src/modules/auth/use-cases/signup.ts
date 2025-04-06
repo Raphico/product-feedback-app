@@ -1,10 +1,10 @@
+import type { UserResponse } from "../../users/validations.js";
+import type { UserRepository } from "../../users/repository.js";
 import {
   ConflictError,
   InternalServerError,
 } from "../../../core/exceptions.js";
-import type { UserResponseDto } from "../../users/dto.js";
 import { userToDto } from "../../users/mapper.js";
-import type { UserRepository } from "../../users/repository.js";
 
 export async function signupUseCase(
   context: {
@@ -31,7 +31,7 @@ export async function signupUseCase(
     email: string;
     password: string;
   },
-): Promise<UserResponseDto> {
+): Promise<UserResponse> {
   const { fullName, email, username, password } = data;
   const { db } = context;
 

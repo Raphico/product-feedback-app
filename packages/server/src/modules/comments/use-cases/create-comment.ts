@@ -5,7 +5,7 @@ import {
 import type { FeedbackRepository } from "../../feedbacks/repository.js";
 import type { CommentRepository } from "../repository.js";
 import { PopulatedComment } from "../types.js";
-import { CreateCommentSchema } from "../validations.js";
+import { CreateComment } from "../validations.js";
 
 export async function createCommentUseCase(
   context: {
@@ -14,7 +14,7 @@ export async function createCommentUseCase(
       feedbacks: FeedbackRepository;
     };
   },
-  data: CreateCommentSchema & { createdBy: string },
+  data: CreateComment & { createdBy: string },
 ): Promise<PopulatedComment> {
   const { db } = context;
 

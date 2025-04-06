@@ -1,6 +1,6 @@
 import type { Roles } from "../../../config.js";
 import type { UserRepository } from "../repository.js";
-import type { UserResponseDto } from "../dto.js";
+import type { UserResponse } from "../validations.js";
 import { ForbiddenError, NotFoundError } from "../../../core/exceptions.js";
 import { userToDto } from "../mapper.js";
 
@@ -13,7 +13,7 @@ export async function updateUserRoleUseCase(
     currentUserId: string;
     newRole: Roles;
   },
-): Promise<UserResponseDto> {
+): Promise<UserResponse> {
   const { currentUserId, newRole, targetUserId } = data;
   const { db } = context;
 

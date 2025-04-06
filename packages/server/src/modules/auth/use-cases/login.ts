@@ -1,6 +1,6 @@
-import { UserResponseDto } from "../../users/dto.js";
+import type { UserResponse } from "../../users/validations.js";
+import type { UserRepository } from "../../users/repository.js";
 import { userToDto } from "../../users/mapper.js";
-import { UserRepository } from "../../users/repository.js";
 import {
   InvalidCredentialsError,
   UnverifiedEmailError,
@@ -15,7 +15,7 @@ export async function loginUseCase(
     ) => Promise<boolean>;
   },
   data: { email: string; password: string },
-): Promise<UserResponseDto> {
+): Promise<UserResponse> {
   const { email, password } = data;
   const { db, comparePassword } = context;
 

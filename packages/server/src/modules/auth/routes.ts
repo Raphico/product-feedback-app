@@ -41,7 +41,7 @@ const authRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
     url: "/logout",
-    onRequest: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       description: "Logs out the user by clearing authentication cookies.",
       summary: "User Logout",

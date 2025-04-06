@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { LoginRequestSchema } from "../validations.js";
+import type { LoginRequest } from "../validations.js";
 import {
   comparePassword,
   generateAccessToken,
@@ -14,7 +14,7 @@ import {
 import { loginUseCase } from "../use-cases/login.js";
 
 export async function loginController(
-  request: FastifyRequest<{ Body: LoginRequestSchema }>,
+  request: FastifyRequest<{ Body: LoginRequest }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

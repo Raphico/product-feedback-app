@@ -1,7 +1,7 @@
+import type { UserResponse } from "./validations.js";
 import { User } from "../../db/schema.js";
-import type { UserResponseDto } from "./dto.js";
 
-export function userToDto(user: User): UserResponseDto {
+export function userToDto(user: User): UserResponse {
   return {
     id: user.id,
     fullName: user.fullName,

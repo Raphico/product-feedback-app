@@ -1,12 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { CommentThreadParamsSchema } from "../validations.js";
+import type { CommentThreadParams } from "../validations.js";
 import { NotFoundError } from "../../../core/exceptions.js";
 import { getCommentsUseCase } from "../use-cases/get-comments.js";
 import { createFeedbackRepository } from "../../feedbacks/repository.js";
 import { createCommentRepository } from "../repository.js";
 
 export async function getCommentsController(
-  request: FastifyRequest<{ Querystring: CommentThreadParamsSchema }>,
+  request: FastifyRequest<{ Querystring: CommentThreadParams }>,
   reply: FastifyReply,
 ) {
   const db = request.server.db;

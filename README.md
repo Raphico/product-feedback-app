@@ -16,8 +16,8 @@ This is a solution to the [Product feedback app challenge on Frontend Mentor](ht
 
 - **UI:** [React](https://react.dev/)
 - **Backend framework:** [Fastify](https://fastify.dev/)
-- **Database:** [Mongodb](https://www.mongodb.com/)
-- **ORM:** [Mongoose](https://mongoosejs.com/)
+- **Database:** [Postgresql](https://www.postgresql.org/)
+- **ORM:** [Drizzle ORM](https://orm.drizzle.team/)
 - **Global state management:** [Redux Toolkit](https://redux-toolkit.js.org/)
 - **Asynchronous states management:** [RTK query](https://redux-toolkit.js.org/rtk-query/overview)
 

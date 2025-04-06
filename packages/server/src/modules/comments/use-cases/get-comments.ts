@@ -1,7 +1,7 @@
 import { NotFoundError } from "../../../core/exceptions.js";
 import type { FeedbackRepository } from "../../feedbacks/repository.js";
 import type { CommentRepository } from "../repository.js";
-import type { ThreadedComment } from "../types.js";
+import type { CommentThreadResponse } from "../validations.js";
 
 export async function getCommentsUseCase(
   context: {
@@ -11,7 +11,7 @@ export async function getCommentsUseCase(
     };
   },
   data: { feedbackId: string },
-): Promise<ThreadedComment[]> {
+): Promise<CommentThreadResponse> {
   const { db } = context;
   const { feedbackId } = data;
 
@@ -21,5 +21,5 @@ export async function getCommentsUseCase(
     throw new NotFoundError("Feedback not found");
   }
 
-  return db.comments.findNestedByFeedbackId(data.feedbackId);
+  return db.comments.findThreadedByFeedbackId(data.feedbackId);
 }

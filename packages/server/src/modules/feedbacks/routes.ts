@@ -10,7 +10,7 @@ import {
   updateFeedbackSchema,
 } from "./validation.js";
 import { createFeedbackController } from "./controllers/create-feedback.js";
-import { verifyJWT } from "../../hooks/auth.js";
+import { maybeVerifyJWT, verifyJWT } from "../../hooks/auth.js";
 import {
   genericResponseSchema,
   idParamsSchema,
@@ -42,6 +42,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
     url: "/",
+    preHandler: [maybeVerifyJWT],
     schema: {
       summary: "Retrieve Feedbacks",
       description:
@@ -58,7 +59,8 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
 
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
-    url: "/",
+    url: "/:id",
+    preHandler: [maybeVerifyJWT],
     schema: {
       summary: "Get Feedback",
       description: "Allow users to get a feedback by id",
@@ -74,7 +76,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
 
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
-    url: "/",
+    url: "/:id",
     preHandler: [verifyJWT],
     schema: {
       summary: "Update Feedback",
@@ -94,7 +96,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
 
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "DELETE",
-    url: "/",
+    url: "/:id",
     preHandler: [verifyJWT],
     schema: {
       summary: "Soft Delete Feedback",
@@ -112,7 +114,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
 
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
-    url: "/",
+    url: "/:id/upvotes",
     preHandler: [verifyJWT],
     schema: {
       summary: "Toggle Upvote on Feedback",
@@ -121,7 +123,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
       tags: ["Feedback"],
       params: idParamsSchema,
       response: {
-        200: feedbackResponseSchema,
+        200: genericResponseSchema,
         404: genericResponseSchema,
       },
     },
@@ -130,7 +132,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
 
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
-    url: "/",
+    url: "/stats",
     schema: {
       description: "Retrieves total planned, in progress, and live feedbacks",
       summary: "Retrieve Feedback stats",

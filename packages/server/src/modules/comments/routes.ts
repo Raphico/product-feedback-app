@@ -31,7 +31,7 @@ const commentsRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "POST",
     url: "/",
-    preValidation: [verifyJWT],
+    preHandler: [verifyJWT],
     schema: {
       summary: "Add a comment",
       description: "Allows users to add a comment to a feedback for a product",

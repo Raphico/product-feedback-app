@@ -7,7 +7,7 @@ export const genericResponseSchema = z.object({
 export type GenericResponse = z.infer<typeof genericResponseSchema>;
 
 export const idParamsSchema = z.object({
-  id: z.string().regex(/^[a-f\d]{24}$/),
+  id: z.string(),
 });
 
 export type IdParams = z.infer<typeof idParamsSchema>;

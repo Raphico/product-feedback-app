@@ -29,10 +29,14 @@ export const userResponseSchema = z.object({
 
 export type UserResponse = z.infer<typeof userResponseSchema>;
 
-export const updateUserSchema = z.object({
-  fullName: userResponseSchema.shape.fullName,
-  username: userResponseSchema.shape.username,
-});
+export const updateUserSchema = z
+  .object({
+    fullName: userResponseSchema.shape.fullName.optional(),
+    username: userResponseSchema.shape.username.optional(),
+  })
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field is required",
+  });
 
 export type UpdateUser = z.infer<typeof updateUserSchema>;
 

@@ -6,12 +6,12 @@ export async function getFeedbackUseCase(
   context: {
     db: FeedbackRepository;
   },
-  data: { id: string },
+  data: { id: string; currentUserId: string },
 ): Promise<ExtendedFeedback> {
   const { db } = context;
-  const { id } = data;
+  const { id, currentUserId } = data;
 
-  const feedback = await db.findById(id);
+  const feedback = await db.findExtendedById(id, currentUserId);
 
   if (!feedback) throw new NotFoundError("Feedback not found");
 

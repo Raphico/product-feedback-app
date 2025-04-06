@@ -10,10 +10,12 @@ export async function getFeedbackListController(
   const db = request.server.db;
   const feedbackRepository = createFeedbackRepository(db);
 
-  const result = await getFeedbackListUseCase({
-    db: feedbackRepository,
-    data: { ...request.query, currentUserId: request.user.id },
-  });
+  const result = await getFeedbackListUseCase(
+    {
+      db: feedbackRepository,
+    },
+    { ...request.query, currentUserId: request.user?.id },
+  );
 
   return reply.code(200).send(result);
 }

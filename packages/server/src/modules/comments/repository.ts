@@ -40,7 +40,7 @@ export function createCommentRepository(db: DB) {
       return comment as PopulatedComment;
     },
 
-    async findNestedByFeedbackId(
+    async findThreadedByFeedbackId(
       feedbackId: string,
     ): Promise<ThreadedComment[]> {
       const flatComments = await db

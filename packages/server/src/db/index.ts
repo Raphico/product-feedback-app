@@ -1,10 +1,10 @@
 import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import pg from "pg";
 import * as schema from "./schema.js";
 import type { Config } from "../config.js";
 
 export async function initDB(config: Config) {
-  const pool = new Pool({
+  const pool = new pg.Pool({
     connectionString: config.databaseUrl,
   });
 
@@ -15,6 +15,6 @@ export async function initDB(config: Config) {
 
 export type DB = Awaited<ReturnType<typeof initDB>>["db"];
 
-export async function shutdownDB(pool: Pool) {
+export async function shutdownDB(pool: pg.Pool) {
   await pool.end();
 }

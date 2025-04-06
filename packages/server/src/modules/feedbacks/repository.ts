@@ -20,9 +20,18 @@ export function createFeedbackRepository(db: DB) {
       return createdFeedback;
     },
 
-    async findById(
+    async findById(id: string): Promise<Feedback | undefined> {
+      const [feedback] = await db
+        .select()
+        .from(feedbacks)
+        .where(and(eq(feedbacks.id, id), isNull(feedbacks.deletedAt)));
+
+      return feedback;
+    },
+
+    async findExtendedById(
       id: string,
-      currentUserId?: string,
+      currentUserId: string = "",
     ): Promise<ExtendedFeedback | undefined> {
       const [feedback] = await db
         .select({
@@ -32,26 +41,22 @@ export function createFeedbackRepository(db: DB) {
           detail: feedbacks.detail,
           status: feedbacks.status,
           category: feedbacks.category,
-          commentCount: sql<number>`
-          SELECT COUNT(*) 
-            FROM ${comments} 
-            WHERE ${comments.feedbackId} = ${id}
-      `.as("comment_count"),
-          upvoteCount: sql<number>`
-            SELECT COUNT(*) 
-              FROM ${feedbackUpvotes} 
-              WHERE ${feedbackUpvotes.feedbackId} = ${id}`.as("upvote_count"),
+          commentCount: sql<number>`COUNT(${comments.id})`.as("comment_count"),
+          upvoteCount: sql<number>`COUNT(${feedbackUpvotes.userId})`.as(
+            "upvote_count",
+          ),
           hasUpvote: sql<boolean>`
-        EXISTS (
-          SELECT 1 
-            FROM ${feedbackUpvotes}
-            WHERE ${feedbackUpvotes.feedbackId} = ${id}
-              AND ${feedbackUpvotes.userId} = ${currentUserId}
-        )
-      `.as("has_upvote"),
+            CASE WHEN MAX(CASE WHEN ${feedbackUpvotes.userId} = ${currentUserId} THEN 1 ELSE 0 END) = 1
+              THEN TRUE 
+              ELSE FALSE END
+          `.as("has_upvote"),
         })
         .from(feedbacks)
+        .leftJoin(comments, eq(comments.feedbackId, feedbacks.id))
+        .leftJoin(feedbackUpvotes, eq(feedbackUpvotes.feedbackId, feedbacks.id))
+        .groupBy(feedbacks.id)
         .where(and(eq(feedbacks.id, id), isNull(feedbacks.deletedAt)));
+
       return feedback;
     },
 
@@ -62,28 +67,26 @@ export function createFeedbackRepository(db: DB) {
     }> {
       const [stats] = await db
         .select({
-          inProgress: sql<number>`CASE(WHEN ${feedbacks.status} = "in_progress" THEN 1 END)`,
-          planned: sql<number>`CASE(WHEN ${feedbacks.status} = "planned" THEN 1 END)`,
-          live: sql<number>`CASE(WHEN ${feedbacks.status} = "live" THEN 1 END)`,
+          inProgress: sql<number>`COALESCE(SUM(CASE WHEN ${feedbacks.status} = 'in_progress' THEN 1 END), 0)`,
+          planned: sql<number>`COALESCE(SUM(CASE WHEN ${feedbacks.status} = 'planned' THEN 1 END), 0)`,
+          live: sql<number>`COALESCE(SUM(CASE WHEN ${feedbacks.status} = 'live' THEN 1 END), 0)`,
         })
         .from(feedbacks)
         .where(isNull(feedbacks.deletedAt));
 
-      return (
-        stats ?? {
-          inProgress: 0,
-          planned: 0,
-          live: 0,
-        }
-      );
+      return {
+        inProgress: Number(stats?.inProgress ?? 0),
+        planned: Number(stats?.planned ?? 0),
+        live: Number(stats?.live ?? 0),
+      };
     },
 
     async findAll({
-      sortOption,
+      sort,
       currentUserId,
       filter,
     }: {
-      sortOption: FeedbackSortOptions;
+      sort: FeedbackSortOptions;
       currentUserId?: string;
       filter: Omit<Partial<Feedback>, "deletedAt">;
     }): Promise<ExtendedFeedback[]> {
@@ -110,20 +113,15 @@ export function createFeedbackRepository(db: DB) {
           detail: feedbacks.detail,
           status: feedbacks.status,
           category: feedbacks.category,
-          commentCount: sql<number>`SELECT COUNT(${comments.id})`.as(
-            "comment_count",
-          ),
-          upvoteCount: sql<number>`SELECT COUNT(${feedbackUpvotes.userId})`.as(
+          commentCount: sql<number>`COUNT(${comments.id})`.as("comment_count"),
+          upvoteCount: sql<number>`COUNT(${feedbackUpvotes.userId})`.as(
             "upvote_count",
           ),
           hasUpvote: sql<boolean>`
-        EXISTS (
-          SELECT 1 
-            FROM ${feedbackUpvotes}
-            WHERE ${feedbackUpvotes.feedbackId} = ${feedbacks.id}
-              AND ${feedbackUpvotes.userId} = ${currentUserId}
-        )
-      `.as("has_upvote"),
+            CASE WHEN MAX(CASE WHEN ${feedbackUpvotes.userId} = ${currentUserId} THEN 1 ELSE 0 END) = 1
+              THEN TRUE 
+              ELSE FALSE END
+          `.as("has_upvote"),
         })
         .from(feedbacks)
         .where(
@@ -137,7 +135,7 @@ export function createFeedbackRepository(db: DB) {
         .leftJoin(comments, eq(comments.feedbackId, feedbacks.id))
         .leftJoin(feedbackUpvotes, eq(feedbackUpvotes.feedbackId, feedbacks.id))
         .groupBy(feedbacks.id)
-        .orderBy(sortBy[sortOption]);
+        .orderBy(sortBy[sort]);
     },
 
     async toggleUpvote(feedbackId: string, userId: string): Promise<void> {
@@ -158,12 +156,12 @@ export function createFeedbackRepository(db: DB) {
                 eq(feedbackUpvotes.userId, userId),
               ),
             );
+        } else {
+          await tx.insert(feedbackUpvotes).values({
+            feedbackId,
+            userId,
+          });
         }
-
-        await tx.insert(feedbackUpvotes).values({
-          feedbackId,
-          userId,
-        });
       });
     },
 

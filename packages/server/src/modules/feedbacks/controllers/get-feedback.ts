@@ -14,7 +14,7 @@ export async function getFeedbackController(
   try {
     const result = await getFeedbackUseCase(
       { db: feedbackRepository },
-      { id: request.params.id },
+      { id: request.params.id, currentUserId: request.user?.id },
     );
 
     return reply.code(200).send(result);

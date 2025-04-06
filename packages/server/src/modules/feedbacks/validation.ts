@@ -6,8 +6,8 @@ import {
 } from "../../config.js";
 
 export const feedbackResponseSchema = z.object({
-  id: z.string().regex(/^[a-f\d]{24}$/),
-  createdBy: z.string().regex(/^[a-f\d]{24}$/),
+  id: z.string(),
+  createdBy: z.string(),
   title: z
     .string()
     .min(5, "Title must be at least 5 characters long")
@@ -23,8 +23,8 @@ export const feedbackResponseSchema = z.object({
 export type FeedbackResponse = z.infer<typeof feedbackResponseSchema>;
 
 export const extendedFeedbackSchema = feedbackResponseSchema.extend({
-  commentCount: z.number(),
-  upvoteCount: z.number(),
+  commentCount: z.number({ coerce: true }),
+  upvoteCount: z.number({ coerce: true }),
   hasUpvote: z.boolean(),
 });
 
@@ -41,8 +41,8 @@ export type CreateFeedback = z.infer<typeof createFeedbackSchema>;
 export const feedbackListResponseSchema = z.array(extendedFeedbackSchema);
 
 export const feedbackListQuerySchema = z.object({
-  category: feedbackResponseSchema.shape.category,
-  status: feedbackResponseSchema.shape.status,
+  category: feedbackResponseSchema.shape.category.optional(),
+  status: feedbackResponseSchema.shape.status.optional(),
   sort: z
     .nativeEnum(FeedbackSortOptions)
     .default(FeedbackSortOptions.MOST_UPVOTES),
@@ -50,12 +50,16 @@ export const feedbackListQuerySchema = z.object({
 
 export type FeedbackListQuery = z.infer<typeof feedbackListQuerySchema>;
 
-export const updateFeedbackSchema = z.object({
-  title: feedbackResponseSchema.shape.title,
-  category: feedbackResponseSchema.shape.category,
-  detail: feedbackResponseSchema.shape.detail,
-  status: feedbackResponseSchema.shape.status,
-});
+export const updateFeedbackSchema = z
+  .object({
+    title: feedbackResponseSchema.shape.title.optional(),
+    category: feedbackResponseSchema.shape.category.optional(),
+    detail: feedbackResponseSchema.shape.detail.optional(),
+    status: feedbackResponseSchema.shape.status.optional(),
+  })
+  .refine((data) => Object.keys(data).length > 0, {
+    message: "At least one field must be provided",
+  });
 
 export type UpdateFeedback = z.infer<typeof updateFeedbackSchema>;
 

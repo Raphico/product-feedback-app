@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { userResponseSchema } from "../users/validations.js";
+import { ThreadedComment } from "./types.js";
 
 export const createCommentSchema = z.object({
   content: z
@@ -24,17 +25,22 @@ export const createCommentResponseSchema = z.object({
   }),
 });
 
-export const commentThreadResponseSchema = z.array(
-  z.object({
-    id: createCommentResponseSchema.shape.id,
-    content: createCommentResponseSchema.shape.content,
-    createdBy: createCommentResponseSchema.shape.createdBy,
-    replies: createCommentResponseSchema,
-  }),
+export const commentThreadResponseSchema: z.ZodType<ThreadedComment[]> = z.lazy(
+  () =>
+    z.array(
+      z.object({
+        id: z.string(),
+        content: z.string(),
+        createdBy: createCommentResponseSchema.shape.createdBy,
+        replies: commentThreadResponseSchema,
+      }),
+    ),
 );
 
+export type CommentThreadResponse = z.infer<typeof commentThreadResponseSchema>;
+
 export const commentThreadParamsSchema = z.object({
-  feedbackId: z.string().regex(/^[a-f\d]{24}$/),
+  feedbackId: z.string(),
 });
 
 export type CommentThreadParams = z.infer<typeof commentThreadParamsSchema>;

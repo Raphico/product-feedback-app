@@ -1,5 +1,6 @@
 import type { FeedbackRepository } from "../repository.js";
 import type { UpdateFeedback } from "../validation.js";
+import type { Feedback } from "../../../db/schema.js";
 import type { FeedbackResponse } from "../validation.js";
 import { ForbiddenError, NotFoundError } from "../../../core/exceptions.js";
 import { feedbackToDto } from "../mapper.js";
@@ -26,7 +27,7 @@ export async function updateFeedbackUseCase(
     throw new ForbiddenError("You are not allowed to update this feedback");
   }
 
-  const updatedFeedback = await db.update(id, changes);
+  const updatedFeedback = await db.update(id, changes as Partial<Feedback>);
 
   if (!updatedFeedback) {
     throw new NotFoundError("Feedback not found");

@@ -90,10 +90,10 @@ export async function initApp(config: Config, deps: Deps) {
   app.decorate("config", config);
   app.decorate("db", db);
 
+  app.register(authRoute, { prefix: "/api/v1/auth" });
   app.register(usersRoute, { prefix: "/api/v1/users" });
   app.register(feedbacksRoute, { prefix: "/api/v1/feedbacks" });
   app.register(commentsRoute, { prefix: "/api/v1/comments" });
-  app.register(authRoute, { prefix: "/api/v1/auth" });
 
   await app.after();
 

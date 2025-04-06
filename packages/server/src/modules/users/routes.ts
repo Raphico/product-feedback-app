@@ -13,11 +13,12 @@ import {
 import { updateMeController } from "./controllers/update-me.js";
 import { updateUserRoleController } from "./controllers/update-user-role.js";
 import { getMeController } from "./controllers/get-me.js";
+import { updateAvatarController } from "./controllers/update-avatar.js";
 
 const usersRoute: FastifyPluginAsync = async (app) => {
   app.withTypeProvider<ZodTypeProvider>().route({
     method: "PATCH",
-    url: "/",
+    url: "/me",
     preHandler: [verifyJWT],
     schema: {
       description:
@@ -34,8 +35,25 @@ const usersRoute: FastifyPluginAsync = async (app) => {
   });
 
   app.withTypeProvider<ZodTypeProvider>().route({
+    method: "PATCH",
+    url: "/me/avatar",
+    onRequest: [verifyJWT],
+    schema: {
+      description: "Updates the currently authenticated user's avatar.",
+      summary: "Update current user avatar",
+      tags: ["User"],
+      response: {
+        200: userResponseSchema,
+        404: genericResponseSchema,
+        400: genericResponseSchema,
+      },
+    },
+    handler: updateAvatarController,
+  });
+
+  app.withTypeProvider<ZodTypeProvider>().route({
     method: "GET",
-    url: "/",
+    url: "/me",
     preHandler: [verifyJWT],
     schema: {
       description:

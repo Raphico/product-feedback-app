@@ -1,6 +1,7 @@
 import type { UserRepository } from "../repository.js";
 import type { UpdateUser } from "../validations.js";
 import type { UserResponse } from "../validations.js";
+import type { User } from "../../../db/schema.js";
 import { NotFoundError } from "../../../core/exceptions.js";
 import { userToDto } from "../mapper.js";
 
@@ -13,7 +14,7 @@ export async function updateMeUseCase(
   const { db } = context;
   const { id, ...changes } = data;
 
-  const updatedUser = await db.update(id, changes);
+  const updatedUser = await db.update(id, changes as Partial<User>);
 
   if (!updatedUser) {
     throw new NotFoundError("User not found");

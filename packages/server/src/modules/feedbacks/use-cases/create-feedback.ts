@@ -14,5 +14,7 @@ export async function createFeedbackUseCase(
       "Something went wrong while creating feedback",
     );
   }
+  console.log(createdFeedback);
+  console.log(feedbackToDto(createdFeedback));
   return feedbackToDto(createdFeedback);
 }

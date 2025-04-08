@@ -1,0 +1,37 @@
+.error-container {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+}
+
+.error-card {
+  background-color: var(--clr-pure-white);
+  border-radius: var(--radius);
+  display: grid;
+  text-align: center;
+  place-content: center;
+  place-items: center;
+  padding: 3em 1.5em;
+}
+
+.error-card__desc {
+  max-width: 410px;
+  margin: 0.3em auto 1.5em;
+}
+
+.error-card__title {
+  color: var(--clr-deep-slate-blue);
+  margin-top: 1.25em;
+}
+
+@media (max-width: 480px) {
+  .error-card__title {
+    font-size: var(--fs-500);
+    line-height: 1.63;
+    letter-spacing: -0.25px;
+  }
+
+  .error-card__desc {
+    font-size: var(--fs-100);
+  }
+}

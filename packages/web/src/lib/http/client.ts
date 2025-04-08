@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { config } from "@/config";
 import { BaseQueryFn } from "@reduxjs/toolkit/query";
+import { clearUser, setUser } from "@/features/user/slice";
 
-console.log(config.apiUrl);
 const instance = axios.create({
   baseURL: config.apiUrl,
   timeout: 5_000,
@@ -17,6 +17,11 @@ const instance = axios.create({
   ],
 });
 
+type HttpBaseQueryError = {
+  status: number;
+  data: { message: string };
+};
+
 const httpBaseQuery =
   (
     { baseUrl }: { baseUrl: string } = { baseUrl: "" },
@@ -29,9 +34,9 @@ const httpBaseQuery =
       headers?: AxiosRequestConfig["headers"];
     },
     unknown,
-    unknown
+    HttpBaseQueryError
   > =>
-  async ({ url, method, data, params, headers }) => {
+  async ({ url, method, data, params, headers }, api) => {
     try {
       const result = await instance({
         url: baseUrl + url,
@@ -40,18 +45,54 @@ const httpBaseQuery =
         params,
         headers,
       });
+
       return {
         data: result,
       };
     } catch (axiosError) {
       const error = axiosError as AxiosError;
-      return {
-        error: {
-          status: error.status,
-          data: error.response?.data || error.message,
-        },
-      };
+
+      if (error.response?.status != 401) {
+        return {
+          error: {
+            status: error.response?.status ?? 500,
+            data: (error.response?.data as { message: string }) || {
+              message: error.message,
+            },
+          },
+        };
+      }
+
+      try {
+        const response = await instance.post("/auth/refresh");
+        api.dispatch(setUser(response.data));
+
+        const retryResult = await instance({
+          url: baseUrl + url,
+          method,
+          data,
+          params,
+          headers,
+        });
+
+        return {
+          data: retryResult.data,
+        };
+      } catch (axiosError) {
+        const error = axiosError as AxiosError;
+        api.dispatch(clearUser());
+
+        return {
+          error: {
+            status: error.response?.status ?? 500,
+            data: (error.response?.data as { message: string }) || {
+              message: error.message,
+            },
+          },
+        };
+      }
     }
   };
 
 export { instance, httpBaseQuery };
+export type { HttpBaseQueryError };

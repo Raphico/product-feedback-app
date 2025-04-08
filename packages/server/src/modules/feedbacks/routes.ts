@@ -51,7 +51,6 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
       querystring: feedbackListQuerySchema,
       response: {
         200: feedbackListResponseSchema,
-        404: genericResponseSchema,
       },
     },
     handler: getFeedbackListController,

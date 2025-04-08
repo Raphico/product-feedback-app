@@ -1,4 +1,4 @@
-import LoadingScreen from "@/components/loading-screen";
+import { ErrorBoundary } from "@/components/error-boundary";
 import { useGetMeQuery } from "@/features/user/service";
 import { createRootRoute, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
@@ -8,12 +8,12 @@ export const Route = createRootRoute({
 });
 
 function Root() {
-  const { isLoading } = useGetMeQuery();
+  useGetMeQuery();
 
   return (
-    <>
-      {isLoading ? <LoadingScreen /> : <Outlet />}
+    <ErrorBoundary>
+      <Outlet />
       <TanStackRouterDevtools />
-    </>
+    </ErrorBoundary>
   );
 }

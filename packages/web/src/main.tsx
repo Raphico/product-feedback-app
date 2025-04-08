@@ -6,6 +6,7 @@ import store from "./lib/store";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 import { routeTree } from "./routeTree.gen";
+import Toaster from "./components/toast";
 
 const router = createRouter({ routeTree });
 
@@ -22,6 +23,7 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <Provider store={store}>
         <RouterProvider router={router} />
+        <Toaster />
       </Provider>
     </StrictMode>,
   );

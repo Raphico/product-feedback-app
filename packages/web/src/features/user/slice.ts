@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "./types";
-import userApi from "./service";
 
 type UserState = {
   data: User | null;
@@ -20,17 +19,6 @@ const userSlice = createSlice({
     clearUser(state) {
       state.data = null;
     },
-  },
-  extraReducers: (builder) => {
-    builder.addMatcher(
-      userApi.endpoints.getMe.matchFulfilled,
-      (state, action) => {
-        state.data = action.payload;
-      },
-    );
-    builder.addMatcher(userApi.endpoints.getMe.matchRejected, (state) => {
-      state.data = null;
-    });
   },
 });
 

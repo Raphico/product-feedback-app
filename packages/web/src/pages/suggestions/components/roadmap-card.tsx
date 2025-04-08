@@ -2,9 +2,18 @@ import { Link } from "@tanstack/react-router";
 import styles from "./roadmap-card.module.css";
 import { useGetFeedbackStatsQuery } from "@/features/feedbacks/service";
 import Skeleton from "@/components/skeleton";
+import { useEffect } from "react";
+import { isHttpBaseQueryError } from "@/lib/http/utils";
+import toast from "react-hot-toast";
 
 function RoadmapCard() {
-  const { data: stats, isLoading } = useGetFeedbackStatsQuery();
+  const { data: stats, isLoading, error } = useGetFeedbackStatsQuery();
+
+  useEffect(() => {
+    if (error && isHttpBaseQueryError(error)) {
+      toast.error(error.data.message);
+    }
+  }, [error]);
 
   const planned = stats?.planned ?? 0;
   const inProgress = stats?.inProgress ?? 0;

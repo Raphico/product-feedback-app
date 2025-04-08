@@ -9,16 +9,29 @@ import IconPlus from "@/assets/icon-plus.svg?react";
 import { getRouteApi, Link } from "@tanstack/react-router";
 import EmptyCard from "@/components/empty-card";
 import { buttonVariants } from "@/components/button";
+import { isHttpBaseQueryError } from "@/lib/http/utils";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
 
 const routeApi = getRouteApi("/");
 
 function SuggestionsPage() {
   const { sort, category } = routeApi.useSearch();
-  const { data: suggestions, isLoading } = useGetFeedbacksQuery({
+  const {
+    data: suggestions,
+    isLoading,
+    error,
+  } = useGetFeedbacksQuery({
     status: FeedbackStatuses.SUGGESTION,
     sort,
     category,
   });
+
+  useEffect(() => {
+    if (error && isHttpBaseQueryError(error)) {
+      toast.error(error.data.message);
+    }
+  }, [error]);
 
   const hasSuggestions = !!suggestions && suggestions.length > 0;
 

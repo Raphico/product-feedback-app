@@ -12,16 +12,35 @@ import NotFoundPage from "../not-found";
 import CommentList from "@/features/comments/components/comment-list";
 import AddComment from "@/features/comments/components/add-comment";
 import EmptyCard from "@/components/empty-card";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
+import { isHttpBaseQueryError } from "@/lib/http/utils";
 
 const routeApi = getRouteApi("/feedback/$feedbackId");
 
 function FeedbackPage() {
   const { feedbackId } = routeApi.useParams();
-  const { data: feedback, isLoading: isFeedbackLoading } =
-    useGetFeedbackQuery(feedbackId);
-  const { data: comments, isLoading: isCommentsLoading } =
-    useGetCommentsQuery(feedbackId);
+  const {
+    data: feedback,
+    isLoading: isFeedbackLoading,
+    error: feedbackError,
+  } = useGetFeedbackQuery(feedbackId);
+  const {
+    data: comments,
+    isLoading: isCommentsLoading,
+    error: commentsError,
+  } = useGetCommentsQuery(feedbackId);
   const user = useUser();
+
+  useEffect(() => {
+    if (commentsError && isHttpBaseQueryError(commentsError)) {
+      toast.error(commentsError.data.message);
+    }
+
+    if (feedbackError && feedbackError && isHttpBaseQueryError(feedbackError)) {
+      toast.error(feedbackError.data.message);
+    }
+  }, [commentsError, feedbackError]);
 
   if (!feedback && !isFeedbackLoading) {
     return (

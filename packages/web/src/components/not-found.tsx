@@ -1,23 +1,23 @@
 import IllustrationEmpty from "@/assets/illustration-empty.svg?react";
-import styles from "./index.module.css";
+import styles from "./not-found.module.css";
 import { Link } from "@tanstack/react-router";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/button";
+import { buttonVariants } from "./button";
 
-interface NotFoundPageProps extends React.HTMLAttributes<HTMLDivElement> {
+interface NotFoundProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string;
   description: string;
   link: string;
   linkText: string;
 }
 
-function NotFoundPage({
+function NotFound({
   title,
   description,
   link,
   linkText,
   className,
-}: NotFoundPageProps) {
+}: NotFoundProps) {
   return (
     <div className={styles["card-container"]}>
       <section className={cn(styles["card"], className)}>
@@ -32,4 +32,4 @@ function NotFoundPage({
   );
 }
 
-export default NotFoundPage;
+export default NotFound;

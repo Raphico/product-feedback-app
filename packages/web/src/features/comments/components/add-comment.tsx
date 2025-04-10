@@ -1,9 +1,10 @@
 import { cn } from "@/lib/utils";
-import { Form, FormTextarea } from "@/components/form";
+import { Form } from "@/components/form";
 import styles from "./add-comment.module.css";
 import { Button } from "@/components/button";
 import { useIsLoggedIn } from "@/features/user/hooks";
 import { useNavigate } from "@tanstack/react-router";
+import { useAppForm } from "@/lib/form";
 
 interface AddCommentProps extends React.HTMLAttributes<HTMLElement> {
   redirectContext: string;
@@ -12,6 +13,11 @@ interface AddCommentProps extends React.HTMLAttributes<HTMLElement> {
 function AddComment({ className, redirectContext }: AddCommentProps) {
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
+  const form = useAppForm({
+    defaultValues: {
+      comment: "",
+    },
+  });
 
   function handleOnFocus() {
     if (!isLoggedIn) {
@@ -28,12 +34,20 @@ function AddComment({ className, redirectContext }: AddCommentProps) {
     <section className={cn(styles["add-comment"], className)}>
       <h2 className="h3">Add Comment</h2>
       <Form className={styles["add-comment__form"]}>
-        <FormTextarea
-          aria-label="comment"
-          onFocus={handleOnFocus}
-          placeholder="Type your comment here"
-          id="comment"
+        <form.AppField
           name="comment"
+          children={(field) => (
+            <>
+              <field.FormTextarea
+                id="comment"
+                name="comment"
+                aria-label="Type your comment here"
+                placeholder="Type your comment here"
+                onFocus={handleOnFocus}
+              />
+              <field.FormFieldError />
+            </>
+          )}
         />
         <p className={styles["add-comment__characters"]}>250 characters left</p>
         <Button

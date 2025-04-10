@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import LoginPage from "@/pages/login";
+import LoginPage from "@/features/auth/pages/login";
 import { z } from "zod";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 

@@ -2,19 +2,19 @@ import GoBack from "@/components/go-back";
 import styles from "./index.module.css";
 import { getRouteApi, Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/components/button";
-import FeedbackItem from "@/features/feedbacks/components/feedback-item";
+import FeedbackItem from "../../components/feedback-item";
 import { cn } from "@/lib/utils";
-import { useGetFeedbackQuery } from "@/features/feedbacks/service";
+import { useGetFeedbackQuery } from "../../service";
 import { useGetCommentsQuery } from "@/features/comments/service";
 import Skeleton from "@/components/skeleton";
 import { useUser } from "@/features/user/hooks";
-import NotFoundPage from "../not-found";
 import CommentList from "@/features/comments/components/comment-list";
 import AddComment from "@/features/comments/components/add-comment";
 import EmptyCard from "@/components/empty-card";
 import { useEffect } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { isHttpBaseQueryError } from "@/lib/http/utils";
+import NotFound from "@/components/not-found";
 
 const routeApi = getRouteApi("/feedback/$feedbackId");
 
@@ -44,7 +44,7 @@ function FeedbackPage() {
 
   if (!feedback && !isFeedbackLoading) {
     return (
-      <NotFoundPage
+      <NotFound
         link="/"
         linkText="View Feedbacks"
         title="Not found"

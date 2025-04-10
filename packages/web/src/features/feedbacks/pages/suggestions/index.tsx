@@ -10,7 +10,7 @@ import { getRouteApi, Link } from "@tanstack/react-router";
 import EmptyCard from "@/components/empty-card";
 import { buttonVariants } from "@/components/button";
 import { isHttpBaseQueryError } from "@/lib/http/utils";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 import { useEffect } from "react";
 
 const routeApi = getRouteApi("/");

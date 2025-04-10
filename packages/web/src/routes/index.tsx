@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import SuggestionsPage from "@/pages/suggestions";
+import SuggestionsPage from "@/features/feedbacks/pages/suggestions";
 import { z } from "zod";
 import { fallback, zodValidator } from "@tanstack/zod-adapter";
 import { FeedbackCategories, FeedbackSortOptions } from "@/config";

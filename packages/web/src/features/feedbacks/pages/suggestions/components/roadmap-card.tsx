@@ -4,7 +4,7 @@ import { useGetFeedbackStatsQuery } from "@/features/feedbacks/service";
 import Skeleton from "@/components/skeleton";
 import { useEffect } from "react";
 import { isHttpBaseQueryError } from "@/lib/http/utils";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 function RoadmapCard() {
   const { data: stats, isLoading, error } = useGetFeedbackStatsQuery();

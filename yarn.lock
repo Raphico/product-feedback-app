@@ -1637,8 +1637,8 @@ __metadata:
     postcss-nested: ^7.0.2
     react: ^19.0.0
     react-dom: ^19.0.0
-    react-hot-toast: ^2.5.2
     react-redux: ^9.2.0
+    sonner: ^2.0.3
     typescript: ^5.8.2
     typescript-eslint: ^8.25.0
     vite: ^6.2.0
@@ -3584,7 +3584,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2, csstype@npm:^3.1.0, csstype@npm:^3.1.3":
+"csstype@npm:^3.0.2, csstype@npm:^3.1.0":
   version: 3.1.3
   resolution: "csstype@npm:3.1.3"
   checksum: 8db785cc92d259102725b3c694ec0c823f5619a84741b5c7991b8ad135dfaa66093038a1cc63e03361a6cd28d122be48f2106ae72334e067dd619a51f49eddf7
@@ -7909,19 +7909,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hot-toast@npm:^2.5.2":
-  version: 2.5.2
-  resolution: "react-hot-toast@npm:2.5.2"
-  dependencies:
-    csstype: ^3.1.3
-    goober: ^2.1.16
-  peerDependencies:
-    react: ">=16"
-    react-dom: ">=16"
-  checksum: 7fcaa71fcd00ada39942ffe80d2386236400aa8e5e4ebca631a14e5e187fd868fb37baa20e457aef51fd5a033c2c8cd32eb894014b05ddece2bb587b63c12aac
-  languageName: node
-  linkType: hard
-
 "react-is@npm:^16.13.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
@@ -8641,6 +8628,16 @@ __metadata:
   dependencies:
     atomic-sleep: ^1.0.0
   checksum: e5e1ffdd3bcb0dee3bf6f7b2ff50dd3ffa2df864dc9d53463f33e225021a28601e91d0ec7e932739824bafd6f4ff3b7090939ac3e34ab1022e01692b41f7e8a3
+  languageName: node
+  linkType: hard
+
+"sonner@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "sonner@npm:2.0.3"
+  peerDependencies:
+    react: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^18.0.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: cbf2ded951335a68a9e4557ac23b00f641a6cf2e0dc6a9bd5935863e97a1a3395332fb2da5395abceb8c611cb6421ce9b0dc562b60dfcfe93f98a4f3c94bf065
   languageName: node
   linkType: hard
 

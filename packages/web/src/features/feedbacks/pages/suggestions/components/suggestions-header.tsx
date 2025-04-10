@@ -26,6 +26,7 @@ function SuggestionsHeader({
       <SuggestionsSort />
       <Link
         to={isLoggedIn ? "/create-feedback" : "/login"}
+        search={{ redirectTo: "/create-feedback" }}
         className={cn(
           styles["suggestions-header__link"],
           buttonVariants.primary,

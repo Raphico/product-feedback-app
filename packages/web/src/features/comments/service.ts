@@ -11,7 +11,7 @@ const commentApi = createApi({
     getComments: builder.query<Comment[], string>({
       query: (feedbackId) => ({
         url: `?feedbackId=${feedbackId}`,
-        method: "get",
+        method: "GET",
       }),
     }),
   }),

@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import { useState } from "react";
 import ReplyForm from "./reply-form";
 import { Comment } from "../types";
+import { useIsLoggedIn } from "@/features/user/hooks";
+import { useNavigate } from "@tanstack/react-router";
 
 interface CommentListItemProps extends React.ComponentProps<"article"> {
   comment: Comment;
@@ -14,12 +16,26 @@ interface CommentListItemProps extends React.ComponentProps<"article"> {
 }
 
 function CommentListItem({ comment, parentComment }: CommentListItemProps) {
+  const isLoggedIn = useIsLoggedIn();
+  const navigate = useNavigate();
   const [showReplyForm, setShowReplyForm] = useState(false);
   const initials = comment.createdBy.fullName
     .split(" ")
     .map((name) => name.charAt(0))
     .join("")
     .toUpperCase();
+
+  function handleReplyClick() {
+    if (isLoggedIn) {
+      setShowReplyForm(true);
+      return;
+    }
+
+    navigate({
+      to: "/login",
+      search: { redirectTo: `/feedback/${comment.feedbackId}` },
+    });
+  }
 
   return (
     <article
@@ -43,7 +59,7 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
         </span>
       </div>
       <button
-        onClick={() => setShowReplyForm(true)}
+        onClick={handleReplyClick}
         className={styles["comment__reply-button"]}
       >
         Reply

@@ -3,11 +3,11 @@
   gap: 1.5rem;
 }
 
-.form-item {
+.form__item {
   display: grid;
 }
 
-.form-label {
+.form__label {
   color: var(--clr-deep-slate-blue);
   font-weight: var(--fw-bold);
   font-size: var(--fs-200);
@@ -17,7 +17,16 @@
   }
 }
 
-.form-message {
+.form__field-error {
+  font-size: var(--fs-200);
+  color: var(--clr-red);
+
+  @media (max-width: 480px) {
+    font-size: var(--fs-100);
+  }
+}
+
+.form__description {
   font-size: var(--fs-200);
 
   @media (max-width: 480px) {
@@ -25,15 +34,18 @@
   }
 }
 
-.form-description {
-  font-size: var(--fs-200);
+.form__error-alert {
+  background-color: #fff0f0;
+  padding: 1em;
+  border-radius: var(--radius);
 
-  @media (max-width: 480px) {
-    font-size: var(--fs-100);
+  & p {
+    color: #e60000;
+    font-size: var(--fs-300);
   }
 }
 
-.form-input {
+.form__input {
   height: 48px;
   padding-inline: 1.5em;
 
@@ -42,8 +54,8 @@
   }
 }
 
-.form-input,
-.form-textarea {
+.form__input,
+.form__textarea {
   --shadow-clr: var(--clr-vibrant-blue);
 
   background-color: var(--clr-whisper-white);
@@ -60,14 +72,14 @@
   }
 }
 
-.form-input[data-state="invalid"],
-.form-textarea[data-state="invalid"] {
+.form__input[data-state="invalid"],
+.form__textarea[data-state="invalid"] {
   --shadow-clr: var(--clr-red);
   box-shadow: 0 0 0 1px var(--shadow-clr);
 }
 
-.form-input:focus,
-.form-textarea:focus {
+.form__input:focus,
+.form__textarea:focus {
   box-shadow: 0 0 0 1px var(--shadow-clr);
 }
 
@@ -80,7 +92,7 @@
   }
 }
 
-.form-textarea {
+.form__textarea {
   padding: 1em 1.5em;
   height: 96px;
   resize: none;

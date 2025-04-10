@@ -23,6 +23,7 @@ function CreateFeedback() {
         <FeedbackForm>
           <Button
             className={styles["create-feedback__action"]}
+            size="lg"
             type="submit"
             variants="primary"
           >

@@ -12,7 +12,9 @@ function Root() {
 
   return (
     <ErrorBoundary>
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <TanStackRouterDevtools />
     </ErrorBoundary>
   );

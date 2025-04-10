@@ -1,0 +1,36 @@
+.card {
+  border-radius: var(--radius);
+  background-color: var(--clr-pure-white);
+}
+
+.card__header {
+  display: grid;
+  gap: 0.375rem;
+  padding: 1.5rem;
+}
+
+.card__title {
+  color: var(--clr-deep-slate-blue);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-500);
+  letter-spacing: -0.25px;
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-700);
+    letter-spacing: -0.33px;
+  }
+}
+
+.card__description {
+  font-size: var(--fs-200);
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-400);
+  }
+}
+
+.card__body {
+  display: grid;
+  gap: 1em;
+  padding: 0 1.5rem 1.5rem;
+}

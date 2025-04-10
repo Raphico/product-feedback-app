@@ -31,6 +31,7 @@ export const commentThreadResponseSchema: z.ZodType<ThreadedComment[]> = z.lazy(
       z.object({
         id: z.string(),
         content: z.string(),
+        feedbackId: z.string(),
         createdBy: createCommentResponseSchema.shape.createdBy,
         replies: commentThreadResponseSchema,
       }),

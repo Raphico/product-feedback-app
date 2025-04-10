@@ -9,13 +9,13 @@ const feedbackApi = createApi({
   }),
   endpoints: (builder) => ({
     getFeedbacks: builder.query<Feedback[], GetFeedbacksParams | void>({
-      query: (params) => ({ url: "/", method: "get", params }),
+      query: (params) => ({ url: "/", method: "GET", params }),
     }),
     getFeedbackStats: builder.query<FeedbackStats, void>({
-      query: () => ({ url: "/stats", method: "get" }),
+      query: () => ({ url: "/stats", method: "GET" }),
     }),
     getFeedback: builder.query<Feedback, string>({
-      query: (id) => ({ url: `/${id}`, method: "get" }),
+      query: (id) => ({ url: `/${id}`, method: "GET" }),
     }),
   }),
 });

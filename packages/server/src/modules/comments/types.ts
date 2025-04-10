@@ -1,6 +1,7 @@
 export type ThreadedComment = {
   id: string;
   content: string;
+  feedbackId: string;
   createdBy: {
     id: string;
     username: string;

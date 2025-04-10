@@ -1,23 +1,40 @@
 import Badge from "@/components/badge";
-import TotalComments from "@/components/total-comments";
-import UpvoteButton from "@/components/upvote-button";
+import TotalComments from "./total-comments";
+import UpvoteButton from "./upvote-button";
 import styles from "./feedback-item.module.css";
 import type { Feedback } from "../types";
 import { cn } from "@/lib/utils";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useIsLoggedIn } from "@/features/user/hooks";
 
 interface FeedbackProps extends React.ComponentProps<"article"> {
   feedback: Feedback;
   isFeedbackPage?: boolean;
+  upvoteRedirectContext?: string;
   headingTag?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
 function FeedbackItem({
   className,
   feedback,
+  upvoteRedirectContext = "/",
   isFeedbackPage = false,
   headingTag: Comp = "h3",
 }: FeedbackProps) {
+  const isLoggedIn = useIsLoggedIn();
+  const navigate = useNavigate();
+
+  function handleUpvote() {
+    if (!isLoggedIn) {
+      navigate({
+        to: "/login",
+        search: {
+          redirectTo: upvoteRedirectContext,
+        },
+      });
+    }
+  }
+
   return (
     <article className={cn(styles["feedback"], className)}>
       {!isFeedbackPage ? (
@@ -41,6 +58,7 @@ function FeedbackItem({
       </Badge>
       <UpvoteButton
         className={styles["feedback__upvote-button"]}
+        onClick={handleUpvote}
         upvotes={feedback.upvoteCount}
         hasUpvote={feedback.hasUpvote}
       />

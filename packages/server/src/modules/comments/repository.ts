@@ -47,6 +47,7 @@ export function createCommentRepository(db: DB) {
         .select({
           id: comments.id,
           content: comments.content,
+          feedbackId: comments.feedbackId,
           parentId: comments.parentId,
           createdBy: {
             id: users.id,
@@ -67,6 +68,7 @@ export function createCommentRepository(db: DB) {
         nestedComments.set(comment.id, {
           id: comment.id,
           content: comment.content,
+          feedbackId: comment.feedbackId,
           createdBy: comment.createdBy!,
           replies: [],
         }),

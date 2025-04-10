@@ -9,7 +9,7 @@ const userApi = createApi({
   }),
   endpoints: (builder) => ({
     getMe: builder.query<User, void>({
-      query: () => ({ url: "/me", method: "get" }),
+      query: () => ({ url: "/me", method: "GET" }),
     }),
   }),
 });

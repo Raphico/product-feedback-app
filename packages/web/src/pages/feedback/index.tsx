@@ -82,6 +82,7 @@ function FeedbackPage() {
         <FeedbackItem
           headingTag="h1"
           isFeedbackPage
+          upvoteRedirectContext={`/feedback/${feedback!.id}`}
           className={styles["feedback__item"]}
           feedback={feedback!}
         />
@@ -106,7 +107,12 @@ function FeedbackPage() {
         />
       )}
 
-      <AddComment className={styles["feedback__add-comment"]} />
+      {feedback && (
+        <AddComment
+          redirectContext={`/feedback/${feedback.id}`}
+          className={styles["feedback__add-comment"]}
+        />
+      )}
     </div>
   );
 }

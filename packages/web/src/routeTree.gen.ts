@@ -12,8 +12,10 @@
 
 import { Route as rootRoute } from "./routes/__root";
 import { Route as CreateFeedbackImport } from "./routes/create-feedback";
+import { Route as AuthRouteImport } from "./routes/_auth/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as FeedbackFeedbackIdImport } from "./routes/feedback.$feedbackId";
+import { Route as AuthLoginImport } from "./routes/_auth/login";
 import { Route as FeedbackFeedbackIdEditImport } from "./routes/feedback/$feedbackId/edit";
 
 // Create/Update Routes
@@ -21,6 +23,11 @@ import { Route as FeedbackFeedbackIdEditImport } from "./routes/feedback/$feedba
 const CreateFeedbackRoute = CreateFeedbackImport.update({
   id: "/create-feedback",
   path: "/create-feedback",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const AuthRouteRoute = AuthRouteImport.update({
+  id: "/_auth",
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -34,6 +41,12 @@ const FeedbackFeedbackIdRoute = FeedbackFeedbackIdImport.update({
   id: "/feedback/$feedbackId",
   path: "/feedback/$feedbackId",
   getParentRoute: () => rootRoute,
+} as any);
+
+const AuthLoginRoute = AuthLoginImport.update({
+  id: "/login",
+  path: "/login",
+  getParentRoute: () => AuthRouteRoute,
 } as any);
 
 const FeedbackFeedbackIdEditRoute = FeedbackFeedbackIdEditImport.update({
@@ -53,12 +66,26 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof IndexImport;
       parentRoute: typeof rootRoute;
     };
+    "/_auth": {
+      id: "/_auth";
+      path: "";
+      fullPath: "";
+      preLoaderRoute: typeof AuthRouteImport;
+      parentRoute: typeof rootRoute;
+    };
     "/create-feedback": {
       id: "/create-feedback";
       path: "/create-feedback";
       fullPath: "/create-feedback";
       preLoaderRoute: typeof CreateFeedbackImport;
       parentRoute: typeof rootRoute;
+    };
+    "/_auth/login": {
+      id: "/_auth/login";
+      path: "/login";
+      fullPath: "/login";
+      preLoaderRoute: typeof AuthLoginImport;
+      parentRoute: typeof AuthRouteImport;
     };
     "/feedback/$feedbackId": {
       id: "/feedback/$feedbackId";
@@ -79,6 +106,18 @@ declare module "@tanstack/react-router" {
 
 // Create and export the route tree
 
+interface AuthRouteRouteChildren {
+  AuthLoginRoute: typeof AuthLoginRoute;
+}
+
+const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthLoginRoute: AuthLoginRoute,
+};
+
+const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
+  AuthRouteRouteChildren,
+);
+
 interface FeedbackFeedbackIdRouteChildren {
   FeedbackFeedbackIdEditRoute: typeof FeedbackFeedbackIdEditRoute;
 }
@@ -92,14 +131,18 @@ const FeedbackFeedbackIdRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
+  "": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/login": typeof AuthLoginRoute;
   "/feedback/$feedbackId": typeof FeedbackFeedbackIdRouteWithChildren;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
 }
 
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
+  "": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/login": typeof AuthLoginRoute;
   "/feedback/$feedbackId": typeof FeedbackFeedbackIdRouteWithChildren;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
 }
@@ -107,7 +150,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute;
   "/": typeof IndexRoute;
+  "/_auth": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/_auth/login": typeof AuthLoginRoute;
   "/feedback/$feedbackId": typeof FeedbackFeedbackIdRouteWithChildren;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
 }
@@ -116,19 +161,25 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
   fullPaths:
     | "/"
+    | ""
     | "/create-feedback"
+    | "/login"
     | "/feedback/$feedbackId"
     | "/feedback/$feedbackId/edit";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
+    | ""
     | "/create-feedback"
+    | "/login"
     | "/feedback/$feedbackId"
     | "/feedback/$feedbackId/edit";
   id:
     | "__root__"
     | "/"
+    | "/_auth"
     | "/create-feedback"
+    | "/_auth/login"
     | "/feedback/$feedbackId"
     | "/feedback/$feedbackId/edit";
   fileRoutesById: FileRoutesById;
@@ -136,12 +187,14 @@ export interface FileRouteTypes {
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  AuthRouteRoute: typeof AuthRouteRouteWithChildren;
   CreateFeedbackRoute: typeof CreateFeedbackRoute;
   FeedbackFeedbackIdRoute: typeof FeedbackFeedbackIdRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRouteRoute: AuthRouteRouteWithChildren,
   CreateFeedbackRoute: CreateFeedbackRoute,
   FeedbackFeedbackIdRoute: FeedbackFeedbackIdRouteWithChildren,
 };
@@ -157,6 +210,7 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/_auth",
         "/create-feedback",
         "/feedback/$feedbackId"
       ]
@@ -164,8 +218,18 @@ export const routeTree = rootRoute
     "/": {
       "filePath": "index.tsx"
     },
+    "/_auth": {
+      "filePath": "_auth/route.tsx",
+      "children": [
+        "/_auth/login"
+      ]
+    },
     "/create-feedback": {
       "filePath": "create-feedback.tsx"
+    },
+    "/_auth/login": {
+      "filePath": "_auth/login.tsx",
+      "parent": "/_auth"
     },
     "/feedback/$feedbackId": {
       "filePath": "feedback.$feedbackId.tsx",

@@ -5,6 +5,7 @@ import { Link } from "@tanstack/react-router";
 import { buttonVariants } from "@/components/button";
 import { cn } from "@/lib/utils";
 import SuggestionsSort from "./suggestions-sort";
+import { useIsLoggedIn } from "@/features/user/hooks";
 
 interface SuggestionsHeaderProps extends React.HTMLAttributes<HTMLElement> {
   totalSuggestions: number;
@@ -14,6 +15,8 @@ function SuggestionsHeader({
   totalSuggestions,
   className,
 }: SuggestionsHeaderProps) {
+  const isLoggedIn = useIsLoggedIn();
+
   return (
     <header className={cn(styles["suggestions-header"], className)}>
       <h2 className={cn("h3", styles["suggestions-header__total-suggestions"])}>
@@ -22,7 +25,7 @@ function SuggestionsHeader({
       </h2>
       <SuggestionsSort />
       <Link
-        to="/create-feedback"
+        to={isLoggedIn ? "/create-feedback" : "/login"}
         className={cn(
           styles["suggestions-header__link"],
           buttonVariants.primary,

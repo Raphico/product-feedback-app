@@ -4,9 +4,9 @@
   justify-content: center;
   gap: 0.5em;
   cursor: pointer;
-  padding: 1em 1.25em;
   border: 0;
   white-space: nowrap;
+  padding: 1em 1.25em;
   border-radius: var(--radius);
   font-weight: bold;
   font-size: var(--fs-100);
@@ -19,11 +19,17 @@
   }
 }
 
+.button.lg {
+  padding: 0 1.25em;
+  height: 48px;
+}
+
 .primary {
   background-color: var(--clr-electric-purple);
   color: var(--clr-light-periwinkle);
 
-  &:hover {
+  &:hover,
+  &:disabled {
     background-color: #c75af6;
   }
 }
@@ -32,7 +38,8 @@
   background-color: var(--clr-red);
   color: var(--clr-light-periwinkle);
 
-  &:hover {
+  &:hover,
+  &:disabled {
     background-color: #e98888;
   }
 }
@@ -41,7 +48,8 @@
   background-color: var(--clr-deep-slate-blue);
   color: var(--clr-light-periwinkle);
 
-  &:hover {
+  &:hover,
+  &:disabled {
     background-color: #656ea3;
   }
 }
@@ -50,7 +58,8 @@
   background-color: var(--clr-vibrant-blue);
   color: var(--clr-light-periwinkle);
 
-  &:hover {
+  &:hover,
+  &:disabled {
     background-color: #7c91f9;
   }
 }

@@ -22,6 +22,11 @@
 
   &.has-upvote {
     background-color: var(--clr-vibrant-blue);
+    color: var(--clr-pure-white);
+
+    .upvote-button__icon {
+      color: var(--clr-pure-white);
+    }
 
     &:hover {
       opacity: 0.8;
@@ -33,4 +38,8 @@
     width: 40px;
     height: 55px;
   }
+}
+
+.upvote-button__icon {
+  color: var(--clr-vibrant-blue);
 }

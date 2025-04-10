@@ -6,6 +6,9 @@ import type { Feedback } from "../types";
 import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useIsLoggedIn } from "@/features/user/hooks";
+import { useToggleUpvoteMutation } from "../service";
+import { isHttpBaseQueryError } from "@/lib/http/utils";
+import { toast } from "sonner";
 
 interface FeedbackProps extends React.ComponentProps<"article"> {
   feedback: Feedback;
@@ -23,8 +26,9 @@ function FeedbackItem({
 }: FeedbackProps) {
   const isLoggedIn = useIsLoggedIn();
   const navigate = useNavigate();
+  const [toggleUpvote] = useToggleUpvoteMutation();
 
-  function handleUpvote() {
+  async function handleUpvote() {
     if (!isLoggedIn) {
       navigate({
         to: "/login",
@@ -32,6 +36,15 @@ function FeedbackItem({
           redirectTo: upvoteRedirectContext,
         },
       });
+      return;
+    }
+
+    try {
+      await toggleUpvote(feedback.id).unwrap();
+    } catch (error) {
+      if (isHttpBaseQueryError(error)) {
+        toast.error(error.data.message);
+      }
     }
   }
 

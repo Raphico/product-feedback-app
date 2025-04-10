@@ -8,6 +8,13 @@
       "when": 1743941224011,
       "tag": "0000_outstanding_eternity",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1744318729832,
+      "tag": "0001_lazy_vanisher",
+      "breakpoints": true
     }
   ]
 }

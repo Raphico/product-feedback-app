@@ -12,10 +12,12 @@ import { buttonVariants } from "@/components/button";
 import { isHttpBaseQueryError } from "@/lib/http/utils";
 import { toast } from "sonner";
 import { useEffect } from "react";
+import { useIsLoggedIn } from "@/features/user/hooks";
 
 const routeApi = getRouteApi("/");
 
 function SuggestionsPage() {
+  const isLoggedIn = useIsLoggedIn();
   const { sort, category } = routeApi.useSearch();
   const {
     data: suggestions,
@@ -62,7 +64,11 @@ function SuggestionsPage() {
           description="Got a suggestion? Found a bug that needs to be squashed? We love hearing
         about new ideas to improve our app."
         >
-          <Link to="/create-feedback" className={buttonVariants["primary"]}>
+          <Link
+            to={isLoggedIn ? "/create-feedback" : "/login"}
+            search={{ redirectTo: "/create-feedback" }}
+            className={buttonVariants["primary"]}
+          >
             <IconPlus />
             Add Feedback
           </Link>

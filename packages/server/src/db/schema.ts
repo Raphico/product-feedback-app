@@ -6,6 +6,7 @@ import {
   varchar,
   pgEnum,
   AnyPgColumn,
+  unique,
 } from "drizzle-orm/pg-core";
 import { generateId } from "./utils.js";
 import { FEEDBACK_CATEGORIES, FEEDBACK_STATUSES, ROLES } from "../config.js";
@@ -36,7 +37,7 @@ export const users = pgTable("users", {
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 
-export const feedbacks = pgTable("feedback", {
+export const feedbacks = pgTable("feedbacks", {
   id: varchar("id", { length: 25 }).$default(generateId).primaryKey(),
   createdBy: varchar("created_by", { length: 25 })
     .notNull()
@@ -55,7 +56,7 @@ export const feedbacks = pgTable("feedback", {
 export type Feedback = typeof feedbacks.$inferSelect;
 export type NewFeedback = typeof feedbacks.$inferInsert;
 
-export const comments = pgTable("comment", {
+export const comments = pgTable("comments", {
   id: varchar("id", { length: 25 }).$default(generateId).primaryKey(),
   createdBy: varchar("created_by", { length: 25 })
     .notNull()
@@ -76,18 +77,22 @@ export const comments = pgTable("comment", {
 export type Comment = typeof comments.$inferSelect;
 export type NewComment = typeof comments.$inferInsert;
 
-export const feedbackUpvotes = pgTable("feedback_upvotes", {
-  feedbackId: varchar("feedback_id", { length: 25 })
-    .notNull()
-    .references(() => feedbacks.id),
-  userId: varchar("created_by", { length: 25 })
-    .notNull()
-    .references(() => users.id),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at")
-    .notNull()
-    .$onUpdate(() => new Date()),
-});
+export const feedbackUpvotes = pgTable(
+  "feedback_upvotes",
+  {
+    feedbackId: varchar("feedback_id", { length: 25 })
+      .notNull()
+      .references(() => feedbacks.id),
+    userId: varchar("user_id", { length: 25 })
+      .notNull()
+      .references(() => users.id),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+    updatedAt: timestamp("updated_at")
+      .notNull()
+      .$onUpdate(() => new Date()),
+  },
+  (table) => [unique().on(table.feedbackId, table.userId)],
+);
 
 export type FeedbackUpvote = typeof feedbackUpvotes.$inferSelect;
 export type NewFeedbackUpvote = typeof feedbackUpvotes.$inferInsert;

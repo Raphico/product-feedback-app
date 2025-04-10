@@ -24,7 +24,7 @@ function UpvoteButton({
       )}
       {...props}
     >
-      <IconArrowUp />
+      <IconArrowUp className={styles["upvote-button__icon"]} />
       {upvotes} <span className="sr-only">total upvotes</span>
     </button>
   );

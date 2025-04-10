@@ -1,5 +1,6 @@
 import { useIsLoggedIn } from "@/features/user/hooks";
-import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 export const Route = createFileRoute("/_auth")({
   component: RouteComponent,
@@ -7,11 +8,15 @@ export const Route = createFileRoute("/_auth")({
 
 function RouteComponent() {
   const isLoggedIn = useIsLoggedIn();
+  const navigate = useNavigate();
 
-  if (isLoggedIn) {
-    redirect({
-      to: "/",
-    });
-  }
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate({
+        to: "/",
+      });
+    }
+  }, [isLoggedIn, navigate]);
+
   return <Outlet />;
 }

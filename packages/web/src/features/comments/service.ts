@@ -7,11 +7,13 @@ const commentApi = createApi({
   baseQuery: httpBaseQuery({
     baseUrl: "/comments",
   }),
+  tagTypes: ["Comment"],
   endpoints: (builder) => ({
     getComments: builder.query<Comment[], string>({
       query: (feedbackId) => ({
         url: `?feedbackId=${feedbackId}`,
         method: "GET",
+        providesTags: ["Comment"],
       }),
     }),
   }),

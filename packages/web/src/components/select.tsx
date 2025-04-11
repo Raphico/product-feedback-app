@@ -20,6 +20,7 @@ type SelectContextValueType = {
   setSelectedValue: React.Dispatch<React.SetStateAction<string>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   registerOption: (value: string, label: React.ReactNode) => void;
+  onValueChange: (value: string) => void;
   options: Record<string, React.ReactNode>;
   offset: DOMRect | null;
 };
@@ -58,10 +59,6 @@ function Select({ children, defaultValue, onValueChange }: SelectProps) {
   });
 
   useEffect(() => {
-    onValueChange(selectedValue);
-  }, [selectedValue, onValueChange]);
-
-  useEffect(() => {
     function updateOffset() {
       if (selectRef.current) {
         setOffset(selectRef.current.getBoundingClientRect());
@@ -88,6 +85,7 @@ function Select({ children, defaultValue, onValueChange }: SelectProps) {
         setIsOpen,
         selectedValue,
         setSelectedValue,
+        onValueChange,
         registerOption,
         options,
         offset,
@@ -264,8 +262,14 @@ interface SelectItemProps extends React.ComponentPropsWithRef<"div"> {
 }
 
 function SelectItem({ children, className, value, ...props }: SelectItemProps) {
-  const { setSelectedValue, setIsOpen, selectedValue, registerOption, id } =
-    useSelectContext();
+  const {
+    setSelectedValue,
+    setIsOpen,
+    selectedValue,
+    registerOption,
+    id,
+    onValueChange,
+  } = useSelectContext();
 
   const isSelected = selectedValue === value;
 
@@ -281,6 +285,7 @@ function SelectItem({ children, className, value, ...props }: SelectItemProps) {
       | React.PointerEvent<HTMLDivElement>,
   ) {
     setSelectedValue(value);
+    onValueChange(value);
     setIsOpen(false);
     const trigger = document.getElementById(`${id}_trigger`);
     event.preventDefault();

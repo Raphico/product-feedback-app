@@ -13,7 +13,7 @@
 
 .login__form-item {
   display: grid;
-  gap: 0.25rem;
+  gap: 0.5em;
 
   & label {
     font-weight: var(--fw-regular);

@@ -1,11 +1,4 @@
-import {
-  Form,
-  FormDescription,
-  FormInput,
-  FormItem,
-  FormLabel,
-  FormTextarea,
-} from "@/components/form";
+import { Form, FormDescription, FormItem, FormLabel } from "@/components/form";
 import {
   Select,
   SelectContent,
@@ -15,67 +8,107 @@ import {
 } from "@/components/select";
 import styles from "./feedback-form.module.css";
 import { cn } from "@/lib/utils";
-import type { Feedback } from "../types";
-import { feedbackCategoryOptions } from "@/config";
+import { FeedbackCategories, feedbackCategoryOptions } from "@/config";
+import { withForm } from "@/lib/form";
+import { feedbackSchema } from "../validation";
 
-interface FeedbackForm extends React.HTMLAttributes<HTMLFormElement> {
-  initialValue?: Pick<Feedback, "title" | "category" | "detail">;
-}
-
-function FeedbackForm({ initialValue, children, ...props }: FeedbackForm) {
-  return (
-    <Form {...props}>
-      <FormItem>
-        <FormLabel htmlFor="title">Feedback Title</FormLabel>
-        <FormDescription>Add a short, descriptive headline</FormDescription>
-        <FormInput
-          className={styles["feedback-form-input"]}
-          id="title"
-          type="text"
-          value={initialValue?.title ?? ""}
-          name="title"
-        />
-      </FormItem>
-      <FormItem>
-        <FormLabel htmlFor="category">Category</FormLabel>
-        <FormDescription>Choose a category for your feedback</FormDescription>
-        <Select
-          defaultValue={initialValue?.category ?? "ui"}
-          onValueChange={(value) => console.log(value)}
-        >
-          <SelectTrigger
-            className={cn(
-              styles["feedback-form-input"],
-              styles["feedback-form-category"],
+const FeedbackForm = withForm({
+  defaultValues: {
+    title: "",
+    detail: "",
+    category: FeedbackCategories.UI,
+  },
+  validators: {
+    onSubmit: feedbackSchema,
+  },
+  render: function Render({ form, children, ...props }) {
+    return (
+      <Form
+        onSubmit={(event) => {
+          event.preventDefault();
+          form.handleSubmit();
+        }}
+        {...props}
+      >
+        <FormItem>
+          <FormLabel htmlFor="title">Feedback Title</FormLabel>
+          <FormDescription>Add a short, descriptive headline</FormDescription>
+          <form.AppField
+            name="title"
+            children={(field) => (
+              <>
+                <field.FormInput
+                  className={styles["feedback-form__input"]}
+                  id="title"
+                  type="text"
+                  name="title"
+                />
+                <field.FormFieldError />
+              </>
             )}
-            id="category"
-          >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {feedbackCategoryOptions.map((option) => (
-              <SelectItem key={option.value} value={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </FormItem>
-      <FormItem>
-        <FormLabel htmlFor="detail">Feedback Detail</FormLabel>
-        <FormDescription>
-          Include any specific comments on what should be improved, added, etc.
-        </FormDescription>
-        <FormTextarea
-          className={styles["feedback-form-input"]}
-          id="detail"
-          name="detail"
-          value={initialValue?.detail ?? ""}
-        />
-      </FormItem>
-      {children}
-    </Form>
-  );
-}
+          />
+        </FormItem>
+        <FormItem>
+          <FormLabel htmlFor="category">Category</FormLabel>
+          <FormDescription>Choose a category for your feedback</FormDescription>
+          <form.AppField
+            name="category"
+            children={(field) => (
+              <>
+                <Select
+                  defaultValue={
+                    field.options.defaultValue ?? FeedbackCategories.UI
+                  }
+                  onValueChange={(value) =>
+                    field.handleChange(value as FeedbackCategories)
+                  }
+                >
+                  <SelectTrigger
+                    className={cn(
+                      styles["feedback-form__input"],
+                      styles["feedback-form__category"],
+                    )}
+                    id="category"
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {feedbackCategoryOptions.map((option) => (
+                      <SelectItem key={option.value} value={option.value}>
+                        {option.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <field.FormFieldError />
+              </>
+            )}
+          />
+        </FormItem>
+        <FormItem>
+          <FormLabel htmlFor="detail">Feedback Detail</FormLabel>
+          <FormDescription>
+            Include any specific comments on what should be improved, added,
+            etc.
+          </FormDescription>
+          <form.AppField
+            name="detail"
+            children={(field) => (
+              <>
+                <field.FormTextarea
+                  className={styles["feedback-form__input"]}
+                  id="detail"
+                  name="detail"
+                />
+                <field.FormFieldError />
+              </>
+            )}
+          />
+        </FormItem>
+        {children}
+      </Form>
+    );
+  },
+});
 
 export default FeedbackForm;

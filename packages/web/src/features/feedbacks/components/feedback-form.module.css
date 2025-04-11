@@ -1,8 +1,9 @@
-.feedback-form-input {
+.feedback-form__input {
   margin-top: 1.25em;
+  margin-bottom: 0.5em;
 }
 
-.feedback-form-category {
+.feedback-form__category {
   width: 100%;
   padding-inline: 1.2em;
   background-color: var(--clr-whisper-white);
@@ -17,11 +18,6 @@
   }
 }
 
-.feedback-form-message {
-  color: var(--clr-red);
-  margin-top: 0.2em;
-}
-
-.feedback-form-category:focus {
+.feedback-form__category:focus {
   box-shadow: 0 0 0 1px var(--clr-vibrant-blue);
 }

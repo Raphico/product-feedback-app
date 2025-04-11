@@ -9,9 +9,11 @@ const authApi = createApi({
   baseQuery: httpBaseQuery({
     baseUrl: "/auth",
   }),
+  tagTypes: ["Feedback", "Comment"],
   endpoints: (builder) => ({
     login: builder.mutation<User, LoginSchema>({
       query: (data) => ({ url: "/login", method: "POST", data }),
+      invalidatesTags: ["Feedback", "Comment"],
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;

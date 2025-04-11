@@ -66,7 +66,7 @@ function SuggestionsPage() {
         >
           <Link
             to={isLoggedIn ? "/create-feedback" : "/login"}
-            search={{ redirectTo: "/create-feedback" }}
+            search={isLoggedIn ? {} : { redirectTo: "/create-feedback" }}
             className={buttonVariants["primary"]}
           >
             <IconPlus />

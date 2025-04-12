@@ -9,9 +9,13 @@ import styles from "./suggestions-sort.module.css";
 import { cn } from "@/lib/utils";
 import { FeedbackSortOptions, feedbackSortOptions } from "@/config";
 import { useRouter } from "@tanstack/react-router";
+import { getRouteApi } from "@tanstack/react-router";
+
+const routeApi = getRouteApi("/");
 
 function SuggestionsSort() {
   const router = useRouter();
+  const { sort } = routeApi.useSearch();
 
   function handleSort(value: FeedbackSortOptions) {
     router.navigate({
@@ -22,7 +26,7 @@ function SuggestionsSort() {
 
   return (
     <Select
-      defaultValue={FeedbackSortOptions.MOST_UPVOTES}
+      value={sort ?? FeedbackSortOptions.MOST_UPVOTES}
       onValueChange={(value: string) =>
         handleSort(value as FeedbackSortOptions)
       }

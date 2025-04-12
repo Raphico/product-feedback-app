@@ -39,15 +39,20 @@ function useSelectContext() {
 
 const SELECTION_KEYS = [" ", "Enter"];
 
-interface SelectProps {
-  children: React.ReactNode;
-  defaultValue: string;
+interface ControlledSelectProps {
+  value: string;
   onValueChange: (value: string) => void;
 }
 
-function Select({ children, defaultValue, onValueChange }: SelectProps) {
+type SelectProps = ControlledSelectProps;
+
+function Select({
+  children,
+  value,
+  onValueChange,
+}: React.PropsWithChildren<SelectProps>) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(defaultValue);
+  const [selectedValue, setSelectedValue] = useState(value);
   const [options, setOptions] = useState<Record<string, React.ReactNode>>({});
   const [offset, setOffset] = useState<DOMRect | null>(null);
   const id = useId();

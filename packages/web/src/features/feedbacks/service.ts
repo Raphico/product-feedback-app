@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { Feedback, GetFeedbacksParams, FeedbackStats } from "./types";
 import httpBaseQuery from "@/lib/http";
-import { FeedbackSchema } from "./validation";
+import type { FeedbackSchema, UpdateFeedbackSchema } from "./validation";
 
 const feedbackApi = createApi({
   reducerPath: "feedbackApi",
@@ -30,6 +30,17 @@ const feedbackApi = createApi({
     }),
     createFeedback: builder.mutation<Feedback, FeedbackSchema>({
       query: (data) => ({ url: "/", method: "POST", data }),
+      invalidatesTags: ["Feedback"],
+    }),
+    updateFeedback: builder.mutation<
+      Feedback,
+      { id: string } & UpdateFeedbackSchema
+    >({
+      query: ({ id, ...data }) => ({ url: `/${id}`, method: "PATCH", data }),
+      invalidatesTags: ["Feedback"],
+    }),
+    deleteFeedback: builder.mutation<Feedback, string>({
+      query: (id) => ({ url: `/${id}`, method: "DELETE" }),
       invalidatesTags: ["Feedback"],
     }),
     toggleUpvote: builder.mutation<void, string>({
@@ -87,7 +98,9 @@ export const {
   useGetFeedbackStatsQuery,
   useGetFeedbackQuery,
   useCreateFeedbackMutation,
+  useUpdateFeedbackMutation,
   useToggleUpvoteMutation,
+  useDeleteFeedbackMutation,
 } = feedbackApi;
 
 export default feedbackApi;

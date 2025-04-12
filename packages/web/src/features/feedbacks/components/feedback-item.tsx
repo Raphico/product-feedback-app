@@ -7,8 +7,7 @@ import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useIsLoggedIn } from "@/features/user/hooks";
 import { useToggleUpvoteMutation } from "../service";
-import { isHttpBaseQueryError } from "@/lib/http/utils";
-import { toast } from "sonner";
+import { showErrorToast } from "@/utils/error";
 
 interface FeedbackProps extends React.ComponentProps<"article"> {
   feedback: Feedback;
@@ -42,9 +41,7 @@ function FeedbackItem({
     try {
       await toggleUpvote(feedback.id).unwrap();
     } catch (error) {
-      if (isHttpBaseQueryError(error)) {
-        toast.error(error.data.message);
-      }
+      showErrorToast(error);
     }
   }
 
@@ -67,7 +64,9 @@ function FeedbackItem({
       )}
       <p className={styles["feedback__desc"]}>{feedback.detail}</p>
       <Badge className={styles["feedback__category"]}>
-        {feedback.category}
+        {feedback.category.length == 2
+          ? feedback.category.toUpperCase()
+          : feedback.category}
       </Badge>
       <UpvoteButton
         className={styles["feedback__upvote-button"]}

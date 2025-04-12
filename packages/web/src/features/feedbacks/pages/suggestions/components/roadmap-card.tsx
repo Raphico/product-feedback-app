@@ -3,15 +3,14 @@ import styles from "./roadmap-card.module.css";
 import { useGetFeedbackStatsQuery } from "@/features/feedbacks/service";
 import Skeleton from "@/components/skeleton";
 import { useEffect } from "react";
-import { isHttpBaseQueryError } from "@/lib/http/utils";
-import { toast } from "sonner";
+import { showErrorToast } from "@/utils/error";
 
 function RoadmapCard() {
   const { data: stats, isLoading, error } = useGetFeedbackStatsQuery();
 
   useEffect(() => {
-    if (error && isHttpBaseQueryError(error)) {
-      toast.error(error.data.message);
+    if (error) {
+      showErrorToast(error);
     }
   }, [error]);
 

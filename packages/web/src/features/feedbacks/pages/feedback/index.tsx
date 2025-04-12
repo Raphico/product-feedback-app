@@ -12,9 +12,8 @@ import CommentList from "@/features/comments/components/comment-list";
 import AddComment from "@/features/comments/components/add-comment";
 import EmptyCard from "@/components/empty-card";
 import { useEffect } from "react";
-import { toast } from "sonner";
-import { isHttpBaseQueryError } from "@/lib/http/utils";
 import NotFound from "@/components/not-found";
+import { showErrorToast } from "@/utils/error";
 
 const routeApi = getRouteApi("/feedback/$feedbackId");
 
@@ -33,12 +32,12 @@ function FeedbackPage() {
   const user = useUser();
 
   useEffect(() => {
-    if (commentsError && isHttpBaseQueryError(commentsError)) {
-      toast.error(commentsError.data.message);
+    if (commentsError) {
+      showErrorToast(commentsError);
     }
 
-    if (feedbackError && feedbackError && isHttpBaseQueryError(feedbackError)) {
-      toast.error(feedbackError.data.message);
+    if (feedbackError) {
+      showErrorToast(feedbackError);
     }
   }, [commentsError, feedbackError]);
 
@@ -78,15 +77,15 @@ function FeedbackPage() {
 
       {isFeedbackLoading ? (
         <Skeleton className={styles["feedback__skeleton"]} />
-      ) : (
+      ) : feedback ? (
         <FeedbackItem
           headingTag="h1"
           isFeedbackPage
-          upvoteRedirectContext={`/feedback/${feedback!.id}`}
+          upvoteRedirectContext={`/feedback/${feedback.id}`}
           className={styles["feedback__item"]}
-          feedback={feedback!}
+          feedback={feedback}
         />
-      )}
+      ) : null}
 
       <div aria-live="polite" className="sr-only">
         {isCommentsLoading ? <p>Loading comments</p> : <p>Comments Loaded</p>}

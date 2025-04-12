@@ -9,10 +9,9 @@ import IconPlus from "@/assets/icon-plus.svg?react";
 import { getRouteApi, Link } from "@tanstack/react-router";
 import EmptyCard from "@/components/empty-card";
 import { buttonVariants } from "@/components/button";
-import { isHttpBaseQueryError } from "@/lib/http/utils";
-import { toast } from "sonner";
 import { useEffect } from "react";
 import { useIsLoggedIn } from "@/features/user/hooks";
+import { showErrorToast } from "@/utils/error";
 
 const routeApi = getRouteApi("/");
 
@@ -30,8 +29,8 @@ function SuggestionsPage() {
   });
 
   useEffect(() => {
-    if (error && isHttpBaseQueryError(error)) {
-      toast.error(error.data.message);
+    if (error) {
+      showErrorToast(error);
     }
   }, [error]);
 

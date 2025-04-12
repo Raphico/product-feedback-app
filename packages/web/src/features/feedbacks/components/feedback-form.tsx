@@ -10,16 +10,12 @@ import styles from "./feedback-form.module.css";
 import { cn } from "@/lib/utils";
 import { FeedbackCategories, feedbackCategoryOptions } from "@/config";
 import { withForm } from "@/lib/form";
-import { feedbackSchema } from "../validation";
 
 const FeedbackForm = withForm({
   defaultValues: {
     title: "",
     detail: "",
     category: FeedbackCategories.UI,
-  },
-  validators: {
-    onSubmit: feedbackSchema,
   },
   render: function Render({ form, children, ...props }) {
     return (
@@ -56,9 +52,7 @@ const FeedbackForm = withForm({
             children={(field) => (
               <>
                 <Select
-                  defaultValue={
-                    field.options.defaultValue ?? FeedbackCategories.UI
-                  }
+                  value={field.state.value}
                   onValueChange={(value) =>
                     field.handleChange(value as FeedbackCategories)
                   }

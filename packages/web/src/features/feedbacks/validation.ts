@@ -1,4 +1,4 @@
-import { FeedbackCategories } from "@/config";
+import { FeedbackCategories, FeedbackStatuses } from "@/config";
 import { z } from "zod";
 
 export const feedbackSchema = z.object({
@@ -14,3 +14,9 @@ export const feedbackSchema = z.object({
 });
 
 export type FeedbackSchema = z.infer<typeof feedbackSchema>;
+
+export const updateFeedbackSchema = feedbackSchema.extend({
+  status: z.nativeEnum(FeedbackStatuses).optional(),
+});
+
+export type UpdateFeedbackSchema = z.infer<typeof updateFeedbackSchema>;

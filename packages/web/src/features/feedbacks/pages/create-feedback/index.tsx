@@ -3,12 +3,12 @@ import IconNewFeedback from "@/assets/icon-new-feedback.svg?react";
 import FeedbackForm from "../../components/feedback-form";
 import styles from "./index.module.css";
 import { useAppForm } from "@/lib/form";
-import { feedbackSchema } from "../../validation";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils/error";
 import { useCreateFeedbackMutation } from "../../service";
 import { FeedbackCategories } from "@/config";
 import { useNavigate } from "@tanstack/react-router";
+import { feedbackSchema } from "../../validation";
 
 function CreateFeedbackPage() {
   const navigate = useNavigate();

@@ -21,5 +21,13 @@ export async function getCommentsUseCase(
     throw new NotFoundError("Feedback not found");
   }
 
-  return db.comments.findThreadedByFeedbackId(data.feedbackId);
+  const [comments, total] = await Promise.all([
+    db.comments.findThreadedByFeedbackId(data.feedbackId),
+    db.comments.findCommentsCount(data.feedbackId),
+  ]);
+
+  return {
+    comments,
+    total,
+  };
 }

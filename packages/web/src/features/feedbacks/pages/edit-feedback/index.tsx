@@ -9,10 +9,10 @@ import {
   useUpdateFeedbackMutation,
 } from "../../service";
 import { useAppForm } from "@/lib/form";
-import { feedbackSchema } from "../../validation";
+import { feedbackSchema } from "../../validations";
 import { toast } from "sonner";
 import { useNavigate } from "@tanstack/react-router";
-import { getErrorMessage } from "@/utils/error";
+import { getErrorMessage, showErrorToast } from "@/utils/error";
 import NotFound from "@/components/not-found";
 import { Button } from "@/components/button";
 import Spinner from "@/components/spinner";
@@ -58,7 +58,7 @@ function EditFeedbackPage() {
 
   useEffect(() => {
     if (feedbackError) {
-      toast.error(getErrorMessage(feedbackError));
+      showErrorToast(feedbackError);
     }
   }, [feedbackError]);
 
@@ -68,7 +68,7 @@ function EditFeedbackPage() {
       toast.success("Feedback deleted.");
       navigate({ to: "/" });
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      showErrorToast(error);
     }
   }
 
@@ -90,6 +90,10 @@ function EditFeedbackPage() {
       <div className={styles["edit-feedback__card"]}>
         <div className={styles["edit-feedback__decoration"]}>
           <IconEditFeedback />
+        </div>
+
+        <div aria-live="polite" className="sr-only">
+          {isLoadingFeedback ? <p>Loading feedback</p> : <p>Feedback Loaded</p>}
         </div>
 
         {isLoadingFeedback ? (

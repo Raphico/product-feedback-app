@@ -1,6 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import type { Comment } from "./types";
+import type { Comment, CommentThreadResponse } from "./types";
 import httpBaseQuery from "@/lib/http";
+import { CreateCommentSchema } from "./validations";
 
 const commentApi = createApi({
   reducerPath: "commentApi",
@@ -9,16 +10,23 @@ const commentApi = createApi({
   }),
   tagTypes: ["Comment"],
   endpoints: (builder) => ({
-    getComments: builder.query<Comment[], string>({
+    getComments: builder.query<CommentThreadResponse, string>({
       query: (feedbackId) => ({
         url: `?feedbackId=${feedbackId}`,
         method: "GET",
-        providesTags: ["Comment"],
       }),
+      providesTags: ["Comment"],
+    }),
+    createComment: builder.mutation<
+      Comment,
+      CreateCommentSchema & { parentId?: string; feedbackId: string }
+    >({
+      query: (data) => ({ url: "/", method: "POST", data }),
+      invalidatesTags: ["Comment"],
     }),
   }),
 });
 
-export const { useGetCommentsQuery } = commentApi;
+export const { useGetCommentsQuery, useCreateCommentMutation } = commentApi;
 
 export default commentApi;

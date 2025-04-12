@@ -3,14 +3,13 @@ import styles from "./comment-list-item.module.css";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import ReplyForm from "./reply-form";
-import { Comment } from "../types";
+import { ThreadedComment } from "../types";
 import { useIsLoggedIn } from "@/features/user/hooks";
 import { useNavigate } from "@tanstack/react-router";
 
 interface CommentListItemProps extends React.ComponentProps<"article"> {
-  comment: Comment;
+  comment: ThreadedComment;
   parentComment?: {
-    id: string;
     username: string;
   };
 }
@@ -41,6 +40,7 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
     <article
       className={cn(styles["comment"], {
         [styles["comment__top-level"]]: !parentComment,
+        [styles["has-children"]]: comment.replies.length > 0,
       })}
     >
       <Avatar>
@@ -72,6 +72,8 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
       </p>
       {showReplyForm && (
         <ReplyForm
+          feedbackId={comment.feedbackId}
+          parentId={comment.id}
           className={styles["comment__reply-form"]}
           closeForm={() => setShowReplyForm(false)}
         />
@@ -83,7 +85,6 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
               key={reply.id}
               comment={reply}
               parentComment={{
-                id: comment.id,
                 username: comment.createdBy.username,
               }}
             />

@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { Feedback, GetFeedbacksParams, FeedbackStats } from "./types";
 import httpBaseQuery from "@/lib/http";
-import type { FeedbackSchema, UpdateFeedbackSchema } from "./validation";
+import type { FeedbackSchema, UpdateFeedbackSchema } from "./validations";
 
 const feedbackApi = createApi({
   reducerPath: "feedbackApi",

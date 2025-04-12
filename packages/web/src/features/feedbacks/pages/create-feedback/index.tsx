@@ -4,11 +4,11 @@ import FeedbackForm from "../../components/feedback-form";
 import styles from "./index.module.css";
 import { useAppForm } from "@/lib/form";
 import { toast } from "sonner";
-import { getErrorMessage } from "@/utils/error";
+import { showErrorToast } from "@/utils/error";
 import { useCreateFeedbackMutation } from "../../service";
 import { FeedbackCategories } from "@/config";
 import { useNavigate } from "@tanstack/react-router";
-import { feedbackSchema } from "../../validation";
+import { feedbackSchema } from "../../validations";
 
 function CreateFeedbackPage() {
   const navigate = useNavigate();
@@ -31,7 +31,7 @@ function CreateFeedbackPage() {
           to: "/",
         });
       } catch (error) {
-        toast.error(getErrorMessage(error));
+        showErrorToast(error);
       }
     },
   });

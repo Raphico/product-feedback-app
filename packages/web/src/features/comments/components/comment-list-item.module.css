@@ -103,7 +103,7 @@
     margin-top: 1rem;
   }
 
-  .comment__top-level::before {
+  .comment__top-level.has-children::before {
     content: "";
     position: absolute;
     height: calc(100% - 2.5rem - 40px);

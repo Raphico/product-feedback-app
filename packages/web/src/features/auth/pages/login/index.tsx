@@ -3,7 +3,7 @@ import styles from "./index.module.css";
 import { Form, FormItem, FormLabel } from "@/components/form";
 import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
 import { useLoginMutation } from "@/features/auth/service";
-import { loginSchema } from "@/features/auth/validation";
+import { loginSchema } from "@/features/auth/validations";
 import { useAppForm } from "@/lib/form";
 import { isHttpBaseQueryError } from "@/lib/http/utils";
 

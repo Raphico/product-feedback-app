@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import httpBaseQuery from "@/lib/http";
 import { User } from "../user/types";
-import { LoginSchema } from "./validation";
+import { LoginSchema } from "./validations";
 import { setUser } from "../user/slice";
 
 const authApi = createApi({

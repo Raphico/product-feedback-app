@@ -16,6 +16,8 @@ export type CreateComment = z.infer<typeof createCommentSchema>;
 export const createCommentResponseSchema = z.object({
   id: z.string(),
   content: createCommentSchema.shape.content,
+  feedbackId: z.string(),
+  parentId: z.string().nullable(),
   createdBy: z.object({
     id: userResponseSchema.shape.id,
     fullName: userResponseSchema.shape.fullName,
@@ -25,18 +27,22 @@ export const createCommentResponseSchema = z.object({
   }),
 });
 
-export const commentThreadResponseSchema: z.ZodType<ThreadedComment[]> = z.lazy(
-  () =>
-    z.array(
-      z.object({
-        id: z.string(),
-        content: z.string(),
-        feedbackId: z.string(),
-        createdBy: createCommentResponseSchema.shape.createdBy,
-        replies: commentThreadResponseSchema,
-      }),
-    ),
+export const commentThreadSchema: z.ZodType<ThreadedComment[]> = z.lazy(() =>
+  z.array(
+    z.object({
+      id: z.string(),
+      content: z.string(),
+      feedbackId: z.string(),
+      createdBy: createCommentResponseSchema.shape.createdBy,
+      replies: commentThreadSchema,
+    }),
+  ),
 );
+
+export const commentThreadResponseSchema = z.object({
+  comments: commentThreadSchema,
+  total: z.number(),
+});
 
 export type CommentThreadResponse = z.infer<typeof commentThreadResponseSchema>;
 

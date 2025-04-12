@@ -21,11 +21,11 @@ function FeedbackPage() {
   const { feedbackId } = routeApi.useParams();
   const {
     data: feedback,
-    isLoading: isFeedbackLoading,
+    isLoading: isLoadingFeedback,
     error: feedbackError,
   } = useGetFeedbackQuery(feedbackId);
   const {
-    data: comments,
+    data: commentsResult,
     isLoading: isCommentsLoading,
     error: commentsError,
   } = useGetCommentsQuery(feedbackId);
@@ -41,7 +41,7 @@ function FeedbackPage() {
     }
   }, [commentsError, feedbackError]);
 
-  if (!feedback && !isFeedbackLoading) {
+  if (!feedback && !isLoadingFeedback) {
     return (
       <NotFound
         link="/"
@@ -52,7 +52,7 @@ function FeedbackPage() {
     );
   }
 
-  const hasComments = !!comments && comments.length > 0;
+  const hasComments = !!commentsResult && commentsResult.total > 0;
 
   return (
     <div className={styles["feedback"]}>
@@ -72,10 +72,10 @@ function FeedbackPage() {
       )}
 
       <div aria-live="polite" className="sr-only">
-        {isFeedbackLoading ? <p>Loading feedback</p> : <p>Feedback Loaded</p>}
+        {isLoadingFeedback ? <p>Loading feedback</p> : <p>Feedback Loaded</p>}
       </div>
 
-      {isFeedbackLoading ? (
+      {isLoadingFeedback ? (
         <Skeleton className={styles["feedback__skeleton"]} />
       ) : feedback ? (
         <FeedbackItem
@@ -95,7 +95,8 @@ function FeedbackPage() {
         <Skeleton className={styles["comments__skeleton"]} />
       ) : hasComments ? (
         <CommentList
-          comments={comments}
+          comments={commentsResult.comments}
+          totalComments={commentsResult.total}
           className={styles["feedback__comments"]}
         />
       ) : (
@@ -108,6 +109,7 @@ function FeedbackPage() {
 
       {feedback && (
         <AddComment
+          feedbackId={feedback.id}
           redirectContext={`/feedback/${feedback.id}`}
           className={styles["feedback__add-comment"]}
         />

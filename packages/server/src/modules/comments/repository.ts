@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { count, eq } from "drizzle-orm";
 import { DB } from "../../db/index.js";
 import {
   comments,
@@ -38,6 +38,14 @@ export function createCommentRepository(db: DB) {
         .where(eq(comments.id, id));
 
       return comment as PopulatedComment;
+    },
+
+    async findCommentsCount(id: string): Promise<number> {
+      const [result] = await db
+        .select({ count: count() })
+        .from(comments)
+        .where(eq(comments.feedbackId, id));
+      return result?.count ?? 0;
     },
 
     async findThreadedByFeedbackId(

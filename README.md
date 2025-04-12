@@ -25,6 +25,35 @@ This is a solution to the [Product feedback app challenge on Frontend Mentor](ht
 
 ![](database-design.png)
 
+## Running locally
+
+1. Clone repository
+
+   ```bash
+   git clone git@github.com:Raphico/product-feedback-app.git
+   cd product-feedback-app
+   ```
+
+2. Install dependencies
+
+   ```bash
+   yarn install
+   ```
+
+3. Setup environmental variables (see `.env.example`)
+
+4. Start database containers
+
+   ```bash
+   docker compose -f docker-compose.dev.yml up --build
+   ```
+
+5. start development servers
+
+   ```bash
+   yarn dev
+   ```
+
 ## License
 
 Licensed under the MIT License. Check the [LICENSE](./LICENSE.md) file for details.

@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, isNull, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, isNull, sql } from "drizzle-orm";
 import { DB } from "../../db/index.js";
 import {
   comments,
@@ -41,20 +41,29 @@ export function createFeedbackRepository(db: DB) {
           detail: feedbacks.detail,
           status: feedbacks.status,
           category: feedbacks.category,
-          commentCount: sql<number>`COUNT(${comments.id})`.as("comment_count"),
-          upvoteCount: sql<number>`COUNT(${feedbackUpvotes.userId})`.as(
-            "upvote_count",
-          ),
+          commentCount: db
+            .$count(comments, eq(comments.feedbackId, feedbacks.id))
+            .as("comment_count"),
+          upvoteCount: db
+            .$count(
+              feedbackUpvotes,
+              eq(feedbackUpvotes.feedbackId, feedbacks.id),
+            )
+            .as("upvote_count"),
           hasUpvote: sql<boolean>`
-            CASE WHEN MAX(CASE WHEN ${feedbackUpvotes.userId} = ${currentUserId} THEN 1 ELSE 0 END) = 1
-              THEN TRUE 
-              ELSE FALSE END
-          `.as("has_upvote"),
+            ${gt(
+              db.$count(
+                feedbackUpvotes,
+                and(
+                  eq(feedbackUpvotes.feedbackId, feedbacks.id),
+                  eq(feedbackUpvotes.userId, currentUserId),
+                ),
+              ),
+              0,
+            )}
+        `.as("has_upvote"),
         })
         .from(feedbacks)
-        .leftJoin(comments, eq(comments.feedbackId, feedbacks.id))
-        .leftJoin(feedbackUpvotes, eq(feedbackUpvotes.feedbackId, feedbacks.id))
-        .groupBy(feedbacks.id)
         .where(and(eq(feedbacks.id, id), isNull(feedbacks.deletedAt)));
 
       return feedback;
@@ -83,7 +92,7 @@ export function createFeedbackRepository(db: DB) {
 
     async findAll({
       sort,
-      currentUserId,
+      currentUserId = "",
       filter,
     }: {
       sort: FeedbackSortOptions;
@@ -91,18 +100,10 @@ export function createFeedbackRepository(db: DB) {
       filter: Omit<Partial<Feedback>, "deletedAt">;
     }): Promise<ExtendedFeedback[]> {
       const sortBy = {
-        [FeedbackSortOptions.MOST_UPVOTES]: desc(
-          sql<number>`COUNT(${feedbackUpvotes.userId})`,
-        ),
-        [FeedbackSortOptions.LEAST_UPVOTES]: asc(
-          sql<number>`COUNT(${feedbackUpvotes.userId})`,
-        ),
-        [FeedbackSortOptions.MOST_COMMENTS]: desc(
-          sql<number>`COUNT(${comments.id})`,
-        ),
-        [FeedbackSortOptions.LEAST_COMMENTS]: asc(
-          sql<number>`COUNT(${comments.id})`,
-        ),
+        [FeedbackSortOptions.MOST_UPVOTES]: desc(sql`upvote_count`),
+        [FeedbackSortOptions.LEAST_UPVOTES]: asc(sql`upvote_count`),
+        [FeedbackSortOptions.MOST_COMMENTS]: desc(sql`comment_count`),
+        [FeedbackSortOptions.LEAST_COMMENTS]: asc(sql`comment_count`),
       };
 
       return db
@@ -113,15 +114,27 @@ export function createFeedbackRepository(db: DB) {
           detail: feedbacks.detail,
           status: feedbacks.status,
           category: feedbacks.category,
-          commentCount: sql<number>`COUNT(${comments.id})`.as("comment_count"),
-          upvoteCount: sql<number>`COUNT(${feedbackUpvotes.userId})`.as(
-            "upvote_count",
-          ),
+          commentCount: db
+            .$count(comments, eq(comments.feedbackId, feedbacks.id))
+            .as("comment_count"),
+          upvoteCount: db
+            .$count(
+              feedbackUpvotes,
+              eq(feedbackUpvotes.feedbackId, feedbacks.id),
+            )
+            .as("upvote_count"),
           hasUpvote: sql<boolean>`
-            CASE WHEN MAX(CASE WHEN ${feedbackUpvotes.userId} = ${currentUserId} THEN 1 ELSE 0 END) = 1
-              THEN TRUE 
-              ELSE FALSE END
-          `.as("has_upvote"),
+            ${gt(
+              db.$count(
+                feedbackUpvotes,
+                and(
+                  eq(feedbackUpvotes.feedbackId, feedbacks.id),
+                  eq(feedbackUpvotes.userId, currentUserId),
+                ),
+              ),
+              0,
+            )}
+        `.as("has_upvote"),
         })
         .from(feedbacks)
         .where(
@@ -132,9 +145,6 @@ export function createFeedbackRepository(db: DB) {
             ),
           ),
         )
-        .leftJoin(comments, eq(comments.feedbackId, feedbacks.id))
-        .leftJoin(feedbackUpvotes, eq(feedbackUpvotes.feedbackId, feedbacks.id))
-        .groupBy(feedbacks.id)
         .orderBy(sortBy[sort]);
     },
 

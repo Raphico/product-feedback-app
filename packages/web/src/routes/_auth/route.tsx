@@ -18,5 +18,9 @@ function RouteComponent() {
     }
   }, [isLoggedIn, navigate]);
 
+  if (isLoggedIn) {
+    return null;
+  }
+
   return <Outlet />;
 }

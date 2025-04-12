@@ -42,13 +42,19 @@ This is a solution to the [Product feedback app challenge on Frontend Mentor](ht
 
 3. Setup environmental variables (see `.env.example`)
 
-4. Start database containers
+4. Start database container
 
    ```bash
    docker compose -f docker-compose.dev.yml up --build
    ```
 
-5. start development servers
+5. Run database migrations
+
+   ```bash
+   yarn workspace @product-feedback-app/server db:migrate
+   ```
+
+6. start development servers
 
    ```bash
    yarn dev

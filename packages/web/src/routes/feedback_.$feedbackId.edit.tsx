@@ -7,8 +7,8 @@ export const Route = createFileRoute("/feedback_/$feedbackId/edit")({
     const query = store.dispatch(
       feedbackApi.endpoints.getFeedback.initiate(feedbackId),
     );
+    await query;
     query.unsubscribe();
-    return query;
   },
   component: EditFeedbackPage,
 });

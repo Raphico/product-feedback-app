@@ -25,5 +25,6 @@ export const store = configureStore({
 
 setupListeners(store.dispatch);
 
+export type Store = typeof store;
 export type AppState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

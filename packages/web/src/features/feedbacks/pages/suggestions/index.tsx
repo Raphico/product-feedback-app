@@ -1,7 +1,6 @@
 import { useGetFeedbacksQuery } from "@/features/feedbacks/service";
 import { FeedbackStatuses } from "@/config";
 import styles from "./index.module.css";
-import SuggestionsSkeleton from "./components/suggestions-skeleton";
 import SuggestionsAside from "./components/suggestions-aside";
 import SuggestionsHeader from "./components/suggestions-header";
 import SuggestionList from "./components/suggestion-list";
@@ -12,6 +11,7 @@ import { buttonVariants } from "@/components/button";
 import { useEffect } from "react";
 import { useIsLoggedIn } from "@/features/user/hooks";
 import { showErrorToast } from "@/utils/error";
+import SuggestionsSkeleton from "./components/suggestions-skeleton";
 
 const routeApi = getRouteApi("/");
 

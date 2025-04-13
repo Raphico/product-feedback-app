@@ -1,21 +1,23 @@
 import { ErrorBoundary } from "@/components/error-boundary";
-import { useGetMeQuery } from "@/features/user/service";
-import { createRootRoute, Outlet } from "@tanstack/react-router";
+import userApi from "@/features/user/service";
+import { Store } from "@/lib/store";
+import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/react-router-devtools";
 
-export const Route = createRootRoute({
-  component: Root,
+export const Route = createRootRouteWithContext<{ store: Store }>()({
+  loader: async ({ context: { store } }) => {
+    const query = store.dispatch(userApi.endpoints.getMe.initiate());
+    await query;
+    query.unsubscribe();
+  },
+  component: () => {
+    return (
+      <ErrorBoundary>
+        <main>
+          <Outlet />
+        </main>
+        <TanStackRouterDevtools />
+      </ErrorBoundary>
+    );
+  },
 });
-
-function Root() {
-  useGetMeQuery();
-
-  return (
-    <ErrorBoundary>
-      <main>
-        <Outlet />
-      </main>
-      <TanStackRouterDevtools />
-    </ErrorBoundary>
-  );
-}

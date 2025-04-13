@@ -8,7 +8,13 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import Toaster from "./components/toast";
 
-const router = createRouter({ routeTree });
+const router = createRouter({
+  routeTree,
+  defaultStaleTime: Infinity,
+  context: {
+    store,
+  },
+});
 
 declare module "@tanstack/react-router" {
   interface Register {

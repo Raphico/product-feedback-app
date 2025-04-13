@@ -48,6 +48,7 @@ function LoginPage() {
             <form.FormErrorAlert className={styles["login__error-alert"]} />
           </form.AppForm>
           <Form
+            autoComplete="off"
             onSubmit={(event) => {
               event.preventDefault();
               form.handleSubmit();
@@ -77,7 +78,7 @@ function LoginPage() {
                 name="password"
                 children={(field) => (
                   <>
-                    <field.FormInput id="password" name="password" />
+                    <field.PasswordInput id="password" name="password" />
                     <field.FormFieldError />
                   </>
                 )}

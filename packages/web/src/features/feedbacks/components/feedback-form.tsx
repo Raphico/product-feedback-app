@@ -20,6 +20,7 @@ const FeedbackForm = withForm({
   render: function Render({ form, children, ...props }) {
     return (
       <Form
+        autoComplete="off"
         onSubmit={(event) => {
           event.preventDefault();
           form.handleSubmit();

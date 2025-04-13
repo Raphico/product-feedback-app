@@ -11,9 +11,12 @@
 }
 
 .edit-feedback__skeleton {
-  background-color: var(--clr-light-periwinkle);
-  height: 100%;
-  width: 100%;
+  background-color: var(--clr-pure-white);
+  height: 550px;
+  width: 90%;
+  max-width: 540px;
+  margin: 0 auto;
+  margin-top: 7em;
   border-radius: var(--radius);
 }
 
@@ -50,22 +53,5 @@
 
   @media (min-width: 480px) {
     transform: scale(1.35);
-  }
-}
-
-.edit-feedback__actions {
-  display: flex;
-  margin-top: 1em;
-  align-items: center;
-  gap: 1rem;
-  flex-direction: column;
-  justify-content: center;
-  & > * {
-    width: 100%;
-  }
-
-  @media (min-width: 480px) {
-    flex-direction: row-reverse;
-    justify-content: space-between;
   }
 }

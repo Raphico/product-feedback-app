@@ -9,6 +9,8 @@ const feedbackApi = createApi({
     baseUrl: "/feedbacks",
   }),
   tagTypes: ["Feedback"],
+  refetchOnFocus: true,
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     getFeedbacks: builder.query<Feedback[], GetFeedbacksParams | void>({
       query: (params) => ({ url: "/", method: "GET", params }),
@@ -37,7 +39,8 @@ const feedbackApi = createApi({
       { id: string } & UpdateFeedbackSchema
     >({
       query: ({ id, ...data }) => ({ url: `/${id}`, method: "PATCH", data }),
-      invalidatesTags: ["Feedback"],
+      invalidatesTags: (result, _, data) =>
+        result ? [{ type: "Feedback", id: data.id }] : [],
     }),
     deleteFeedback: builder.mutation<Feedback, string>({
       query: (id) => ({ url: `/${id}`, method: "DELETE" }),

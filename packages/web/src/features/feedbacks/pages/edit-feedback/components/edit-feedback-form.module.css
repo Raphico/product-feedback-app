@@ -1,0 +1,16 @@
+.edit-feedback-form__actions {
+  display: flex;
+  margin-top: 1em;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  & > * {
+    width: 100%;
+  }
+
+  @media (min-width: 480px) {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
+}

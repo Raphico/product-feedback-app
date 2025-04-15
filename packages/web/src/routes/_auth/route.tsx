@@ -1,3 +1,4 @@
+import AuthLayout from "@/features/auth/layouts/auth-layout";
 import { useIsLoggedIn } from "@/features/user/hooks";
 import { useNavigate } from "@tanstack/react-router";
 import { createFileRoute, Outlet } from "@tanstack/react-router";
@@ -23,5 +24,9 @@ function RouteComponent() {
     return null;
   }
 
-  return <Outlet />;
+  return (
+    <AuthLayout>
+      <Outlet />
+    </AuthLayout>
+  );
 }

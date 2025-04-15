@@ -9,7 +9,7 @@
 
 .form__label {
   color: var(--clr-deep-slate-blue);
-  font-weight: var(--fw-bold);
+  font-weight: var(--fw-regular);
   font-size: var(--fs-200);
   justify-self: start;
 

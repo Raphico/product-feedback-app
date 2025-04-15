@@ -1,0 +1,16 @@
+.forgot-password__form-item {
+  display: grid;
+  gap: 0.5em;
+}
+
+.forgot-password__login-link {
+  margin-top: 1em;
+  text-align: center;
+  color: var(--clr-deep-slate-blue);
+  font-weight: var(--fw-semibold);
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}

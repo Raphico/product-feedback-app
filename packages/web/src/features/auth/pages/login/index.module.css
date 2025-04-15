@@ -1,23 +1,5 @@
-.login {
-  display: grid;
-  align-items: center;
-  min-height: 100vh;
-  max-width: 540px;
-  margin: 0 auto;
-  width: 90%;
-
-  @media (min-width: 480px) {
-    width: 100%;
-  }
-}
-
 .login__form-item {
-  display: grid;
   gap: 0.5em;
-
-  & label {
-    font-weight: var(--fw-regular);
-  }
 }
 
 .login__password-label {

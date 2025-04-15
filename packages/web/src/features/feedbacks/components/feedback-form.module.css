@@ -3,6 +3,10 @@
   margin-bottom: 0.5em;
 }
 
+.feedback-form__label {
+  font-weight: var(--fw-bold);
+}
+
 .feedback-form__category {
   width: 100%;
   padding-inline: 1.2em;

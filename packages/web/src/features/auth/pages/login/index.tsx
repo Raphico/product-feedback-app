@@ -5,7 +5,7 @@ import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
 import { useLoginMutation } from "@/features/auth/service";
 import { loginSchema } from "@/features/auth/validations";
 import { useAppForm } from "@/lib/form";
-import { isHttpBaseQueryError } from "@/lib/http/utils";
+import { getErrorMessage } from "@/utils/error";
 
 const routeApi = getRouteApi("/_auth/login");
 
@@ -28,82 +28,79 @@ function LoginPage() {
           to: redirectTo ?? "/",
         });
       } catch (error) {
-        const errorMessage = isHttpBaseQueryError(error)
-          ? error.data.message
-          : "Something went wrong. Please try again later";
-
-        form.setErrorMap({ onServer: errorMessage });
+        form.setErrorMap({ onServer: getErrorMessage(error) });
       }
     },
   });
 
   return (
-    <div className={styles["login"]}>
-      <Card className={styles["login__card"]}>
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-        </CardHeader>
-        <CardBody>
+    <Card className={styles["login__card"]}>
+      <CardHeader>
+        <CardTitle>Login</CardTitle>
+      </CardHeader>
+      <CardBody>
+        <form.AppForm>
+          <form.FormErrorAlert />
+        </form.AppForm>
+        <Form
+          autoComplete="off"
+          onSubmit={(event) => {
+            event.preventDefault();
+            form.handleSubmit();
+          }}
+        >
+          <FormItem className={styles["login__form-item"]}>
+            <FormLabel htmlFor="email">Email</FormLabel>
+            <form.AppField
+              name="email"
+              children={(field) => (
+                <>
+                  <field.FormInput id="email" name="email" />
+                  <field.FormFieldError />
+                </>
+              )}
+            />
+          </FormItem>
+
+          <FormItem className={styles["login__form-item"]}>
+            <div className={styles["login__password-label"]}>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <Link
+                to="/forgot-password"
+                className={styles["login__forgot-password"]}
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <form.AppField
+              name="password"
+              children={(field) => (
+                <>
+                  <field.PasswordInput id="password" name="password" />
+                  <field.FormFieldError />
+                </>
+              )}
+            />
+          </FormItem>
+
           <form.AppForm>
-            <form.FormErrorAlert className={styles["login__error-alert"]} />
+            <form.SubscribeButton className={styles["login__button"]}>
+              Login
+            </form.SubscribeButton>
           </form.AppForm>
-          <Form
-            autoComplete="off"
-            onSubmit={(event) => {
-              event.preventDefault();
-              form.handleSubmit();
-            }}
+        </Form>
+
+        <p className={styles["login__signup-text"]}>
+          Need to create an account?{" "}
+          <Link
+            to="."
+            className={`${styles["login__signup-link"]} text-preset-4-bold`}
           >
-            <FormItem className={styles["login__form-item"]}>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <form.AppField
-                name="email"
-                children={(field) => (
-                  <>
-                    <field.FormInput id="email" name="email" />
-                    <field.FormFieldError />
-                  </>
-                )}
-              />
-            </FormItem>
-
-            <FormItem className={styles["login__form-item"]}>
-              <div className={styles["login__password-label"]}>
-                <FormLabel htmlFor="password">Password</FormLabel>
-                <Link to="." className={styles["login__forgot-password"]}>
-                  Forgot password?
-                </Link>
-              </div>
-              <form.AppField
-                name="password"
-                children={(field) => (
-                  <>
-                    <field.PasswordInput id="password" name="password" />
-                    <field.FormFieldError />
-                  </>
-                )}
-              />
-            </FormItem>
-
-            <form.AppForm>
-              <form.SubscribeButton className={styles["login__button"]}>
-                Login
-              </form.SubscribeButton>
-            </form.AppForm>
-          </Form>
-
-          <p className={styles["login__signup-text"]}>
-            Need to create an account?{" "}
-            <Link
-              to="."
-              className={`${styles["login__signup-link"]} text-preset-4-bold`}
-            >
-              Sign up
-            </Link>
-          </p>
-        </CardBody>
-      </Card>
-    </div>
+            Sign up
+          </Link>
+        </p>
+      </CardBody>
+    </Card>
   );
 }
 

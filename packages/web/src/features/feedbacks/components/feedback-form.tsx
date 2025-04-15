@@ -28,7 +28,9 @@ const FeedbackForm = withForm({
         {...props}
       >
         <FormItem>
-          <FormLabel htmlFor="title">Feedback Title</FormLabel>
+          <FormLabel htmlFor="title" className={styles["feedback-form__label"]}>
+            Feedback Title
+          </FormLabel>
           <FormDescription>Add a short, descriptive headline</FormDescription>
           <form.AppField
             name="title"
@@ -46,7 +48,12 @@ const FeedbackForm = withForm({
           />
         </FormItem>
         <FormItem>
-          <FormLabel htmlFor="category">Category</FormLabel>
+          <FormLabel
+            htmlFor="category"
+            className={styles["feedback-form__label"]}
+          >
+            Category
+          </FormLabel>
           <FormDescription>Choose a category for your feedback</FormDescription>
           <form.AppField
             name="category"
@@ -81,7 +88,12 @@ const FeedbackForm = withForm({
           />
         </FormItem>
         <FormItem>
-          <FormLabel htmlFor="detail">Feedback Detail</FormLabel>
+          <FormLabel
+            htmlFor="detail"
+            className={styles["feedback-form__label"]}
+          >
+            Feedback Detail
+          </FormLabel>
           <FormDescription>
             Include any specific comments on what should be improved, added,
             etc.

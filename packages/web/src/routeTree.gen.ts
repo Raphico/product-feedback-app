@@ -16,7 +16,10 @@ import { Route as AuthRouteImport } from "./routes/_auth/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as FeedbackFeedbackIdImport } from "./routes/feedback.$feedbackId";
 import { Route as AuthLoginImport } from "./routes/_auth/login";
+import { Route as AuthForgotPasswordImport } from "./routes/_auth/forgot-password";
 import { Route as FeedbackFeedbackIdEditImport } from "./routes/feedback_.$feedbackId.edit";
+import { Route as AuthResetPasswordTokenImport } from "./routes/_auth/reset-password.$token";
+import { Route as AuthForgotPasswordSentImport } from "./routes/_auth/forgot-password_.sent";
 
 // Create/Update Routes
 
@@ -49,10 +52,28 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any);
 
+const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
+  id: "/forgot-password",
+  path: "/forgot-password",
+  getParentRoute: () => AuthRouteRoute,
+} as any);
+
 const FeedbackFeedbackIdEditRoute = FeedbackFeedbackIdEditImport.update({
   id: "/feedback_/$feedbackId/edit",
   path: "/feedback/$feedbackId/edit",
   getParentRoute: () => rootRoute,
+} as any);
+
+const AuthResetPasswordTokenRoute = AuthResetPasswordTokenImport.update({
+  id: "/reset-password/$token",
+  path: "/reset-password/$token",
+  getParentRoute: () => AuthRouteRoute,
+} as any);
+
+const AuthForgotPasswordSentRoute = AuthForgotPasswordSentImport.update({
+  id: "/forgot-password_/sent",
+  path: "/forgot-password/sent",
+  getParentRoute: () => AuthRouteRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -80,6 +101,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof CreateFeedbackImport;
       parentRoute: typeof rootRoute;
     };
+    "/_auth/forgot-password": {
+      id: "/_auth/forgot-password";
+      path: "/forgot-password";
+      fullPath: "/forgot-password";
+      preLoaderRoute: typeof AuthForgotPasswordImport;
+      parentRoute: typeof AuthRouteImport;
+    };
     "/_auth/login": {
       id: "/_auth/login";
       path: "/login";
@@ -94,6 +122,20 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof FeedbackFeedbackIdImport;
       parentRoute: typeof rootRoute;
     };
+    "/_auth/forgot-password_/sent": {
+      id: "/_auth/forgot-password_/sent";
+      path: "/forgot-password/sent";
+      fullPath: "/forgot-password/sent";
+      preLoaderRoute: typeof AuthForgotPasswordSentImport;
+      parentRoute: typeof AuthRouteImport;
+    };
+    "/_auth/reset-password/$token": {
+      id: "/_auth/reset-password/$token";
+      path: "/reset-password/$token";
+      fullPath: "/reset-password/$token";
+      preLoaderRoute: typeof AuthResetPasswordTokenImport;
+      parentRoute: typeof AuthRouteImport;
+    };
     "/feedback_/$feedbackId/edit": {
       id: "/feedback_/$feedbackId/edit";
       path: "/feedback/$feedbackId/edit";
@@ -107,11 +149,17 @@ declare module "@tanstack/react-router" {
 // Create and export the route tree
 
 interface AuthRouteRouteChildren {
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute;
   AuthLoginRoute: typeof AuthLoginRoute;
+  AuthForgotPasswordSentRoute: typeof AuthForgotPasswordSentRoute;
+  AuthResetPasswordTokenRoute: typeof AuthResetPasswordTokenRoute;
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthForgotPasswordSentRoute: AuthForgotPasswordSentRoute,
+  AuthResetPasswordTokenRoute: AuthResetPasswordTokenRoute,
 };
 
 const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
@@ -122,8 +170,11 @@ export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
   "": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/forgot-password": typeof AuthForgotPasswordRoute;
   "/login": typeof AuthLoginRoute;
   "/feedback/$feedbackId": typeof FeedbackFeedbackIdRoute;
+  "/forgot-password/sent": typeof AuthForgotPasswordSentRoute;
+  "/reset-password/$token": typeof AuthResetPasswordTokenRoute;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
 }
 
@@ -131,8 +182,11 @@ export interface FileRoutesByTo {
   "/": typeof IndexRoute;
   "": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/forgot-password": typeof AuthForgotPasswordRoute;
   "/login": typeof AuthLoginRoute;
   "/feedback/$feedbackId": typeof FeedbackFeedbackIdRoute;
+  "/forgot-password/sent": typeof AuthForgotPasswordSentRoute;
+  "/reset-password/$token": typeof AuthResetPasswordTokenRoute;
   "/feedback/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
 }
 
@@ -141,8 +195,11 @@ export interface FileRoutesById {
   "/": typeof IndexRoute;
   "/_auth": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/_auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/_auth/login": typeof AuthLoginRoute;
   "/feedback/$feedbackId": typeof FeedbackFeedbackIdRoute;
+  "/_auth/forgot-password_/sent": typeof AuthForgotPasswordSentRoute;
+  "/_auth/reset-password/$token": typeof AuthResetPasswordTokenRoute;
   "/feedback_/$feedbackId/edit": typeof FeedbackFeedbackIdEditRoute;
 }
 
@@ -152,24 +209,33 @@ export interface FileRouteTypes {
     | "/"
     | ""
     | "/create-feedback"
+    | "/forgot-password"
     | "/login"
     | "/feedback/$feedbackId"
+    | "/forgot-password/sent"
+    | "/reset-password/$token"
     | "/feedback/$feedbackId/edit";
   fileRoutesByTo: FileRoutesByTo;
   to:
     | "/"
     | ""
     | "/create-feedback"
+    | "/forgot-password"
     | "/login"
     | "/feedback/$feedbackId"
+    | "/forgot-password/sent"
+    | "/reset-password/$token"
     | "/feedback/$feedbackId/edit";
   id:
     | "__root__"
     | "/"
     | "/_auth"
     | "/create-feedback"
+    | "/_auth/forgot-password"
     | "/_auth/login"
     | "/feedback/$feedbackId"
+    | "/_auth/forgot-password_/sent"
+    | "/_auth/reset-password/$token"
     | "/feedback_/$feedbackId/edit";
   fileRoutesById: FileRoutesById;
 }
@@ -213,11 +279,18 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth/route.tsx",
       "children": [
-        "/_auth/login"
+        "/_auth/forgot-password",
+        "/_auth/login",
+        "/_auth/forgot-password_/sent",
+        "/_auth/reset-password/$token"
       ]
     },
     "/create-feedback": {
       "filePath": "create-feedback.tsx"
+    },
+    "/_auth/forgot-password": {
+      "filePath": "_auth/forgot-password.tsx",
+      "parent": "/_auth"
     },
     "/_auth/login": {
       "filePath": "_auth/login.tsx",
@@ -225,6 +298,14 @@ export const routeTree = rootRoute
     },
     "/feedback/$feedbackId": {
       "filePath": "feedback.$feedbackId.tsx"
+    },
+    "/_auth/forgot-password_/sent": {
+      "filePath": "_auth/forgot-password_.sent.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/reset-password/$token": {
+      "filePath": "_auth/reset-password.$token.tsx",
+      "parent": "/_auth"
     },
     "/feedback_/$feedbackId/edit": {
       "filePath": "feedback_.$feedbackId.edit.tsx"

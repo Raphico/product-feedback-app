@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import httpBaseQuery from "@/lib/http";
 import { User } from "../user/types";
-import { LoginSchema } from "./validations";
+import { EmailSchema, LoginSchema, ResetPasswordSchema } from "./validations";
 import { setUser } from "../user/slice";
 import feedbackApi from "../feedbacks/service";
 
@@ -24,8 +24,29 @@ const authApi = createApi({
         }
       },
     }),
+    forgotPassword: builder.mutation<void, EmailSchema>({
+      query: (data) => ({
+        url: "/request-password-reset",
+        method: "POST",
+        data,
+      }),
+    }),
+    resetPassword: builder.mutation<
+      void,
+      ResetPasswordSchema & { token: string }
+    >({
+      query: ({ token, ...data }) => ({
+        url: `/password-reset/${token}`,
+        method: "POST",
+        data,
+      }),
+    }),
   }),
 });
 
-export const { useLoginMutation } = authApi;
+export const {
+  useLoginMutation,
+  useForgotPasswordMutation,
+  useResetPasswordMutation,
+} = authApi;
 export default authApi;

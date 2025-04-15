@@ -12,6 +12,7 @@ import {
 } from "@/components/card";
 import { Form, FormItem, FormLabel } from "@/components/form";
 import styles from "./index.module.css";
+import { useStore } from "@tanstack/react-form";
 
 const routeApi = getRouteApi("/_auth/forgot-password");
 
@@ -41,6 +42,8 @@ function ForgotPasswordPage() {
       }
     },
   });
+
+  const currentEmail = useStore(form.store, (state) => state.values.email);
 
   return (
     <Card className={styles["forgot-password__card"]}>
@@ -84,6 +87,10 @@ function ForgotPasswordPage() {
 
         <Link
           to="/login"
+          search={{
+            email: currentEmail,
+            redirectTo,
+          }}
           className={`${styles["forgot-password__login-link"]} text-preset-4-bold`}
         >
           Back to login page

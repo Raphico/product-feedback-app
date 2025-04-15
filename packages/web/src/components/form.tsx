@@ -85,7 +85,7 @@ function FormFieldError({ className, ...props }: FormFieldErrorProps) {
     <>
       {field.state.meta.isTouched && field.state.meta.errors.length ? (
         <p className={cn(styles["form__field-error"], className)} {...props}>
-          {field.state.meta.errors.map((err) => err.message).join(",")}
+          {field.state.meta.errors[0]?.message}
         </p>
       ) : null}
     </>

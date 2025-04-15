@@ -10,7 +10,7 @@ import {
 import feedbackApi from "@/features/feedbacks/service";
 
 const suggestionSearchSchema = z.object({
-  category: z.nativeEnum(FeedbackCategories).optional(),
+  category: fallback(z.nativeEnum(FeedbackCategories).optional(), undefined),
   sort: fallback(
     z.nativeEnum(FeedbackSortOptions),
     FeedbackSortOptions.MOST_UPVOTES,

@@ -1,7 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import httpBaseQuery from "@/lib/http";
 import { User } from "../user/types";
-import { EmailSchema, LoginSchema, ResetPasswordSchema } from "./validations";
+import {
+  EmailSchema,
+  LoginSchema,
+  ResetPasswordSchema,
+  SignupSchema,
+} from "./validations";
 import { setUser } from "../user/slice";
 import feedbackApi from "../feedbacks/service";
 
@@ -11,6 +16,9 @@ const authApi = createApi({
     baseUrl: "/auth",
   }),
   endpoints: (builder) => ({
+    signup: builder.mutation<User, SignupSchema>({
+      query: (data) => ({ url: "/signup", method: "POST", data }),
+    }),
     login: builder.mutation<User, LoginSchema>({
       query: (data) => ({ url: "/login", method: "POST", data }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -45,6 +53,7 @@ const authApi = createApi({
 });
 
 export const {
+  useSignupMutation,
   useLoginMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,

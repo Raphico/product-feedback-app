@@ -5,7 +5,7 @@ import { clearUser, setUser } from "@/features/user/slice";
 
 const instance = axios.create({
   baseURL: config.apiUrl,
-  timeout: 5_000,
+  timeout: 15_000,
   headers: {
     "Content-Type": "application/json",
   },

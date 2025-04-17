@@ -6,6 +6,7 @@ import {
   LoginSchema,
   ResetPasswordSchema,
   SignupSchema,
+  VerifyEmailSchema,
 } from "./validations";
 import { setUser } from "../user/slice";
 import feedbackApi from "../feedbacks/service";
@@ -18,6 +19,12 @@ const authApi = createApi({
   endpoints: (builder) => ({
     signup: builder.mutation<User, SignupSchema>({
       query: (data) => ({ url: "/signup", method: "POST", data }),
+    }),
+    verifyEmail: builder.mutation<void, VerifyEmailSchema>({
+      query: (data) => ({ url: "/verification", method: "POST", data }),
+    }),
+    resendEmailVerification: builder.mutation<void, EmailSchema>({
+      query: (data) => ({ url: "/resend-verification", method: "POST", data }),
     }),
     login: builder.mutation<User, LoginSchema>({
       query: (data) => ({ url: "/login", method: "POST", data }),
@@ -54,6 +61,8 @@ const authApi = createApi({
 
 export const {
   useSignupMutation,
+  useVerifyEmailMutation,
+  useResendEmailVerificationMutation,
   useLoginMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,

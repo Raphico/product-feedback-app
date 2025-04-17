@@ -46,7 +46,7 @@ function ForgotPasswordPage() {
   const currentEmail = useStore(form.store, (state) => state.values.email);
 
   return (
-    <Card className={styles["forgot-password__card"]}>
+    <Card>
       <CardHeader>
         <CardTitle>Forgot Password?</CardTitle>
         <CardDescription>
@@ -79,9 +79,7 @@ function ForgotPasswordPage() {
           </FormItem>
 
           <form.AppForm>
-            <form.SubscribeButton className={styles["forgot-password__button"]}>
-              Continue
-            </form.SubscribeButton>
+            <form.SubscribeButton>Continue</form.SubscribeButton>
           </form.AppForm>
         </Form>
 

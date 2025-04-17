@@ -36,7 +36,7 @@ function SignupPage() {
   const currentEmail = useStore(form.store, (state) => state.values.email);
 
   return (
-    <Card className={styles["signup__card"]}>
+    <Card>
       <CardHeader>
         <CardTitle>signup</CardTitle>
       </CardHeader>
@@ -104,9 +104,7 @@ function SignupPage() {
           </FormItem>
 
           <form.AppForm>
-            <form.SubscribeButton className={styles["signup__button"]}>
-              signup
-            </form.SubscribeButton>
+            <form.SubscribeButton>signup</form.SubscribeButton>
           </form.AppForm>
         </Form>
 

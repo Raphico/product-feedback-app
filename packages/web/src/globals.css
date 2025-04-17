@@ -73,6 +73,11 @@ svg {
   max-width: 100%;
 }
 
+input,
+button {
+  font: inherit;
+}
+
 body {
   font-family: var(--ff);
   font-size: var(--fs-400);

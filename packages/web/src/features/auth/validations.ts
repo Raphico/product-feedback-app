@@ -43,6 +43,14 @@ export const signupSchema = loginSchema.extend({
 
 export type SignupSchema = z.infer<typeof signupSchema>;
 
+export const verifyEmailSchema = z.object({
+  code: z.string().length(6, {
+    message: "Verification code must be exactly 6 characters long",
+  }),
+});
+
+export type VerifyEmailSchema = z.infer<typeof verifyEmailSchema>;
+
 export const authParams = z.object({
   redirectTo: fallback(z.string().optional(), "/"),
   email: fallback(z.string().optional(), ""),

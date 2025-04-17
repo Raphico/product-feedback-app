@@ -1,0 +1,93 @@
+.otp__container {
+  position: relative;
+  cursor: text;
+  pointer-events: none;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+.otp__container[data-disabled="true"] {
+  cursor: default;
+}
+
+.otp__input-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.otp__input {
+  position: absolute;
+  pointer-events: all;
+  background: transparent;
+  caret-color: transparent;
+  border: 0 solid transparent;
+  outline: 0 solid transparent;
+  text-align: left;
+  pointer-events: all;
+  box-shadow: none;
+  opacity: 1;
+  color: transparent;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+}
+
+.otp__input::selection {
+  background: transparent !important;
+  color: transparent !important;
+}
+
+.otp__input-group {
+  display: grid;
+}
+
+.otp__input-slot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-100);
+  color: var(--clr-deep-slate-blue);
+  background-color: var(--clr-whisper-white);
+  height: 45px;
+  width: 100%;
+  border-radius: 5px;
+  transition: var(--transition-duration) var(--transition-easing);
+}
+
+.otp__input-slot[data-active="true"] {
+  box-shadow: 0 0 0 1px var(--clr-vibrant-blue);
+}
+
+.otp__input-caret-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.otp__input-caret {
+  width: 1px;
+  height: 25px;
+  background-color: var(--clr-deep-slate-blue);
+  animation: caret-blink 1s ease-out infinite;
+}
+
+@keyframes caret-blink {
+  0%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+
+  20%,
+  50% {
+    opacity: 0;
+  }
+}

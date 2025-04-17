@@ -18,6 +18,7 @@ import { Route as FeedbackFeedbackIdImport } from "./routes/feedback.$feedbackId
 import { Route as AuthSignupImport } from "./routes/_auth/signup";
 import { Route as AuthLoginImport } from "./routes/_auth/login";
 import { Route as AuthForgotPasswordImport } from "./routes/_auth/forgot-password";
+import { Route as AuthEmailVerificationImport } from "./routes/_auth/email-verification";
 import { Route as FeedbackFeedbackIdEditImport } from "./routes/feedback_.$feedbackId.edit";
 import { Route as AuthResetPasswordTokenImport } from "./routes/_auth/reset-password.$token";
 import { Route as AuthForgotPasswordSentImport } from "./routes/_auth/forgot-password_.sent";
@@ -65,6 +66,12 @@ const AuthForgotPasswordRoute = AuthForgotPasswordImport.update({
   getParentRoute: () => AuthRouteRoute,
 } as any);
 
+const AuthEmailVerificationRoute = AuthEmailVerificationImport.update({
+  id: "/email-verification",
+  path: "/email-verification",
+  getParentRoute: () => AuthRouteRoute,
+} as any);
+
 const FeedbackFeedbackIdEditRoute = FeedbackFeedbackIdEditImport.update({
   id: "/feedback_/$feedbackId/edit",
   path: "/feedback/$feedbackId/edit",
@@ -107,6 +114,13 @@ declare module "@tanstack/react-router" {
       fullPath: "/create-feedback";
       preLoaderRoute: typeof CreateFeedbackImport;
       parentRoute: typeof rootRoute;
+    };
+    "/_auth/email-verification": {
+      id: "/_auth/email-verification";
+      path: "/email-verification";
+      fullPath: "/email-verification";
+      preLoaderRoute: typeof AuthEmailVerificationImport;
+      parentRoute: typeof AuthRouteImport;
     };
     "/_auth/forgot-password": {
       id: "/_auth/forgot-password";
@@ -163,6 +177,7 @@ declare module "@tanstack/react-router" {
 // Create and export the route tree
 
 interface AuthRouteRouteChildren {
+  AuthEmailVerificationRoute: typeof AuthEmailVerificationRoute;
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute;
   AuthLoginRoute: typeof AuthLoginRoute;
   AuthSignupRoute: typeof AuthSignupRoute;
@@ -171,6 +186,7 @@ interface AuthRouteRouteChildren {
 }
 
 const AuthRouteRouteChildren: AuthRouteRouteChildren = {
+  AuthEmailVerificationRoute: AuthEmailVerificationRoute,
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
@@ -186,6 +202,7 @@ export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
   "": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/email-verification": typeof AuthEmailVerificationRoute;
   "/forgot-password": typeof AuthForgotPasswordRoute;
   "/login": typeof AuthLoginRoute;
   "/signup": typeof AuthSignupRoute;
@@ -199,6 +216,7 @@ export interface FileRoutesByTo {
   "/": typeof IndexRoute;
   "": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/email-verification": typeof AuthEmailVerificationRoute;
   "/forgot-password": typeof AuthForgotPasswordRoute;
   "/login": typeof AuthLoginRoute;
   "/signup": typeof AuthSignupRoute;
@@ -213,6 +231,7 @@ export interface FileRoutesById {
   "/": typeof IndexRoute;
   "/_auth": typeof AuthRouteRouteWithChildren;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/_auth/email-verification": typeof AuthEmailVerificationRoute;
   "/_auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/_auth/login": typeof AuthLoginRoute;
   "/_auth/signup": typeof AuthSignupRoute;
@@ -228,6 +247,7 @@ export interface FileRouteTypes {
     | "/"
     | ""
     | "/create-feedback"
+    | "/email-verification"
     | "/forgot-password"
     | "/login"
     | "/signup"
@@ -240,6 +260,7 @@ export interface FileRouteTypes {
     | "/"
     | ""
     | "/create-feedback"
+    | "/email-verification"
     | "/forgot-password"
     | "/login"
     | "/signup"
@@ -252,6 +273,7 @@ export interface FileRouteTypes {
     | "/"
     | "/_auth"
     | "/create-feedback"
+    | "/_auth/email-verification"
     | "/_auth/forgot-password"
     | "/_auth/login"
     | "/_auth/signup"
@@ -301,6 +323,7 @@ export const routeTree = rootRoute
     "/_auth": {
       "filePath": "_auth/route.tsx",
       "children": [
+        "/_auth/email-verification",
         "/_auth/forgot-password",
         "/_auth/login",
         "/_auth/signup",
@@ -310,6 +333,10 @@ export const routeTree = rootRoute
     },
     "/create-feedback": {
       "filePath": "create-feedback.tsx"
+    },
+    "/_auth/email-verification": {
+      "filePath": "_auth/email-verification.tsx",
+      "parent": "/_auth"
     },
     "/_auth/forgot-password": {
       "filePath": "_auth/forgot-password.tsx",

@@ -36,7 +36,7 @@ function ResetPasswordPage() {
   });
 
   return (
-    <Card className={styles["reset-password__card"]}>
+    <Card>
       <CardHeader>
         <CardTitle>Reset Password</CardTitle>
       </CardHeader>
@@ -65,9 +65,7 @@ function ResetPasswordPage() {
           </FormItem>
 
           <form.AppForm>
-            <form.SubscribeButton className={styles["reset-password__button"]}>
-              Reset Password
-            </form.SubscribeButton>
+            <form.SubscribeButton>Reset Password</form.SubscribeButton>
           </form.AppForm>
         </Form>
       </CardBody>

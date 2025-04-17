@@ -1,0 +1,38 @@
+.email-verification__card {
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.email-verification__otp-group {
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+}
+
+.email-verification__resend-text {
+  text-align: center;
+  font-size: var(--fs-300);
+  margin-top: 1em;
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-400);
+  }
+}
+
+.email-verification__resend-button {
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+  color: var(--clr-deep-slate-blue);
+  font-weight: var(--fw-semibold);
+
+  &:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+}
+
+.email-verification__resend-button:disabled {
+  cursor: wait;
+  color: var(--clr-dusty-blue);
+  text-decoration: none;
+}

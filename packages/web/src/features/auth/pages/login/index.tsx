@@ -37,7 +37,7 @@ function LoginPage() {
   const currentEmail = useStore(form.store, (state) => state.values.email);
 
   return (
-    <Card className={styles["login__card"]}>
+    <Card>
       <CardHeader>
         <CardTitle>Login</CardTitle>
       </CardHeader>
@@ -91,9 +91,7 @@ function LoginPage() {
           </FormItem>
 
           <form.AppForm>
-            <form.SubscribeButton className={styles["login__button"]}>
-              Login
-            </form.SubscribeButton>
+            <form.SubscribeButton>Login</form.SubscribeButton>
           </form.AppForm>
         </Form>
 

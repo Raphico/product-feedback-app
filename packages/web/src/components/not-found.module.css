@@ -22,6 +22,7 @@
 }
 
 .card__title {
+  color: var(--clr-deep-slate-blue);
   margin-top: 1.25em;
 }
 

@@ -314,6 +314,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cld-apis/utils@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@cld-apis/utils@npm:0.2.0"
+  dependencies:
+    snake-case: ^3.0.4
+  checksum: 528c3517e5d300021b4f41582314ae913de7b12e8819beee6f2d66f6f87700675a272460261d39fbb3ea0af166a13febd225c31a3dddc6069c44bee6432e04eb
+  languageName: node
+  linkType: hard
+
 "@commitlint/cli@npm:^19.7.1":
   version: 19.8.0
   resolution: "@commitlint/cli@npm:19.8.0"
@@ -1582,6 +1591,7 @@ __metadata:
     bcrypt: ^5.1.1
     bytes: ^3.1.2
     cloudinary: ^2.6.0
+    cloudinary-build-url: ^0.2.4
     drizzle-kit: ^0.30.6
     drizzle-orm: ^0.41.0
     eslint: ^9.21.0
@@ -3295,6 +3305,15 @@ __metadata:
     strip-ansi: ^6.0.1
     wrap-ansi: ^7.0.0
   checksum: 79648b3b0045f2e285b76fb2e24e207c6db44323581e421c3acbd0e86454cba1b37aea976ab50195a49e7384b871e6dfb2247ad7dec53c02454ac6497394cb56
+  languageName: node
+  linkType: hard
+
+"cloudinary-build-url@npm:^0.2.4":
+  version: 0.2.4
+  resolution: "cloudinary-build-url@npm:0.2.4"
+  dependencies:
+    "@cld-apis/utils": ^0.2.0
+  checksum: e861a29c32fc1c75174811564b6e8c2ca4763ed3c51d3f03dedab7677c678dcd397d30637d3cd74a009f54f86d7b02171803e81c416bfccbcc000032f9510baa
   languageName: node
   linkType: hard
 

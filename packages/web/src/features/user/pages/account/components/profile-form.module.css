@@ -1,0 +1,16 @@
+.profile-form {
+  @media (min-width: 600px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.profile-form__buttons {
+  display: flex;
+  gap: 0.5em;
+  grid-column: 1 / -1;
+  justify-self: end;
+}
+
+.profile-form__item {
+  gap: 0.5em;
+}

@@ -34,3 +34,10 @@
   gap: 1em;
   padding: 0 1.5rem 1.5rem;
 }
+
+.card__separator {
+  background-color: var(--clr-border);
+  height: 1px;
+  width: 100%;
+  margin-block: 1em;
+}

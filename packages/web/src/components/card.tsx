@@ -45,4 +45,21 @@ function CardBody({ className, ...props }: CardBodyProps) {
 
 CardBody.displayName = "CardBody";
 
-export { Card, CardHeader, CardTitle, CardDescription, CardBody };
+type CardSeparatorProps = React.HTMLAttributes<HTMLDivElement>;
+
+function CardSeparator({ className, ...props }: CardSeparatorProps) {
+  return (
+    <div className={cn(styles["card__separator"], className)} {...props} />
+  );
+}
+
+CardSeparator.displayName = "CardSeparator";
+
+export {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardBody,
+  CardSeparator,
+};

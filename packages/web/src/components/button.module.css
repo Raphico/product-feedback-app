@@ -19,6 +19,10 @@
   }
 }
 
+.button:disabled {
+  cursor: default;
+}
+
 .button.lg {
   padding: 0 1.25em;
   height: 48px;

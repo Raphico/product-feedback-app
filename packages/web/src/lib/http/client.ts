@@ -6,12 +6,15 @@ import { clearUser, setUser } from "@/features/user/slice";
 const instance = axios.create({
   baseURL: config.apiUrl,
   timeout: 15_000,
-  headers: {
-    "Content-Type": "application/json",
-  },
+  headers: {},
   withCredentials: true,
   transformRequest: [
-    function (data) {
+    function (data, headers) {
+      if (data instanceof FormData) {
+        return data;
+      }
+
+      headers["Content-Type"] = "application/json";
       return JSON.stringify(data);
     },
   ],

@@ -7,7 +7,6 @@ import { Form, FormItem, FormLabel } from "@/components/form";
 import { Link } from "@tanstack/react-router";
 import styles from "./index.module.css";
 import { useSignupMutation } from "../../service";
-import { useStore } from "@tanstack/react-form";
 
 const routeApi = getRouteApi("/_auth/signup");
 
@@ -32,8 +31,6 @@ function SignupPage() {
       }
     },
   });
-
-  const currentEmail = useStore(form.store, (state) => state.values.email);
 
   return (
     <Card>
@@ -110,16 +107,21 @@ function SignupPage() {
 
         <p className={styles["signup__login-text"]}>
           Already have an account?{" "}
-          <Link
-            to="/login"
-            search={{
-              email: currentEmail,
-              redirectTo,
-            }}
-            className={`${styles["signup__login-link"]} text-preset-4-bold`}
-          >
-            login
-          </Link>
+          <form.Subscribe
+            selector={(state) => state.values.email}
+            children={(email) => (
+              <Link
+                to="/login"
+                search={{
+                  email,
+                  redirectTo,
+                }}
+                className={`${styles["signup__login-link"]} text-preset-4-bold`}
+              >
+                login
+              </Link>
+            )}
+          />
         </p>
       </CardBody>
     </Card>

@@ -7,7 +7,6 @@ import { useAppForm } from "@/lib/form";
 import { createCommentSchema } from "../validations";
 import { useCreateCommentMutation } from "../service";
 import { showErrorToast } from "@/utils/error";
-import { useStore } from "@tanstack/react-form";
 
 interface AddCommentProps extends React.HTMLAttributes<HTMLElement> {
   redirectContext: string;
@@ -50,11 +49,6 @@ function AddComment({
     }
   }
 
-  const charactersLeft = useStore(
-    form.store,
-    (state) => 250 - state.values.content.length,
-  );
-
   return (
     <section className={cn(styles["add-comment"], className)}>
       <h2 className="h3">Add Comment</h2>
@@ -80,9 +74,14 @@ function AddComment({
             </>
           )}
         />
-        <p className={styles["add-comment__characters"]}>
-          {charactersLeft} characters left
-        </p>
+        <form.Subscribe
+          selector={(state) => 250 - state.values.content.length}
+          children={(charactersLeft) => (
+            <p className={styles["add-comment__characters"]}>
+              {charactersLeft} characters left
+            </p>
+          )}
+        />
         <form.AppForm>
           <form.SubscribeButton className={styles["add-comment__button"]}>
             Post Comment

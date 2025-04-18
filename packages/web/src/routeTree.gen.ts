@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from "./routes/__root";
 import { Route as CreateFeedbackImport } from "./routes/create-feedback";
+import { Route as AccountImport } from "./routes/account";
 import { Route as AuthRouteImport } from "./routes/_auth/route";
 import { Route as IndexImport } from "./routes/index";
 import { Route as FeedbackFeedbackIdImport } from "./routes/feedback.$feedbackId";
@@ -28,6 +29,12 @@ import { Route as AuthForgotPasswordSentImport } from "./routes/_auth/forgot-pas
 const CreateFeedbackRoute = CreateFeedbackImport.update({
   id: "/create-feedback",
   path: "/create-feedback",
+  getParentRoute: () => rootRoute,
+} as any);
+
+const AccountRoute = AccountImport.update({
+  id: "/account",
+  path: "/account",
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -106,6 +113,13 @@ declare module "@tanstack/react-router" {
       path: "";
       fullPath: "";
       preLoaderRoute: typeof AuthRouteImport;
+      parentRoute: typeof rootRoute;
+    };
+    "/account": {
+      id: "/account";
+      path: "/account";
+      fullPath: "/account";
+      preLoaderRoute: typeof AccountImport;
       parentRoute: typeof rootRoute;
     };
     "/create-feedback": {
@@ -201,6 +215,7 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
 export interface FileRoutesByFullPath {
   "/": typeof IndexRoute;
   "": typeof AuthRouteRouteWithChildren;
+  "/account": typeof AccountRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
   "/email-verification": typeof AuthEmailVerificationRoute;
   "/forgot-password": typeof AuthForgotPasswordRoute;
@@ -215,6 +230,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   "/": typeof IndexRoute;
   "": typeof AuthRouteRouteWithChildren;
+  "/account": typeof AccountRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
   "/email-verification": typeof AuthEmailVerificationRoute;
   "/forgot-password": typeof AuthForgotPasswordRoute;
@@ -230,6 +246,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute;
   "/": typeof IndexRoute;
   "/_auth": typeof AuthRouteRouteWithChildren;
+  "/account": typeof AccountRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
   "/_auth/email-verification": typeof AuthEmailVerificationRoute;
   "/_auth/forgot-password": typeof AuthForgotPasswordRoute;
@@ -246,6 +263,7 @@ export interface FileRouteTypes {
   fullPaths:
     | "/"
     | ""
+    | "/account"
     | "/create-feedback"
     | "/email-verification"
     | "/forgot-password"
@@ -259,6 +277,7 @@ export interface FileRouteTypes {
   to:
     | "/"
     | ""
+    | "/account"
     | "/create-feedback"
     | "/email-verification"
     | "/forgot-password"
@@ -272,6 +291,7 @@ export interface FileRouteTypes {
     | "__root__"
     | "/"
     | "/_auth"
+    | "/account"
     | "/create-feedback"
     | "/_auth/email-verification"
     | "/_auth/forgot-password"
@@ -287,6 +307,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
   AuthRouteRoute: typeof AuthRouteRouteWithChildren;
+  AccountRoute: typeof AccountRoute;
   CreateFeedbackRoute: typeof CreateFeedbackRoute;
   FeedbackFeedbackIdRoute: typeof FeedbackFeedbackIdRoute;
   FeedbackFeedbackIdEditRoute: typeof FeedbackFeedbackIdEditRoute;
@@ -295,6 +316,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
+  AccountRoute: AccountRoute,
   CreateFeedbackRoute: CreateFeedbackRoute,
   FeedbackFeedbackIdRoute: FeedbackFeedbackIdRoute,
   FeedbackFeedbackIdEditRoute: FeedbackFeedbackIdEditRoute,
@@ -312,6 +334,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_auth",
+        "/account",
         "/create-feedback",
         "/feedback/$feedbackId",
         "/feedback_/$feedbackId/edit"
@@ -330,6 +353,9 @@ export const routeTree = rootRoute
         "/_auth/forgot-password_/sent",
         "/_auth/reset-password/$token"
       ]
+    },
+    "/account": {
+      "filePath": "account.tsx"
     },
     "/create-feedback": {
       "filePath": "create-feedback.tsx"

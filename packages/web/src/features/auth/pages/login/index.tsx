@@ -6,7 +6,6 @@ import { useLoginMutation } from "@/features/auth/service";
 import { loginSchema } from "@/features/auth/validations";
 import { useAppForm } from "@/lib/form";
 import { getErrorMessage } from "@/utils/error";
-import { useStore } from "@tanstack/react-form";
 
 const routeApi = getRouteApi("/_auth/login");
 
@@ -33,8 +32,6 @@ function LoginPage() {
       }
     },
   });
-
-  const currentEmail = useStore(form.store, (state) => state.values.email);
 
   return (
     <Card>
@@ -97,16 +94,21 @@ function LoginPage() {
 
         <p className={styles["login__signup-text"]}>
           Need to create an account?{" "}
-          <Link
-            to="/signup"
-            search={{
-              email: currentEmail,
-              redirectTo,
-            }}
-            className={`${styles["login__signup-link"]} text-preset-4-bold`}
-          >
-            Sign up
-          </Link>
+          <form.Subscribe
+            selector={(state) => state.values.email}
+            children={(email) => (
+              <Link
+                to="/signup"
+                search={{
+                  email,
+                  redirectTo,
+                }}
+                className={`${styles["login__signup-link"]} text-preset-4-bold`}
+              >
+                Sign up
+              </Link>
+            )}
+          />
         </p>
       </CardBody>
     </Card>

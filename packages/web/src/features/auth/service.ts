@@ -8,7 +8,7 @@ import {
   SignupSchema,
   VerifyEmailSchema,
 } from "./validations";
-import { setUser } from "../user/slice";
+import { clearUser, setUser } from "../user/slice";
 import feedbackApi from "../feedbacks/service";
 
 const authApi = createApi({
@@ -39,6 +39,17 @@ const authApi = createApi({
         }
       },
     }),
+    logout: builder.mutation<void, void>({
+      query: () => ({ url: "/logout", method: "POST" }),
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          dispatch(clearUser());
+        } catch {
+          /* empty */
+        }
+      },
+    }),
     forgotPassword: builder.mutation<void, EmailSchema>({
       query: (data) => ({
         url: "/request-password-reset",
@@ -64,6 +75,7 @@ export const {
   useVerifyEmailMutation,
   useResendEmailVerificationMutation,
   useLoginMutation,
+  useLogoutMutation,
   useForgotPasswordMutation,
   useResetPasswordMutation,
 } = authApi;

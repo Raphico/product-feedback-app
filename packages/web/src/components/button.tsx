@@ -1,7 +1,8 @@
 import { cn } from "@/lib/utils";
 import styles from "./button.module.css";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variants: Variants;
   size?: Size;
 }

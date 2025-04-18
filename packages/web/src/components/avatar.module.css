@@ -1,10 +1,10 @@
-.avatar-img {
+.avatar__img {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
 
-.avatar-fallback {
+.avatar__fallback {
   width: 40px;
   height: 40px;
   border-radius: 50%;

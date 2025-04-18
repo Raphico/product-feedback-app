@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import styles from "./form.module.css";
 import { useFieldContext, useFormContext } from "@/lib/form/context";
-import { Button } from "./button";
+import { Button, ButtonProps } from "./button";
 import Spinner from "./spinner";
 import { useStore } from "@tanstack/react-form";
 
@@ -94,16 +94,23 @@ function FormFieldError({ className, ...props }: FormFieldErrorProps) {
 
 FormFieldError.displayName = "FormFieldError";
 
-export type FormButtonProps = React.ComponentProps<"button">;
+export type FormButtonProps = React.ComponentProps<"button"> &
+  Partial<ButtonProps>;
 
-function FormButton({ className, children, ...props }: FormButtonProps) {
+function FormButton({
+  className,
+  children,
+  variants = "primary",
+  size = "lg",
+  ...props
+}: FormButtonProps) {
   const form = useFormContext();
   return (
     <form.Subscribe selector={(state) => state.isSubmitting}>
       {(isSubmitting) => (
         <Button
-          size="lg"
-          variants="primary"
+          size={size}
+          variants={variants}
           className={className}
           disabled={isSubmitting}
           {...props}

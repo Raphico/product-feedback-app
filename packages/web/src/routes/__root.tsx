@@ -1,4 +1,5 @@
 import { ErrorBoundary } from "@/components/error-boundary";
+import UserDock from "@/features/user/components/user-dock";
 import userApi from "@/features/user/service";
 import { Store } from "@/lib/store";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
@@ -15,6 +16,7 @@ export const Route = createRootRouteWithContext<{ store: Store }>()({
       <ErrorBoundary>
         <main>
           <Outlet />
+          <UserDock />
         </main>
         <TanStackRouterDevtools />
       </ErrorBoundary>

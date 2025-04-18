@@ -1,0 +1,8 @@
+.account {
+  max-width: 730px;
+  margin: 0 auto;
+  width: 90%;
+  display: grid;
+  gap: 1.5rem;
+  padding-block: 2em;
+}

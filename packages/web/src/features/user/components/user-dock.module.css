@@ -1,0 +1,21 @@
+.dock {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+
+  &:hover {
+    & > * {
+      transform: scale(1.2);
+    }
+  }
+
+  & > * {
+    transition: transform var(--transition-easing) var(--transition-duration);
+    background: var(--radial-gradient);
+    color: var(--clr-pure-white);
+  }
+
+  @media (min-width: 1400px) {
+    right: 250px;
+  }
+}

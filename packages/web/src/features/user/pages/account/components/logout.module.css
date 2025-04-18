@@ -1,0 +1,31 @@
+.logout__button {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--clr-vibrant-blue);
+  transition: all var(--transition-easing) var(--transition-duration);
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-500);
+  }
+
+  &:hover,
+  &:disabled {
+    opacity: 0.8;
+  }
+}
+
+.logout p {
+  font-size: var(--fs-200);
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-400);
+  }
+}
+
+.logout__spinner.logout__spinner {
+  border-color: var(--clr-electric-purple);
+}

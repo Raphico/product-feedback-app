@@ -35,9 +35,8 @@ function Avatar({ children }: AvatarProps) {
 
 Avatar.displayName = "Avatar";
 
-type AvatarImageProps = React.ComponentPropsWithoutRef<"img"> & {
-  src: string;
-  alt: string;
+type AvatarImageProps = Omit<React.ComponentProps<"img">, "src"> & {
+  src: string | null;
 };
 
 function AvatarImage({ src, alt, className, ...props }: AvatarImageProps) {
@@ -46,6 +45,12 @@ function AvatarImage({ src, alt, className, ...props }: AvatarImageProps) {
     useState<ImageLoadingStatus>("idle");
 
   useEffect(() => {
+    if (!src) {
+      setLoadingStatus("error");
+      setStatus("error");
+      return;
+    }
+
     setLoadingStatus("loading");
     setStatus("loading");
 
@@ -67,8 +72,8 @@ function AvatarImage({ src, alt, className, ...props }: AvatarImageProps) {
 
   return (
     <img
-      className={cn(styles["avatar-fallback"], className)}
-      src={src}
+      className={cn(styles["avatar__fallback"], className)}
+      src={src ?? undefined}
       alt={alt}
       {...props}
     />
@@ -77,7 +82,7 @@ function AvatarImage({ src, alt, className, ...props }: AvatarImageProps) {
 
 AvatarImage.displayName = "AvatarImage";
 
-type AvatarFallbackProps = React.ComponentPropsWithoutRef<"span">;
+type AvatarFallbackProps = React.ComponentProps<"span">;
 
 function AvatarFallback({
   className,
@@ -89,7 +94,7 @@ function AvatarFallback({
   if (status === "loaded") return null; // If the image is loaded, don't show fallback
 
   return (
-    <span className={cn(styles["avatar-fallback"], className)} {...props}>
+    <span className={cn(styles["avatar__fallback"], className)} {...props}>
       {children}
     </span>
   );

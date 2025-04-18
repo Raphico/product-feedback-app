@@ -1,14 +1,15 @@
 import type { UserRepository } from "../repository.js";
 import type { FileUploadService } from "../../../services/file-upload.js";
-import type { UserResponse } from "../validations.js";
+import { avatarValidator, type UserResponse } from "../validations.js";
 import type { MultipartFile } from "@fastify/multipart";
-import { Readable } from "node:stream";
 import { NotFoundError, ValidationError } from "../../../core/exceptions.js";
 import { userToDto } from "../mapper.js";
+import { Readable } from "node:stream";
 
 export async function updateAvatarUseCase(
   context: {
     db: UserRepository;
+    fileUpload: FileUploadService;
     avatarValidator: (
       buffer: Buffer,
       maxSize: number,
@@ -22,15 +23,33 @@ export async function updateAvatarUseCase(
           error?: never;
         }
     >;
-    fileUpload: FileUploadService;
   },
   data: {
     userId: string;
-    avatarFile: MultipartFile;
+    avatarFile: MultipartFile | undefined;
   },
 ): Promise<UserResponse> {
-  const { db, fileUpload, avatarValidator } = context;
+  const { db, fileUpload } = context;
   const { avatarFile, userId } = data;
+
+  const user = await db.findById(userId);
+  if (!user) {
+    throw new NotFoundError("User not found");
+  }
+
+  if (!avatarFile) {
+    if (user.avatar) {
+      const oldPublicId = fileUpload.extractPublicIdFromUrl(user.avatar);
+      if (oldPublicId) {
+        await fileUpload.deleteFile(oldPublicId);
+      }
+
+      const updatedUser = await db.update(userId, { avatar: null });
+      return userToDto(updatedUser!);
+    }
+
+    return userToDto(user);
+  }
 
   const avatarBuffer = await avatarFile.toBuffer();
   const validationResult = await avatarValidator(avatarBuffer, 5 * 1024 * 1024);
@@ -45,20 +64,19 @@ export async function updateAvatarUseCase(
   });
 
   try {
-    const updatedUser = await db.update(userId, {
-      avatar: optimizedUrl,
-    });
+    const updatedUser = await db.update(userId, { avatar: optimizedUrl });
 
-    if (!updatedUser) {
-      throw new NotFoundError("User not found");
+    if (user.avatar) {
+      const oldPublicId = fileUpload.extractPublicIdFromUrl(user.avatar);
+      if (oldPublicId) {
+        await fileUpload.deleteFile(oldPublicId);
+      }
     }
 
-    return userToDto(updatedUser);
+    return userToDto(updatedUser!);
   } catch (error) {
-    if (uploadResult && uploadResult.public_id) {
-      await fileUpload.deleteFile(uploadResult.public_id);
-    }
-
+    // Rollback new file upload if update fails
+    await fileUpload.deleteFile(uploadResult.public_id);
     throw error;
   }
 }

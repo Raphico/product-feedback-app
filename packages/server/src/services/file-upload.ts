@@ -8,6 +8,7 @@ import type { Config } from "../config.js";
 import type { Logger } from "pino";
 import type { Readable } from "stream";
 import { InternalServerError } from "../core/exceptions.js";
+import { extractPublicId } from "cloudinary-build-url";
 
 export class FileUploadService {
   constructor(
@@ -53,5 +54,10 @@ export class FileUploadService {
 
   deleteFile(publicId: string) {
     return cloudinary.uploader.destroy(publicId);
+  }
+
+  extractPublicIdFromUrl(url: string) {
+    const publicId = extractPublicId(url);
+    return publicId?.split("?")[0] ?? "";
   }
 }

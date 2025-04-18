@@ -15,10 +15,6 @@ export async function updateAvatarController(
   try {
     const file = await request.file();
 
-    if (!file) {
-      return reply.code(400).send({ message: "Avatar file is not provided" });
-    }
-
     const result = await updateAvatarUseCase(
       {
         db: userRepository,

@@ -22,7 +22,6 @@ export async function deleteFeedbackUseCase(
   }
 
   const updatedFeedback = await db.update(id, { deletedAt: new Date() });
-  if (!updatedFeedback) throw new NotFoundError("Feedback not found");
 
-  return feedbackToDto(updatedFeedback);
+  return feedbackToDto(updatedFeedback!);
 }

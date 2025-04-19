@@ -2,16 +2,19 @@ import GoBack from "@/components/go-back";
 import styles from "./index.module.css";
 import IconEditFeedback from "@/assets/icon-edit-feedback.svg?react";
 import { useGetFeedbackQuery } from "../../service";
-import { getRouteApi } from "@tanstack/react-router";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import NotFound from "@/components/not-found";
 import EditFeedbackForm from "./components/edit-feedback-form";
 import Skeleton from "@/components/skeleton";
+import { useUser } from "@/features/user/hooks";
 
 const routeApi = getRouteApi("/feedback_/$feedbackId/edit");
 
 function EditFeedbackPage() {
   const { feedbackId } = routeApi.useParams();
   const { data: feedback, isLoading } = useGetFeedbackQuery(feedbackId);
+  const { data: user } = useUser();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <Skeleton className={styles["edit-feedback__skeleton"]} />;
@@ -28,6 +31,16 @@ function EditFeedbackPage() {
     );
   }
 
+  const isAuthor = user?.id == feedback.createdBy;
+  const isAdmin = user?.role == "admin";
+
+  if (!isAuthor && !isAdmin) {
+    navigate({
+      to: "/feedback/$feedbackId",
+      params: { feedbackId: feedback.id },
+    });
+  }
+
   return (
     <div className={styles["edit-feedback"]}>
       <GoBack />
@@ -41,7 +54,11 @@ function EditFeedbackPage() {
           Editing '{feedback.title}'
         </h1>
 
-        <EditFeedbackForm feedback={feedback} />
+        <EditFeedbackForm
+          isAdmin={isAdmin}
+          isAuthor={isAuthor}
+          feedback={feedback}
+        />
       </div>
     </div>
   );

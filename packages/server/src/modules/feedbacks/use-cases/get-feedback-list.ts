@@ -1,4 +1,3 @@
-import type { Feedback } from "../../../db/schema.js";
 import type { FeedbackRepository } from "../repository.js";
 import type { ExtendedFeedback, FeedbackListQuery } from "../validation.js";
 
@@ -11,7 +10,7 @@ export async function getFeedbackListUseCase(
   const { sort, currentUserId = "", ...filter } = data;
   const feedbacks = await context.db.findAll({
     sort,
-    filter: filter as Omit<Partial<Feedback>, "deletedAt">,
+    filter,
     currentUserId,
   });
 

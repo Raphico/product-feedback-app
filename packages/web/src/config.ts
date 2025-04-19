@@ -34,6 +34,13 @@ export const feedbackCategoryOptions = [
   { label: "Feature", value: FeedbackCategories.FEATURE },
 ];
 
+export const feedbackStatusOptions = [
+  { label: "Suggestion", value: FeedbackStatuses.SUGGESTION },
+  { label: "planned", value: FeedbackStatuses.PLANNED },
+  { label: "In Progress", value: FeedbackStatuses.IN_PROGRESS },
+  { label: "Live", value: FeedbackStatuses.LIVE },
+];
+
 export const feedbackSortOptions = [
   { label: "Most Upvotes", value: FeedbackSortOptions.MOST_UPVOTES },
   { label: "Least Upvotes", value: FeedbackSortOptions.LEAST_UPVOTES },

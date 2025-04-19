@@ -2,12 +2,16 @@ import type { FeedbackRepository } from "../repository.js";
 import type { UpdateFeedback } from "../validation.js";
 import type { Feedback } from "../../../db/schema.js";
 import type { FeedbackResponse } from "../validation.js";
+import type { UserRepository } from "../../users/repository.js";
 import { ForbiddenError, NotFoundError } from "../../../core/exceptions.js";
 import { feedbackToDto } from "../mapper.js";
 
 export async function updateFeedbackUseCase(
   context: {
-    db: FeedbackRepository;
+    db: {
+      feedbacks: FeedbackRepository;
+      users: UserRepository;
+    };
   },
   data: UpdateFeedback & {
     userId: string;
@@ -15,23 +19,37 @@ export async function updateFeedbackUseCase(
   },
 ): Promise<FeedbackResponse> {
   const { db } = context;
-  const { id, userId, ...changes } = data;
+  const { id, userId, status, ...changes } = data;
 
-  const feedback = await db.findById(id);
+  const user = await db.users.findById(userId);
+  if (!user) {
+    throw new ForbiddenError("User not found");
+  }
 
+  const feedback = await db.feedbacks.findById(id);
   if (!feedback) {
     throw new NotFoundError("Feedback not found");
   }
 
-  if (feedback.createdBy != userId) {
+  const isAuthor = feedback.createdBy == user.id;
+  const isAdmin = user.role == "admin";
+
+  if (!isAuthor && !isAdmin) {
     throw new ForbiddenError("You are not allowed to update this feedback");
   }
 
-  const updatedFeedback = await db.update(id, changes as Partial<Feedback>);
-
-  if (!updatedFeedback) {
-    throw new NotFoundError("Feedback not found");
+  if (status && !isAdmin) {
+    throw new ForbiddenError("Only admins can update a feedback's status");
   }
 
-  return feedbackToDto(updatedFeedback);
+  if (!isAuthor && isAdmin && Object.keys(changes).length > 0) {
+    throw new ForbiddenError("Admins can only update a feedback's status");
+  }
+
+  const updatedFeedback = await db.feedbacks.update(id, {
+    ...changes,
+    status,
+  } as Partial<Feedback>);
+
+  return feedbackToDto(updatedFeedback!);
 }

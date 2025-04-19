@@ -1,7 +1,7 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
 import type { Feedback, GetFeedbacksParams, FeedbackStats } from "./types";
 import httpBaseQuery from "@/lib/http";
-import type { FeedbackSchema, UpdateFeedbackSchema } from "./validations";
+import type { CreateFeedbackSchema, EditFeedbackSchema } from "./validations";
 
 const feedbackApi = createApi({
   reducerPath: "feedbackApi",
@@ -30,13 +30,13 @@ const feedbackApi = createApi({
       providesTags: (result, _, id) =>
         result ? [{ type: "Feedback", id }] : [],
     }),
-    createFeedback: builder.mutation<Feedback, FeedbackSchema>({
+    createFeedback: builder.mutation<Feedback, CreateFeedbackSchema>({
       query: (data) => ({ url: "/", method: "POST", data }),
       invalidatesTags: ["Feedback"],
     }),
     updateFeedback: builder.mutation<
       Feedback,
-      { id: string } & UpdateFeedbackSchema
+      { id: string } & Partial<EditFeedbackSchema>
     >({
       query: ({ id, ...data }) => ({ url: `/${id}`, method: "PATCH", data }),
       invalidatesTags: (result, _, data) =>

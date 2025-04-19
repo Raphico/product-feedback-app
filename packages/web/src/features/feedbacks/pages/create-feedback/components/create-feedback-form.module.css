@@ -1,13 +1,13 @@
-.feedback-form__input {
+.create-feedback-form__input {
   margin-top: 1.25em;
   margin-bottom: 0.5em;
 }
 
-.feedback-form__label {
+.create-feedback-form__label {
   font-weight: var(--fw-bold);
 }
 
-.feedback-form__category {
+.create-feedback-form__select {
   width: 100%;
   padding-inline: 1.2em;
   background-color: var(--clr-whisper-white);
@@ -22,6 +22,10 @@
   }
 }
 
-.feedback-form__category:focus {
+.create-feedback-form__select:focus {
   box-shadow: 0 0 0 1px var(--clr-vibrant-blue);
+}
+
+.create-feedback-form__button {
+  margin-top: 1em;
 }

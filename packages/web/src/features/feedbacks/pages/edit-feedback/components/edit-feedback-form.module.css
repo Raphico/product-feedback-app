@@ -1,4 +1,4 @@
-.edit-feedback-form__actions {
+.edit-edit-feedback-form__actions {
   display: flex;
   margin-top: 1em;
   align-items: center;
@@ -13,4 +13,32 @@
     flex-direction: row-reverse;
     justify-content: space-between;
   }
+}
+
+.edit-feedback-form__input {
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+}
+
+.edit-feedback-form__label {
+  font-weight: var(--fw-bold);
+}
+
+.edit-feedback-form__select {
+  width: 100%;
+  padding-inline: 1.2em;
+  background: var(--clr-whisper-white);
+  border-radius: 5px;
+  height: 48px;
+  color: var(--clr-deep-slate-blue);
+  font-size: var(--fs-100);
+
+  @media (min-width: 480px) {
+    font-size: var(--fs-300);
+    padding-inline: 1.5em;
+  }
+}
+
+.edit-feedback-form__select:focus {
+  box-shadow: 0 0 0 1px var(--clr-vibrant-blue);
 }

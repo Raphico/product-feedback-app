@@ -1,7 +1,7 @@
 import { FeedbackCategories, FeedbackStatuses } from "@/config";
 import { z } from "zod";
 
-export const feedbackSchema = z.object({
+export const createFeedbackSchema = z.object({
   title: z
     .string()
     .min(5, "Title must be at least 5 characters long")
@@ -13,10 +13,10 @@ export const feedbackSchema = z.object({
     .max(250, "Detail must be at most 250 characters long"),
 });
 
-export type FeedbackSchema = z.infer<typeof feedbackSchema>;
+export type CreateFeedbackSchema = z.infer<typeof createFeedbackSchema>;
 
-export const updateFeedbackSchema = feedbackSchema.extend({
-  status: z.nativeEnum(FeedbackStatuses).optional(),
+export const editFeedbackSchema = createFeedbackSchema.extend({
+  status: z.nativeEnum(FeedbackStatuses),
 });
 
-export type UpdateFeedbackSchema = z.infer<typeof updateFeedbackSchema>;
+export type EditFeedbackSchema = z.infer<typeof editFeedbackSchema>;

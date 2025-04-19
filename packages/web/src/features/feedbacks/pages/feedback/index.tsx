@@ -58,18 +58,19 @@ function FeedbackPage() {
     <div className={styles["feedback"]}>
       <GoBack className={styles["feedback__go-back"]} />
 
-      {user.data && user.data.id === feedback?.createdBy && (
-        <Link
-          to="/feedback/$feedbackId/edit"
-          params={{ feedbackId }}
-          className={cn(
-            buttonVariants["tertiary"],
-            styles["feedback__edit-link"],
-          )}
-        >
-          Edit feedback
-        </Link>
-      )}
+      {user.data &&
+        (user.data.id === feedback?.createdBy || user.data.role == "admin") && (
+          <Link
+            to="/feedback/$feedbackId/edit"
+            params={{ feedbackId }}
+            className={cn(
+              buttonVariants["tertiary"],
+              styles["feedback__edit-link"],
+            )}
+          >
+            Edit feedback
+          </Link>
+        )}
 
       <div aria-live="polite" className="sr-only">
         {isLoadingFeedback ? <p>Loading feedback</p> : <p>Feedback Loaded</p>}

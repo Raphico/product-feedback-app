@@ -1,4 +1,4 @@
-import { and, asc, desc, eq, gt, isNull, sql } from "drizzle-orm";
+import { and, asc, desc, eq, gt, inArray, isNull, sql } from "drizzle-orm";
 import { DB } from "../../db/index.js";
 import {
   comments,
@@ -8,7 +8,7 @@ import {
   type NewFeedback,
 } from "../../db/schema.js";
 import { FeedbackSortOptions } from "../../config.js";
-import { ExtendedFeedback } from "./validation.js";
+import type { ExtendedFeedback, FeedbackListQuery } from "./validation.js";
 
 export function createFeedbackRepository(db: DB) {
   return {
@@ -97,7 +97,7 @@ export function createFeedbackRepository(db: DB) {
     }: {
       sort: FeedbackSortOptions;
       currentUserId?: string;
-      filter: Omit<Partial<Feedback>, "deletedAt">;
+      filter: Omit<FeedbackListQuery, "sort">;
     }): Promise<ExtendedFeedback[]> {
       const sortBy = {
         [FeedbackSortOptions.MOST_UPVOTES]: desc(sql`upvote_count`),
@@ -105,6 +105,22 @@ export function createFeedbackRepository(db: DB) {
         [FeedbackSortOptions.MOST_COMMENTS]: desc(sql`comment_count`),
         [FeedbackSortOptions.LEAST_COMMENTS]: asc(sql`comment_count`),
       };
+
+      const filterConditions = [];
+      for (const [key, value] of Object.entries(filter)) {
+        if (!value) continue;
+
+        if (Array.isArray(value)) {
+          if (value.length > 0) {
+            filterConditions.push(
+              inArray(feedbacks[key as keyof Feedback], value),
+            );
+          }
+        } else {
+          filterConditions.push(eq(feedbacks[key as keyof Feedback], value));
+        }
+      }
+      filterConditions.push(isNull(feedbacks.deletedAt));
 
       return db
         .select({
@@ -137,14 +153,7 @@ export function createFeedbackRepository(db: DB) {
         `.as("has_upvote"),
         })
         .from(feedbacks)
-        .where(
-          and(
-            isNull(feedbacks.deletedAt),
-            ...Object.entries(filter).map(([key, value]) =>
-              eq(feedbacks[key as keyof Feedback], value),
-            ),
-          ),
-        )
+        .where(and(...filterConditions))
         .orderBy(sortBy[sort]);
     },
 

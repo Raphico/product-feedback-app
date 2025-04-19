@@ -1,41 +1,9 @@
 import GoBack from "@/components/go-back";
 import IconNewFeedback from "@/assets/icon-new-feedback.svg?react";
-import FeedbackForm from "../../components/feedback-form";
 import styles from "./index.module.css";
-import { useAppForm } from "@/lib/form";
-import { toast } from "sonner";
-import { showErrorToast } from "@/utils/error";
-import { useCreateFeedbackMutation } from "../../service";
-import { FeedbackCategories } from "@/config";
-import { useNavigate } from "@tanstack/react-router";
-import { feedbackSchema } from "../../validations";
+import CreateFeedbackForm from "./components/create-feedback-form";
 
 function CreateFeedbackPage() {
-  const navigate = useNavigate();
-  const [createFeedback] = useCreateFeedbackMutation();
-
-  const form = useAppForm({
-    defaultValues: {
-      title: "",
-      category: FeedbackCategories.UI,
-      detail: "",
-    },
-    validators: {
-      onSubmit: feedbackSchema,
-    },
-    async onSubmit({ value }) {
-      try {
-        await createFeedback(value).unwrap();
-        toast.success("Thanks for the feedback!");
-        navigate({
-          to: "/",
-        });
-      } catch (error) {
-        showErrorToast(error);
-      }
-    },
-  });
-
   return (
     <div className={styles["create-feedback"]}>
       <GoBack />
@@ -46,13 +14,7 @@ function CreateFeedbackPage() {
         <h1 className={styles["create-feedback__header"]}>
           Create New Feedback
         </h1>
-        <FeedbackForm form={form}>
-          <form.AppForm>
-            <form.SubscribeButton className={styles["create-feedback__action"]}>
-              Add Feedback
-            </form.SubscribeButton>
-          </form.AppForm>
-        </FeedbackForm>
+        <CreateFeedbackForm />
       </div>
     </div>
   );

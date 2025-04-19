@@ -1,7 +1,7 @@
 import { Card, CardBody, CardHeader, CardTitle } from "@/components/card";
 import { useAppForm } from "@/lib/form";
 import { getErrorMessage } from "@/utils/error";
-import { getRouteApi } from "@tanstack/react-router";
+import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import { signupSchema } from "../../validations";
 import { Form, FormItem, FormLabel } from "@/components/form";
 import { Link } from "@tanstack/react-router";
@@ -13,6 +13,7 @@ const routeApi = getRouteApi("/_auth/signup");
 function SignupPage() {
   const { email, redirectTo } = routeApi.useSearch();
   const [signup] = useSignupMutation();
+  const navigate = useNavigate();
   const form = useAppForm({
     defaultValues: {
       fullName: "",
@@ -26,6 +27,13 @@ function SignupPage() {
     async onSubmit({ value }) {
       try {
         await signup(value).unwrap();
+        navigate({
+          to: "/email-verification",
+          search: {
+            email: value.email,
+            redirectTo,
+          },
+        });
       } catch (error) {
         form.setErrorMap({ onServer: getErrorMessage(error) });
       }

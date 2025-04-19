@@ -92,7 +92,7 @@ function ProfileForm({ userData }: ProfileFormProps) {
             children={(field) => (
               <>
                 <field.FormInput
-                  readOnly
+                  disabled
                   id="email"
                   type="email"
                   name="email"

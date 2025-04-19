@@ -40,9 +40,14 @@ export type CreateFeedback = z.infer<typeof createFeedbackSchema>;
 
 export const feedbackListResponseSchema = z.array(extendedFeedbackSchema);
 
+const validStatuses = z.array(feedbackResponseSchema.shape.status);
 export const feedbackListQuerySchema = z.object({
   category: feedbackResponseSchema.shape.category.optional(),
-  status: feedbackResponseSchema.shape.status.optional(),
+  status: z
+    .string()
+    .transform((data) => data.split(","))
+    .pipe(validStatuses)
+    .optional(),
   sort: z
     .nativeEnum(FeedbackSortOptions)
     .default(FeedbackSortOptions.MOST_UPVOTES),

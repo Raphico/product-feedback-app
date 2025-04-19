@@ -1,6 +1,7 @@
 .sort-button {
   color: var(--clr-light-periwinkle);
   gap: 0.5rem;
+  background: transparent;
 }
 
 .sort-button__text {

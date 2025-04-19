@@ -80,7 +80,7 @@ const feedbacksRoute: FastifyPluginAsync = async (app) => {
     schema: {
       summary: "Update Feedback",
       description:
-        "Allow users to update feedback details, including title, category, detail, and status",
+        "Allow users to update feedback details, including title, category, detail",
       tags: ["Feedback"],
       body: updateFeedbackSchema,
       params: idParamsSchema,

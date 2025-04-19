@@ -45,6 +45,7 @@ function EmailVerificationPage() {
     async onSubmit({ value }) {
       try {
         await verifyEmail(value).unwrap();
+        toast.success("Email verification successful");
         navigate({
           to: "/login",
           search: {

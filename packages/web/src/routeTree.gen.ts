@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from "./routes/__root";
+import { Route as RoadmapImport } from "./routes/roadmap";
 import { Route as CreateFeedbackImport } from "./routes/create-feedback";
 import { Route as AccountImport } from "./routes/account";
 import { Route as AuthRouteImport } from "./routes/_auth/route";
@@ -25,6 +26,12 @@ import { Route as AuthResetPasswordTokenImport } from "./routes/_auth/reset-pass
 import { Route as AuthForgotPasswordSentImport } from "./routes/_auth/forgot-password_.sent";
 
 // Create/Update Routes
+
+const RoadmapRoute = RoadmapImport.update({
+  id: "/roadmap",
+  path: "/roadmap",
+  getParentRoute: () => rootRoute,
+} as any);
 
 const CreateFeedbackRoute = CreateFeedbackImport.update({
   id: "/create-feedback",
@@ -129,6 +136,13 @@ declare module "@tanstack/react-router" {
       preLoaderRoute: typeof CreateFeedbackImport;
       parentRoute: typeof rootRoute;
     };
+    "/roadmap": {
+      id: "/roadmap";
+      path: "/roadmap";
+      fullPath: "/roadmap";
+      preLoaderRoute: typeof RoadmapImport;
+      parentRoute: typeof rootRoute;
+    };
     "/_auth/email-verification": {
       id: "/_auth/email-verification";
       path: "/email-verification";
@@ -217,6 +231,7 @@ export interface FileRoutesByFullPath {
   "": typeof AuthRouteRouteWithChildren;
   "/account": typeof AccountRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/roadmap": typeof RoadmapRoute;
   "/email-verification": typeof AuthEmailVerificationRoute;
   "/forgot-password": typeof AuthForgotPasswordRoute;
   "/login": typeof AuthLoginRoute;
@@ -232,6 +247,7 @@ export interface FileRoutesByTo {
   "": typeof AuthRouteRouteWithChildren;
   "/account": typeof AccountRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/roadmap": typeof RoadmapRoute;
   "/email-verification": typeof AuthEmailVerificationRoute;
   "/forgot-password": typeof AuthForgotPasswordRoute;
   "/login": typeof AuthLoginRoute;
@@ -248,6 +264,7 @@ export interface FileRoutesById {
   "/_auth": typeof AuthRouteRouteWithChildren;
   "/account": typeof AccountRoute;
   "/create-feedback": typeof CreateFeedbackRoute;
+  "/roadmap": typeof RoadmapRoute;
   "/_auth/email-verification": typeof AuthEmailVerificationRoute;
   "/_auth/forgot-password": typeof AuthForgotPasswordRoute;
   "/_auth/login": typeof AuthLoginRoute;
@@ -265,6 +282,7 @@ export interface FileRouteTypes {
     | ""
     | "/account"
     | "/create-feedback"
+    | "/roadmap"
     | "/email-verification"
     | "/forgot-password"
     | "/login"
@@ -279,6 +297,7 @@ export interface FileRouteTypes {
     | ""
     | "/account"
     | "/create-feedback"
+    | "/roadmap"
     | "/email-verification"
     | "/forgot-password"
     | "/login"
@@ -293,6 +312,7 @@ export interface FileRouteTypes {
     | "/_auth"
     | "/account"
     | "/create-feedback"
+    | "/roadmap"
     | "/_auth/email-verification"
     | "/_auth/forgot-password"
     | "/_auth/login"
@@ -309,6 +329,7 @@ export interface RootRouteChildren {
   AuthRouteRoute: typeof AuthRouteRouteWithChildren;
   AccountRoute: typeof AccountRoute;
   CreateFeedbackRoute: typeof CreateFeedbackRoute;
+  RoadmapRoute: typeof RoadmapRoute;
   FeedbackFeedbackIdRoute: typeof FeedbackFeedbackIdRoute;
   FeedbackFeedbackIdEditRoute: typeof FeedbackFeedbackIdEditRoute;
 }
@@ -318,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRouteRoute: AuthRouteRouteWithChildren,
   AccountRoute: AccountRoute,
   CreateFeedbackRoute: CreateFeedbackRoute,
+  RoadmapRoute: RoadmapRoute,
   FeedbackFeedbackIdRoute: FeedbackFeedbackIdRoute,
   FeedbackFeedbackIdEditRoute: FeedbackFeedbackIdEditRoute,
 };
@@ -336,6 +358,7 @@ export const routeTree = rootRoute
         "/_auth",
         "/account",
         "/create-feedback",
+        "/roadmap",
         "/feedback/$feedbackId",
         "/feedback_/$feedbackId/edit"
       ]
@@ -359,6 +382,9 @@ export const routeTree = rootRoute
     },
     "/create-feedback": {
       "filePath": "create-feedback.tsx"
+    },
+    "/roadmap": {
+      "filePath": "roadmap.tsx"
     },
     "/_auth/email-verification": {
       "filePath": "_auth/email-verification.tsx",

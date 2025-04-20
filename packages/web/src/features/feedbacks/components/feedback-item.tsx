@@ -4,10 +4,7 @@ import UpvoteButton from "./upvote-button";
 import styles from "./feedback-item.module.css";
 import type { Feedback } from "../types";
 import { cn } from "@/lib/utils";
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useIsLoggedIn } from "@/features/user/hooks";
-import { useToggleUpvoteMutation } from "../service";
-import { showErrorToast } from "@/utils/error";
+import { Link } from "@tanstack/react-router";
 
 interface FeedbackProps extends React.ComponentProps<"article"> {
   feedback: Feedback;
@@ -22,31 +19,10 @@ function FeedbackItem({
   upvoteRedirectContext = "/",
   isFeedbackPage = false,
   headingTag: Comp = "h3",
+  ...props
 }: FeedbackProps) {
-  const isLoggedIn = useIsLoggedIn();
-  const navigate = useNavigate();
-  const [toggleUpvote] = useToggleUpvoteMutation();
-
-  async function handleUpvote() {
-    if (!isLoggedIn) {
-      navigate({
-        to: "/login",
-        search: {
-          redirectTo: upvoteRedirectContext,
-        },
-      });
-      return;
-    }
-
-    try {
-      await toggleUpvote(feedback.id).unwrap();
-    } catch (error) {
-      showErrorToast(error);
-    }
-  }
-
   return (
-    <article className={cn(styles["feedback"], className)}>
+    <article className={cn(styles["feedback"], className)} {...props}>
       {!isFeedbackPage ? (
         <Link
           className={styles["feedback__page-link"]}
@@ -70,7 +46,8 @@ function FeedbackItem({
       </Badge>
       <UpvoteButton
         className={styles["feedback__upvote-button"]}
-        onClick={handleUpvote}
+        feedbackId={feedback.id}
+        upvoteRedirectContext={upvoteRedirectContext}
         upvotes={feedback.upvoteCount}
         hasUpvote={feedback.hasUpvote}
       />

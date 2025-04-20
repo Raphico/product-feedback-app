@@ -12,7 +12,7 @@ function GoBack({ className }: React.HTMLAttributes<HTMLButtonElement>) {
       className={cn(styles["go-back"], className)}
       onClick={() => router.history.back()}
     >
-      <IconArrowLeft />
+      <IconArrowLeft className={styles["go-back__icon"]} />
       Go Back
     </button>
   );

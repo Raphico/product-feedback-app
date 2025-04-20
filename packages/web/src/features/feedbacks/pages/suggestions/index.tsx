@@ -23,7 +23,7 @@ function SuggestionsPage() {
     isLoading,
     error,
   } = useGetFeedbacksQuery({
-    status: FeedbackStatuses.SUGGESTION,
+    status: [FeedbackStatuses.SUGGESTION],
     sort,
     category,
   });

@@ -2,6 +2,15 @@ import { createApi } from "@reduxjs/toolkit/query/react";
 import type { Feedback, GetFeedbacksParams, FeedbackStats } from "./types";
 import httpBaseQuery from "@/lib/http";
 import type { CreateFeedbackSchema, EditFeedbackSchema } from "./validations";
+import { FeedbackStatuses } from "@/config";
+
+export const ROADMAP_FILTER = {
+  status: [
+    FeedbackStatuses.PLANNED,
+    FeedbackStatuses.IN_PROGRESS,
+    FeedbackStatuses.LIVE,
+  ],
+} as const;
 
 const feedbackApi = createApi({
   reducerPath: "feedbackApi",
@@ -13,7 +22,11 @@ const feedbackApi = createApi({
   refetchOnReconnect: true,
   endpoints: (builder) => ({
     getFeedbacks: builder.query<Feedback[], GetFeedbacksParams | void>({
-      query: (params) => ({ url: "/", method: "GET", params }),
+      query: (params) => ({
+        url: "/",
+        method: "GET",
+        params: params ? { ...params, status: params.status?.join(",") } : {},
+      }),
       providesTags: (result) =>
         result
           ? [
@@ -36,9 +49,51 @@ const feedbackApi = createApi({
     }),
     updateFeedback: builder.mutation<
       Feedback,
-      { id: string } & Partial<EditFeedbackSchema>
+      { id: string; _optimistic?: boolean } & Partial<EditFeedbackSchema>
     >({
-      query: ({ id, ...data }) => ({ url: `/${id}`, method: "PATCH", data }),
+      query: ({ id, _optimistic = false, ...data }) => ({
+        url: `/${id}`,
+        method: "PATCH",
+        data,
+      }),
+      async onQueryStarted(
+        { id, _optimistic, ...patch },
+        { dispatch, queryFulfilled, getState },
+      ) {
+        if (_optimistic) {
+          const patchList = [];
+
+          for (const {
+            endpointName,
+            originalArgs,
+          } of feedbackApi.util.selectInvalidatedBy(getState(), [
+            { type: "Feedback", id },
+          ])) {
+            if (endpointName !== "getFeedbacks") continue;
+
+            const patchItem = dispatch(
+              feedbackApi.util.updateQueryData(
+                "getFeedbacks",
+                originalArgs,
+                (draft) => {
+                  const feedback = draft.find((f) => f.id === id);
+                  if (feedback) {
+                    Object.assign(feedback, patch);
+                  }
+                },
+              ),
+            );
+
+            patchList.push(patchItem);
+          }
+
+          try {
+            await queryFulfilled;
+          } catch {
+            patchList.forEach((patch) => patch.undo());
+          }
+        }
+      },
       invalidatesTags: (result, _, data) =>
         result ? [{ type: "Feedback", id: data.id }] : [],
     }),

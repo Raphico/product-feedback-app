@@ -25,7 +25,7 @@ export const Route = createFileRoute("/")({
       feedbackApi.endpoints.getFeedbacks.initiate({
         category,
         sort,
-        status: FeedbackStatuses.SUGGESTION,
+        status: [FeedbackStatuses.SUGGESTION],
       }),
     );
     await query;

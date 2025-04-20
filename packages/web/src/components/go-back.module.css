@@ -18,3 +18,7 @@
     font-size: var(--fs-200);
   }
 }
+
+.go-back__icon {
+  color: var(--clr-vibrant-blue);
+}

@@ -21,7 +21,7 @@ function RoadmapCard() {
   return (
     <section className={styles["roadmap"]}>
       <h2 className="h3">Roadmap</h2>
-      <Link className={`${styles["roadmap__link"]} body-3`} to=".">
+      <Link className={`${styles["roadmap__link"]} body-3`} to="/roadmap">
         View
       </Link>
 

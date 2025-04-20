@@ -35,6 +35,7 @@
   --transition-duration: 200ms;
 
   --radius: 10px;
+  --radius-sm: 5px;
 }
 
 /* CSS Resets */

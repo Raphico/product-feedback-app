@@ -32,12 +32,6 @@
       opacity: 0.8;
     }
   }
-
-  @media (min-width: 768px) {
-    flex-direction: column;
-    width: 40px;
-    height: 55px;
-  }
 }
 
 .upvote-button__icon {

@@ -1,0 +1,56 @@
+.roadmap-board-item {
+  display: grid;
+  cursor: grab;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: var(--clr-pure-white);
+  border-radius: var(--radius);
+  padding: 1.75em;
+  height: 250px;
+  border-radius: var(--radius-sm);
+
+  &[data-column="planned"] {
+    border-top: 6px solid var(--clr-soft-coral);
+  }
+
+  &[data-column="in_progress"] {
+    border-top: 6px solid var(--clr-electric-purple);
+  }
+
+  &[data-column="live"] {
+    border-top: 6px solid var(--clr-bright-sky-blue);
+  }
+}
+
+.roadmap-board-item__title {
+  font-size: var(--fs-100);
+  line-height: 1.1875;
+  letter-spacing: -0.18px;
+  color: var(--clr-deep-slate-blue);
+  grid-column: 1 / -1;
+  transition: color var(--transition-easing) var(--transition-duration);
+}
+
+.roadmap-board-item__page-link:hover .roadmap-board-item__title {
+  color: var(--clr-vibrant-blue);
+}
+
+.roadmap-board-item__desc {
+  margin-block: 1em 0.75em;
+  grid-column: 1 / -1;
+  font-size: var(--fs-100);
+}
+
+.roadmap-board-item__category {
+  justify-self: start;
+  align-self: end;
+  grid-column: 1 / -1;
+  margin-bottom: 1.25em;
+}
+
+.roadmap-board-item__upvote-button {
+  justify-self: start;
+}
+
+.roadmap-board-item__total-comments {
+  justify-self: end;
+}

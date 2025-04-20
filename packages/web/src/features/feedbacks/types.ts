@@ -17,7 +17,7 @@ export type Feedback = {
 };
 
 export type GetFeedbacksParams = {
-  status?: FeedbackStatuses;
+  status?: FeedbackStatuses[];
   category?: FeedbackCategories;
   sort?: FeedbackSortOptions;
 };

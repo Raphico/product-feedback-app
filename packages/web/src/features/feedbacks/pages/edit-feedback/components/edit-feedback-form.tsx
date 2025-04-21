@@ -6,7 +6,7 @@ import {
 import type { Feedback } from "@/features/feedbacks/types";
 import { useAppForm } from "@/lib/form";
 import { showErrorToast } from "@/utils/error";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { toast } from "sonner";
 import styles from "./edit-feedback-form.module.css";
 import Spinner from "@/components/spinner";
@@ -39,6 +39,7 @@ function EditFeedbackForm({
   isAuthor,
 }: EditFeedbackFormProps) {
   const navigate = useNavigate();
+  const router = useRouter();
   const [updateFeedback] = useUpdateFeedbackMutation();
   const [deleteFeedback, { isLoading: isDeleting }] =
     useDeleteFeedbackMutation();
@@ -66,10 +67,7 @@ function EditFeedbackForm({
 
         await updateFeedback(payload).unwrap();
         toast.success("Feedback updated. Thanks for keeping it fresh!");
-        navigate({
-          to: `/feedback/$feedbackId`,
-          params: { feedbackId: feedback.id },
-        });
+        router.history.back();
       } catch (error) {
         showErrorToast(error);
       }

@@ -42,6 +42,9 @@ function RoadmapBoardItem({ feedback }: RoadmapBoardItem) {
       <Link
         className={styles["roadmap-board-item__page-link"]}
         to="/feedback/$feedbackId"
+        search={{
+          goBack: "/roadmap",
+        }}
         params={{ feedbackId: feedback.id }}
         data-no-dnd
       >

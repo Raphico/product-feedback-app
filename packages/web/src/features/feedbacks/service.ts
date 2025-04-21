@@ -17,7 +17,7 @@ const feedbackApi = createApi({
   baseQuery: httpBaseQuery({
     baseUrl: "/feedbacks",
   }),
-  tagTypes: ["Feedback"],
+  tagTypes: ["Feedback", "FeedbackStats"],
   refetchOnFocus: true,
   refetchOnReconnect: true,
   endpoints: (builder) => ({
@@ -37,6 +37,7 @@ const feedbackApi = createApi({
     }),
     getFeedbackStats: builder.query<FeedbackStats, void>({
       query: () => ({ url: "/stats", method: "GET" }),
+      providesTags: ["FeedbackStats"],
     }),
     getFeedback: builder.query<Feedback, string>({
       query: (id) => ({ url: `/${id}`, method: "GET" }),
@@ -94,8 +95,13 @@ const feedbackApi = createApi({
           }
         }
       },
-      invalidatesTags: (result, _, data) =>
-        result ? [{ type: "Feedback", id: data.id }] : [],
+      invalidatesTags: (result, _, { id, status }) => {
+        const tags: any[] = [{ type: "Feedback", id }, "Feedback"];
+        if (status) {
+          tags.push("FeedbackStats");
+        }
+        return result ? tags : [];
+      },
     }),
     deleteFeedback: builder.mutation<Feedback, string>({
       query: (id) => ({ url: `/${id}`, method: "DELETE" }),

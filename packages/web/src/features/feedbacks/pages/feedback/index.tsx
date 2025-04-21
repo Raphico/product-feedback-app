@@ -19,6 +19,7 @@ const routeApi = getRouteApi("/feedback/$feedbackId");
 
 function FeedbackPage() {
   const { feedbackId } = routeApi.useParams();
+  const { goBack } = routeApi.useSearch();
   const {
     data: feedback,
     isLoading: isLoadingFeedback,
@@ -56,7 +57,7 @@ function FeedbackPage() {
 
   return (
     <div className={styles["feedback"]}>
-      <GoBack className={styles["feedback__go-back"]} />
+      <GoBack to={goBack} className={styles["feedback__go-back"]} />
 
       {user.data &&
         (user.data.id === feedback?.createdBy || user.data.role == "admin") && (

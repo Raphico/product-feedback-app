@@ -6,17 +6,21 @@ import { cn } from "@/lib/utils";
 import Badge from "@/components/badge";
 import UpvoteButton from "@/features/feedbacks/components/upvote-button";
 import TotalComments from "@/features/feedbacks/components/total-comments";
+import { useUser } from "@/features/user/hooks";
 
 interface RoadmapBoardItem {
   feedback: Feedback;
 }
 
 function RoadmapBoardItem({ feedback }: RoadmapBoardItem) {
+  const { data: user } = useUser();
+
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: feedback.id,
     data: {
       status: feedback.status,
     },
+    disabled: user?.role != "admin",
   });
 
   const style = transform

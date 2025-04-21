@@ -8,6 +8,7 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 import Toaster from "./components/toast";
 import NotFound from "./components/not-found";
+import userApi from "./features/user/service";
 
 const router = createRouter({
   routeTree,
@@ -31,15 +32,21 @@ declare module "@tanstack/react-router" {
   }
 }
 
-const rootElement = document.getElementById("root")!;
-if (!rootElement.innerHTML) {
-  const root = createRoot(rootElement);
-  root.render(
-    <StrictMode>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-        <Toaster />
-      </Provider>
-    </StrictMode>,
-  );
-}
+(async () => {
+  const query = store.dispatch(userApi.endpoints.getMe.initiate());
+  await query;
+  query.unsubscribe();
+
+  const rootElement = document.getElementById("root")!;
+  if (!rootElement.innerHTML) {
+    const root = createRoot(rootElement);
+    root.render(
+      <StrictMode>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+          <Toaster />
+        </Provider>
+      </StrictMode>,
+    );
+  }
+})();

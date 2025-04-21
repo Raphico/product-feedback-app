@@ -1,31 +1,17 @@
 import CreateFeedbackPage from "@/features/feedbacks/pages/create-feedback";
-import { useIsLoggedIn } from "@/features/user/hooks";
-import { createFileRoute } from "@tanstack/react-router";
-import { useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/create-feedback")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
-  const isLoggedIn = useIsLoggedIn();
-  const navigate = useNavigate();
-
-  useEffect(() => {
+  beforeLoad: ({ context: { store } }) => {
+    const isLoggedIn = !!store.getState().user.data;
     if (!isLoggedIn) {
-      navigate({
+      throw redirect({
         to: "/login",
         search: {
-          redirectTo: "/create-feedback",
+          redirectTo: `/create-feedback`,
         },
       });
     }
-  }, [isLoggedIn, navigate]);
-
-  if (!isLoggedIn) {
-    return null;
-  }
-
-  return <CreateFeedbackPage />;
-}
+  },
+  component: CreateFeedbackPage,
+});

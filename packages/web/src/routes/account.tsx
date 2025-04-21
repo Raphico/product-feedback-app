@@ -1,31 +1,18 @@
-import { useIsLoggedIn } from "@/features/user/hooks";
 import AccountPage from "@/features/user/pages/account";
-import { useNavigate } from "@tanstack/react-router";
+import { redirect } from "@tanstack/react-router";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect } from "react";
 
 export const Route = createFileRoute("/account")({
-  component: RouteComponent,
-});
-
-function RouteComponent() {
-  const isLoggedIn = useIsLoggedIn();
-  const navigate = useNavigate();
-
-  useEffect(() => {
+  beforeLoad: ({ context: { store } }) => {
+    const isLoggedIn = !!store.getState().user.data;
     if (!isLoggedIn) {
-      navigate({
+      throw redirect({
         to: "/login",
         search: {
-          redirectTo: "/create-feedback",
+          redirectTo: "/account",
         },
       });
     }
-  }, [isLoggedIn, navigate]);
-
-  if (!isLoggedIn) {
-    return null;
-  }
-
-  return <AccountPage />;
-}
+  },
+  component: AccountPage,
+});

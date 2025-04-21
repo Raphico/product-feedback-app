@@ -5,7 +5,7 @@ export type Comment = {
   content: string;
   feedbackId: string;
   parentId: string | null;
-  createdBy: Pick<User, "id" | "username" | "fullName" | "avatar">;
+  createdBy: Pick<User, "id" | "username" | "fullName" | "avatar" | "role">;
 };
 
 export type ThreadedComment = Comment & {

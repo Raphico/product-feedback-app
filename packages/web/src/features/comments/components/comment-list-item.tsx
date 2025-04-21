@@ -6,6 +6,7 @@ import ReplyForm from "./reply-form";
 import { ThreadedComment } from "../types";
 import { useIsLoggedIn } from "@/features/user/hooks";
 import { useNavigate } from "@tanstack/react-router";
+import IconOfficial from "@/assets/icon-official.svg?react";
 
 interface CommentListItemProps extends React.ComponentProps<"article"> {
   comment: ThreadedComment;
@@ -51,12 +52,19 @@ function CommentListItem({ comment, parentComment }: CommentListItemProps) {
         <AvatarFallback>{initials}</AvatarFallback>
       </Avatar>
       <div className={styles["comment__user"]}>
-        <strong className={styles["comment__fullName"]}>
-          {comment.createdBy.fullName}
-        </strong>
-        <span className={styles["comment__username"]}>
-          @{comment.createdBy.username}
-        </span>
+        <div className={styles["comment__user-info"]}>
+          <strong className={styles["comment__fullName"]}>
+            {comment.createdBy.fullName}
+          </strong>
+          <span className={styles["comment__username"]}>
+            @{comment.createdBy.username}
+          </span>
+        </div>
+        {comment.createdBy.role == "admin" && (
+          <div className={styles["comment__official-container"]}>
+            <IconOfficial className={styles["comment__official"]} />
+          </div>
+        )}
       </div>
       <button
         onClick={handleReplyClick}

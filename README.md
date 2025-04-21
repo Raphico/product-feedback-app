@@ -5,12 +5,12 @@ This is a solution to the [Product feedback app challenge on Frontend Mentor](ht
 ## Features
 
 - 👤 User Authentication & profile update
-- 🛡️ Admin Controls (Official Replies, Update Status, Censor Feedback)
+- 🛡️ Admin Controls (Official Replies, Update Status)
 - ➕ Create, Edit, Delete product feedback Requests
 - 👍 Upvote & Sort feedbacks by Votes/Comments
 - 🏷️ Filter suggestions by Category
 - 💬 Comment & Reply (Threaded Conversations)
-- 📊 Roadmap Tracking (Planned, In Progress, Live)
+- 📊 Roadmap Tracking with Kanban view for admins (Planned, In Progress, Live)
 
 ## stack
 

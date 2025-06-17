@@ -1,6 +1,6 @@
 import { Card, CardBody, CardHeader, CardTitle } from "@/components/card";
 import styles from "./index.module.css";
-import { Form, FormItem, FormLabel } from "@/components/form";
+import { Form, FormErrorAlert, FormItem, FormLabel } from "@/components/form";
 import { getRouteApi, Link, useNavigate } from "@tanstack/react-router";
 import { useLoginMutation } from "@/features/auth/service";
 import { loginSchema } from "@/features/auth/validations";
@@ -12,7 +12,7 @@ const routeApi = getRouteApi("/_auth/login");
 function LoginPage() {
   const { email, redirectTo } = routeApi.useSearch();
   const navigate = useNavigate();
-  const [login] = useLoginMutation();
+  const [login, { isError, error }] = useLoginMutation();
   const form = useAppForm({
     defaultValues: {
       email: email ?? "",
@@ -27,8 +27,8 @@ function LoginPage() {
         navigate({
           to: redirectTo ?? "/",
         });
-      } catch (error) {
-        form.setErrorMap({ onServer: getErrorMessage(error) });
+      } catch {
+        // empty
       }
     },
   });
@@ -39,9 +39,8 @@ function LoginPage() {
         <CardTitle>Login</CardTitle>
       </CardHeader>
       <CardBody>
-        <form.AppForm>
-          <form.FormErrorAlert />
-        </form.AppForm>
+        {isError && <FormErrorAlert message={getErrorMessage(error)} />}
+
         <Form
           autoComplete="off"
           onSubmit={(event) => {
@@ -55,7 +54,12 @@ function LoginPage() {
               name="email"
               children={(field) => (
                 <>
-                  <field.FormInput id="email" type="email" name="email" />
+                  <field.FormInput
+                    disabled={form.state.isSubmitting}
+                    id="email"
+                    type="email"
+                    name="email"
+                  />
                   <field.FormFieldError />
                 </>
               )}
@@ -80,7 +84,11 @@ function LoginPage() {
               name="password"
               children={(field) => (
                 <>
-                  <field.PasswordInput id="password" name="password" />
+                  <field.PasswordInput
+                    disabled={form.state.isSubmitting}
+                    id="password"
+                    name="password"
+                  />
                   <field.FormFieldError />
                 </>
               )}
@@ -101,7 +109,6 @@ function LoginPage() {
                 to="/signup"
                 search={{
                   email,
-                  redirectTo,
                 }}
                 className={`${styles["login__signup-link"]} text-preset-4-bold`}
               >

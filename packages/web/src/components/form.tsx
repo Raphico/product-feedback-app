@@ -3,7 +3,6 @@ import styles from "./form.module.css";
 import { useFieldContext, useFormContext } from "@/lib/form/context";
 import { Button, ButtonProps } from "./button";
 import Spinner from "./spinner";
-import { useStore } from "@tanstack/react-form";
 
 export type FormProps = React.ComponentProps<"form">;
 
@@ -122,24 +121,19 @@ function FormButton({
   );
 }
 
-export type FormErrorAlertProps = React.ComponentProps<"div">;
+export type FormErrorAlertProps = React.ComponentProps<"div"> & {
+  message: string;
+};
 
-function FormErrorAlert({ className, ...props }: FormErrorAlertProps) {
-  const form = useFormContext();
-  const errors = useStore(form.store, (state) => state.errorMap);
-
+function FormErrorAlert({ className, message, ...props }: FormErrorAlertProps) {
   return (
-    <>
-      {errors.onServer && (
-        <div
-          role="alert"
-          className={cn(styles["form__error-alert"], className)}
-          {...props}
-        >
-          <p>{errors.onServer}</p>
-        </div>
-      )}
-    </>
+    <div
+      role="alert"
+      className={cn(styles["form__error-alert"], className)}
+      {...props}
+    >
+      <p>{message}</p>
+    </div>
   );
 }
 

@@ -3,7 +3,7 @@ import { resetPasswordSchema } from "../../validations";
 import { useAppForm } from "@/lib/form";
 import { getErrorMessage } from "@/utils/error";
 import { Card, CardBody, CardHeader, CardTitle } from "@/components/card";
-import { Form, FormItem, FormLabel } from "@/components/form";
+import { Form, FormErrorAlert, FormItem, FormLabel } from "@/components/form";
 import { useResetPasswordMutation } from "../../service";
 import { getRouteApi } from "@tanstack/react-router";
 import styles from "./index.module.css";
@@ -14,7 +14,7 @@ const routeApi = getRouteApi("/_auth/reset-password/$token");
 function ResetPasswordPage() {
   const { token } = routeApi.useParams();
   const navigate = useNavigate();
-  const [resetPassword] = useResetPasswordMutation();
+  const [resetPassword, { isError, error }] = useResetPasswordMutation();
   const form = useAppForm({
     defaultValues: {
       password: "",
@@ -29,8 +29,8 @@ function ResetPasswordPage() {
         navigate({
           to: "/login",
         });
-      } catch (error) {
-        form.setErrorMap({ onServer: getErrorMessage(error) });
+      } catch {
+        // empty
       }
     },
   });
@@ -41,9 +41,7 @@ function ResetPasswordPage() {
         <CardTitle>Reset Password</CardTitle>
       </CardHeader>
       <CardBody>
-        <form.AppForm>
-          <form.FormErrorAlert />
-        </form.AppForm>
+        {isError && <FormErrorAlert message={getErrorMessage(error)} />}
         <Form
           autoComplete="off"
           onSubmit={(event) => {

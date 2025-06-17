@@ -10,15 +10,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/card";
-import { Form, FormItem, FormLabel } from "@/components/form";
+import { Form, FormErrorAlert, FormItem, FormLabel } from "@/components/form";
 import styles from "./index.module.css";
 
 const routeApi = getRouteApi("/_auth/forgot-password");
 
 function ForgotPasswordPage() {
-  const { email, redirectTo } = routeApi.useSearch();
+  const { email } = routeApi.useSearch();
   const navigate = useNavigate();
-  const [sendPasswordResetRequest] = useForgotPasswordMutation();
+  const [sendPasswordResetRequest, { isError, error }] =
+    useForgotPasswordMutation();
   const form = useAppForm({
     defaultValues: {
       email: email ?? "",
@@ -33,11 +34,10 @@ function ForgotPasswordPage() {
           to: "/forgot-password/sent",
           search: {
             email: value.email,
-            redirectTo,
           },
         });
-      } catch (error) {
-        form.setErrorMap({ onServer: getErrorMessage(error) });
+      } catch {
+        // empty
       }
     },
   });
@@ -52,9 +52,8 @@ function ForgotPasswordPage() {
         </CardDescription>
       </CardHeader>
       <CardBody>
-        <form.AppForm>
-          <form.FormErrorAlert />
-        </form.AppForm>
+        {isError && <FormErrorAlert message={getErrorMessage(error)} />}
+
         <Form
           autoComplete="off"
           onSubmit={(event) => {
@@ -87,7 +86,6 @@ function ForgotPasswordPage() {
               to="/login"
               search={{
                 email,
-                redirectTo,
               }}
               className={`${styles["forgot-password__login-link"]} text-preset-4-bold`}
             >

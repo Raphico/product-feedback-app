@@ -15,7 +15,7 @@ import {
   useVerifyEmailMutation,
 } from "../../service";
 import { toast } from "sonner";
-import { Form, FormItem } from "@/components/form";
+import { Form, FormErrorAlert, FormItem } from "@/components/form";
 import {
   OTPInput,
   OTPInputGroup,
@@ -27,9 +27,9 @@ import { useEffect, useRef } from "react";
 const routeApi = getRouteApi("/_auth/email-verification");
 
 function EmailVerificationPage() {
-  const { email, redirectTo } = routeApi.useSearch();
+  const { email } = routeApi.useSearch();
   const navigate = useNavigate();
-  const [verifyEmail] = useVerifyEmailMutation();
+  const [verifyEmail, { isError, error }] = useVerifyEmailMutation();
   const [resendVerificationEmail, { isLoading: isResendingVerificationEmail }] =
     useResendEmailVerificationMutation();
 
@@ -50,11 +50,10 @@ function EmailVerificationPage() {
           to: "/login",
           search: {
             email,
-            redirectTo,
           },
         });
-      } catch (error) {
-        form.setErrorMap({ onServer: getErrorMessage(error) });
+      } catch {
+        // empty
       }
     },
   });
@@ -88,9 +87,8 @@ function EmailVerificationPage() {
         </CardDescription>
       </CardHeader>
       <CardBody>
-        <form.AppForm>
-          <form.FormErrorAlert />
-        </form.AppForm>
+        {isError && <FormErrorAlert message={getErrorMessage(error)} />}
+
         <Form
           autoComplete="off"
           onSubmit={(event) => {

@@ -3,7 +3,7 @@ import { useAppForm } from "@/lib/form";
 import { getErrorMessage } from "@/utils/error";
 import { getRouteApi, useNavigate } from "@tanstack/react-router";
 import { signupSchema } from "../../validations";
-import { Form, FormItem, FormLabel } from "@/components/form";
+import { Form, FormErrorAlert, FormItem, FormLabel } from "@/components/form";
 import { Link } from "@tanstack/react-router";
 import styles from "./index.module.css";
 import { useSignupMutation } from "../../service";
@@ -11,8 +11,8 @@ import { useSignupMutation } from "../../service";
 const routeApi = getRouteApi("/_auth/signup");
 
 function SignupPage() {
-  const { email, redirectTo } = routeApi.useSearch();
-  const [signup] = useSignupMutation();
+  const { email } = routeApi.useSearch();
+  const [signup, { isError, error }] = useSignupMutation();
   const navigate = useNavigate();
   const form = useAppForm({
     defaultValues: {
@@ -31,11 +31,10 @@ function SignupPage() {
           to: "/email-verification",
           search: {
             email: value.email,
-            redirectTo,
           },
         });
-      } catch (error) {
-        form.setErrorMap({ onServer: getErrorMessage(error) });
+      } catch {
+        // empty
       }
     },
   });
@@ -46,9 +45,8 @@ function SignupPage() {
         <CardTitle>signup</CardTitle>
       </CardHeader>
       <CardBody>
-        <form.AppForm>
-          <form.FormErrorAlert />
-        </form.AppForm>
+        {isError && <FormErrorAlert message={getErrorMessage(error)} />}
+
         <Form
           autoComplete="off"
           onSubmit={(event) => {
@@ -122,7 +120,6 @@ function SignupPage() {
                 to="/login"
                 search={{
                   email,
-                  redirectTo,
                 }}
                 className={`${styles["signup__login-link"]} text-preset-4-bold`}
               >

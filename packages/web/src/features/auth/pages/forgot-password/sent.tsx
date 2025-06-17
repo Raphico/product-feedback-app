@@ -11,7 +11,7 @@ import styles from "./sent.module.css";
 const routeApi = getRouteApi("/_auth/forgot-password_/sent");
 
 function SentPasswordResetEmailPage() {
-  const { email, redirectTo } = routeApi.useSearch();
+  const { email } = routeApi.useSearch();
 
   return (
     <Card className={styles["sent"]}>
@@ -20,11 +20,7 @@ function SentPasswordResetEmailPage() {
         <CardDescription>
           A link to reset your password has been sent to you on {email}.
         </CardDescription>
-        <Link
-          to="/login"
-          search={{ email, redirectTo }}
-          className={buttonVariants.primary}
-        >
+        <Link to="/login" className={buttonVariants.primary}>
           Return to login
         </Link>
       </CardHeader>

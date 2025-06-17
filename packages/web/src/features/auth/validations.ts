@@ -36,7 +36,7 @@ export const verifyEmailSchema = z.object({
 
 export type VerifyEmailSchema = z.infer<typeof verifyEmailSchema>;
 
-export const authParams = z.object({
+export const authSearchParams = z.object({
   redirectTo: fallback(z.string().optional(), "/"),
   email: fallback(z.string().optional(), ""),
 });

@@ -107,6 +107,7 @@ function EmailVerificationPage() {
                     ref={otpInputRef}
                     value={field.state.value}
                     onChange={field.handleChange}
+                    disabled={form.state.isSubmitting}
                   >
                     <OTPInputGroup
                       className={styles["email-verification__otp-group"]}

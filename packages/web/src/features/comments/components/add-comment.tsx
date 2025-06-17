@@ -69,6 +69,7 @@ function AddComment({
                 aria-label="Type your comment here"
                 placeholder="Type your comment here"
                 onFocus={handleOnFocus}
+                disabled={form.state.isSubmitting}
               />
               <field.FormFieldError />
             </>

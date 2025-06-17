@@ -55,7 +55,11 @@ function ResetPasswordPage() {
               name="password"
               children={(field) => (
                 <>
-                  <field.PasswordInput id="password" name="password" />
+                  <field.PasswordInput
+                    disabled={form.state.isSubmitting}
+                    id="password"
+                    name="password"
+                  />
                   <field.FormFieldError />
                 </>
               )}

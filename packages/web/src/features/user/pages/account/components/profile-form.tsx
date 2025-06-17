@@ -40,9 +40,6 @@ function ProfileForm({ userData }: ProfileFormProps) {
 
   return (
     <>
-      <form.AppForm>
-        <form.FormErrorAlert />
-      </form.AppForm>
       <Form
         className={styles["profile-form"]}
         autoComplete="off"

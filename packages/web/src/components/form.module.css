@@ -66,7 +66,7 @@
   border: none;
   outline: none;
   transition: var(--transition-duration) var(--transition-easing);
-  font-size: var(--fs-100);
+  font-size: var(--fs-400);
 
   @media (min-width: 480px) {
     font-size: var(--fs-300);
@@ -77,6 +77,11 @@
 .form__textarea[data-state="invalid"] {
   --shadow-clr: var(--clr-red);
   box-shadow: 0 0 0 1px var(--shadow-clr);
+}
+
+.form__input:disabled,
+.form__textarea:disabled {
+  opacity: 50%;
 }
 
 .form__input:focus,

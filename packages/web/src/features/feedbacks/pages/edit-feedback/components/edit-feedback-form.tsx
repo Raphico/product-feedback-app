@@ -105,7 +105,7 @@ function EditFeedbackForm({
           children={(field) => (
             <>
               <field.FormInput
-                disabled={!isAuthor}
+                disabled={!isAuthor || form.state.isSubmitting}
                 className={styles["edit-feedback-form__input"]}
                 id="title"
                 type="text"
@@ -136,7 +136,7 @@ function EditFeedbackForm({
                 }
               >
                 <SelectTrigger
-                  disabled={!isAuthor}
+                  disabled={!isAuthor || form.state.isSubmitting}
                   className={cn(
                     styles["edit-feedback-form__input"],
                     styles["edit-feedback-form__select"],
@@ -183,6 +183,7 @@ function EditFeedbackForm({
                       styles["edit-feedback-form__input"],
                       styles["edit-feedback-form__select"],
                     )}
+                    disabled={form.state.isSubmitting}
                     id="status"
                   >
                     <SelectValue />
@@ -217,7 +218,7 @@ function EditFeedbackForm({
           children={(field) => (
             <>
               <field.FormTextarea
-                disabled={!isAuthor}
+                disabled={!isAuthor || form.state.isSubmitting}
                 className={styles["edit-feedback-form__input"]}
                 id="detail"
                 name="detail"

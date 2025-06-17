@@ -68,6 +68,7 @@ function AvatarUploader({ userData }: AvatarUploaderProps) {
                 field.handleChange(file);
               }}
               aria-describedby="avatar-instructions"
+              disabled={form.state.isSubmitting}
             />
             <label
               htmlFor="avatar"

@@ -60,7 +60,11 @@ function SignupPage() {
               name="fullName"
               children={(field) => (
                 <>
-                  <field.FormInput id="fullName" name="fullName" />
+                  <field.FormInput
+                    disabled={form.state.isSubmitting}
+                    id="fullName"
+                    name="fullName"
+                  />
                   <field.FormFieldError />
                 </>
               )}
@@ -73,7 +77,11 @@ function SignupPage() {
               name="username"
               children={(field) => (
                 <>
-                  <field.FormInput id="username" name="username" />
+                  <field.FormInput
+                    disabled={form.state.isSubmitting}
+                    id="username"
+                    name="username"
+                  />
                   <field.FormFieldError />
                 </>
               )}
@@ -86,7 +94,12 @@ function SignupPage() {
               name="email"
               children={(field) => (
                 <>
-                  <field.FormInput id="email" type="email" name="email" />
+                  <field.FormInput
+                    disabled={form.state.isSubmitting}
+                    id="email"
+                    type="email"
+                    name="email"
+                  />
                   <field.FormFieldError />
                 </>
               )}
@@ -99,7 +112,11 @@ function SignupPage() {
               name="password"
               children={(field) => (
                 <>
-                  <field.PasswordInput id="password" name="password" />
+                  <field.PasswordInput
+                    disabled={form.state.isSubmitting}
+                    id="password"
+                    name="password"
+                  />
                   <field.FormFieldError />
                 </>
               )}

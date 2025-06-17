@@ -65,6 +65,7 @@ function CreateFeedbackForm() {
             <>
               <field.FormInput
                 className={styles["create-feedback-form__input"]}
+                disabled={form.state.isSubmitting}
                 id="title"
                 type="text"
                 name="title"
@@ -99,6 +100,7 @@ function CreateFeedbackForm() {
                     styles["create-feedback-form__select"],
                   )}
                   id="category"
+                  disabled={form.state.isSubmitting}
                 >
                   <SelectValue />
                 </SelectTrigger>
@@ -133,6 +135,7 @@ function CreateFeedbackForm() {
               <field.FormTextarea
                 className={styles["create-feedback-form__input"]}
                 id="detail"
+                disabled={form.state.isSubmitting}
                 name="detail"
               />
               <field.FormFieldError />

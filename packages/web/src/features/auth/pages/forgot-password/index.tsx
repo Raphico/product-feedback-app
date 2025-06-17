@@ -67,7 +67,11 @@ function ForgotPasswordPage() {
               name="email"
               children={(field) => (
                 <>
-                  <field.FormInput id="email" name="email" />
+                  <field.FormInput
+                    disabled={form.state.isSubmitting}
+                    id="email"
+                    name="email"
+                  />
                   <field.FormFieldError />
                 </>
               )}
